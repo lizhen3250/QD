@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Guide">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="StartTime" Type="DateTime" Precision="3" />
+    <Property Name="EndTime" Type="DateTime" Precision="3" />
+    <Property Name="TotalEarnPrice" Type="Decimal" Precision="19" Scale="4" />
+    <NavigationProperty Name="Guide_Course" Relationship="Self.FK_Guide_Course_Guide1" FromRole="Guide" ToRole="Guide_Course" />
+    <NavigationProperty Name="Members" Relationship="Self.FK_Member_Guide1" FromRole="Guide" ToRole="Member" />
+  </EntityType>
+  <EntityType Name="Guide_Course">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Province" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="GuideId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Guide" Relationship="Self.FK_Guide_Course_Guide1" FromRole="Guide_Course" ToRole="Guide" />
+  </EntityType>
+  <EntityType Name="Member">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Sex" Type="Int32" Nullable="false" />
+    <Property Name="Birth" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="GuideId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Varification" Type="Int32" />
+    <NavigationProperty Name="Guide" Relationship="Self.FK_Member_Guide1" FromRole="Member" ToRole="Guide" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <Association Name="FK_Guide_Course_Guide1">
+    <End Role="Guide" Type="Self.Guide" Multiplicity="0..1" />
+    <End Role="Guide_Course" Type="Self.Guide_Course" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Guide">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Guide_Course">
+        <PropertyRef Name="GuideId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Member_Guide1">
+    <End Role="Guide" Type="Self.Guide" Multiplicity="0..1" />
+    <End Role="Member" Type="Self.Member" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Guide">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Member">
+        <PropertyRef Name="GuideId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="QDTourEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Guides" EntityType="Self.Guide" />
+    <EntitySet Name="Guide_Course" EntityType="Self.Guide_Course" />
+    <EntitySet Name="Members" EntityType="Self.Member" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+    <AssociationSet Name="FK_Guide_Course_Guide1" Association="Self.FK_Guide_Course_Guide1">
+      <End Role="Guide" EntitySet="Guides" />
+      <End Role="Guide_Course" EntitySet="Guide_Course" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Member_Guide1" Association="Self.FK_Member_Guide1">
+      <End Role="Guide" EntitySet="Guides" />
+      <End Role="Member" EntitySet="Members" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

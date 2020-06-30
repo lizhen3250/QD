@@ -1,0 +1,236 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="QDTourWebEntities">
+    <EntitySetMapping Name="Guides">
+      <EntityTypeMapping TypeName="Model.Guide">
+        <MappingFragment StoreEntitySet="Guide">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+          <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+          <ScalarProperty Name="TotalEarnPrice" ColumnName="TotalEarnPrice" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Members">
+      <EntityTypeMapping TypeName="Model.Member">
+        <MappingFragment StoreEntitySet="Member">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="Sex" ColumnName="Sex" />
+          <ScalarProperty Name="Birth" ColumnName="Birth" />
+          <ScalarProperty Name="GuideId" ColumnName="GuideId" />
+          <ScalarProperty Name="Varification" ColumnName="Varification" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="sysdiagrams">
+      <EntityTypeMapping TypeName="Model.sysdiagram">
+        <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="definition" ColumnName="definition" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Guide_Package">
+      <EntityTypeMapping TypeName="Model.Guide_Package">
+        <MappingFragment StoreEntitySet="Guide_Package">
+          <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+          <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+          <ScalarProperty Name="Photo" ColumnName="Photo" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Destination" ColumnName="Destination" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Guide_Reservation">
+      <EntityTypeMapping TypeName="Model.Guide_Reservation">
+        <MappingFragment StoreEntitySet="Guide_Reservation">
+          <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+          <ScalarProperty Name="IsPaid" ColumnName="IsPaid" />
+          <ScalarProperty Name="ID_Guide" ColumnName="ID_Guide" />
+          <ScalarProperty Name="ID_Guide_Package" ColumnName="ID_Guide_Package" />
+          <ScalarProperty Name="People_Number" ColumnName="People_Number" />
+          <ScalarProperty Name="End_Time" ColumnName="End_Time" />
+          <ScalarProperty Name="Start_Time" ColumnName="Start_Time" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="MembersGuideReservations" TypeName="Model.MembersGuideReservations" StoreEntitySet="MembersGuideReservations">
+      <EndProperty Name="Member">
+        <ScalarProperty Name="Id" ColumnName="ID_Member" />
+      </EndProperty>
+      <EndProperty Name="Guide_Reservation">
+        <ScalarProperty Name="Id" ColumnName="ID_Guide_Reservation" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <EntitySetMapping Name="Vehicles">
+      <EntityTypeMapping TypeName="Model.Vehicle">
+        <MappingFragment StoreEntitySet="Vehicle">
+          <ScalarProperty Name="Photo" ColumnName="Photo" />
+          <ScalarProperty Name="Area" ColumnName="Area" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Vehicle_Package">
+      <EntityTypeMapping TypeName="Model.Vehicle_Package">
+        <MappingFragment StoreEntitySet="Vehicle_Package">
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="Area" ColumnName="Area" />
+          <ScalarProperty Name="Photo" ColumnName="Photo" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Vehicle_Reservation">
+      <EntityTypeMapping TypeName="Model.Vehicle_Reservation">
+        <MappingFragment StoreEntitySet="Vehicle_Reservation">
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+          <ScalarProperty Name="IsPaid" ColumnName="IsPaid" />
+          <ScalarProperty Name="ID_Vehicle" ColumnName="ID_Vehicle" />
+          <ScalarProperty Name="ID_Vehicle_Package" ColumnName="ID_Vehicle_Package" />
+          <ScalarProperty Name="People_Number" ColumnName="People_Number" />
+          <ScalarProperty Name="End_Time" ColumnName="End_Time" />
+          <ScalarProperty Name="Start_Time" ColumnName="Start_Time" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="MemberVehicleReservation" TypeName="Model.MemberVehicleReservation" StoreEntitySet="MemberVehicleReservation">
+      <EndProperty Name="Vehicle_Reservation">
+        <ScalarProperty Name="Id" ColumnName="ID_Vehicle_Reservation" />
+      </EndProperty>
+      <EndProperty Name="Member">
+        <ScalarProperty Name="Id" ColumnName="ID_Member" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <EntitySetMapping Name="Hotels">
+      <EntityTypeMapping TypeName="Model.Hotel">
+        <MappingFragment StoreEntitySet="Hotel">
+          <ScalarProperty Name="ContactNumber" ColumnName="ContactNumber" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Area" ColumnName="Area" />
+          <ScalarProperty Name="Country" ColumnName="Country" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Hotel_Package">
+      <EntityTypeMapping TypeName="Model.Hotel_Package">
+        <MappingFragment StoreEntitySet="Hotel_Package">
+          <ScalarProperty Name="OtherRoomPhoto" ColumnName="OtherRoomPhoto" />
+          <ScalarProperty Name="DoubleRoomPhoto" ColumnName="DoubleRoomPhoto" />
+          <ScalarProperty Name="SingRommPhoto" ColumnName="SingRommPhoto" />
+          <ScalarProperty Name="ID_Hotel" ColumnName="ID_Hotel" />
+          <ScalarProperty Name="Area" ColumnName="Area" />
+          <ScalarProperty Name="Country" ColumnName="Country" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Photo" ColumnName="Photo" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Hotel_Price">
+      <EntityTypeMapping TypeName="Model.Hotel_Price">
+        <MappingFragment StoreEntitySet="Hotel_Price">
+          <ScalarProperty Name="CanReserve" ColumnName="CanReserve" />
+          <ScalarProperty Name="ID_Hotel" ColumnName="ID_Hotel" />
+          <ScalarProperty Name="OtherRoomPrice" ColumnName="OtherRoomPrice" />
+          <ScalarProperty Name="DoulbeRoomPrice" ColumnName="DoulbeRoomPrice" />
+          <ScalarProperty Name="SingleRoomPrice" ColumnName="SingleRoomPrice" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Hotel_Reservation">
+      <EntityTypeMapping TypeName="Model.Hotel_Reservation">
+        <MappingFragment StoreEntitySet="Hotel_Reservation">
+          <ScalarProperty Name="RoomType" ColumnName="RoomType" />
+          <ScalarProperty Name="ID_Package" ColumnName="ID_Package" />
+          <ScalarProperty Name="IsPaid" ColumnName="IsPaid" />
+          <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+          <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+          <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="MembersHotelReservation" TypeName="Model.MembersHotelReservation" StoreEntitySet="MembersHotelReservation">
+      <EndProperty Name="Member">
+        <ScalarProperty Name="Id" ColumnName="ID_Member" />
+      </EndProperty>
+      <EndProperty Name="Hotel_Reservation">
+        <ScalarProperty Name="Id" ColumnName="ID_Hotel_Reservation" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <EntitySetMapping Name="Tours">
+      <EntityTypeMapping TypeName="Model.Tour">
+        <MappingFragment StoreEntitySet="Tour">
+          <ScalarProperty Name="TourDate" ColumnName="TourDate" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Course" ColumnName="Course" />
+          <ScalarProperty Name="Province" ColumnName="Province" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tour_Package">
+      <EntityTypeMapping TypeName="Model.Tour_Package">
+        <MappingFragment StoreEntitySet="Tour_Package">
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Photo" ColumnName="Photo" />
+          <ScalarProperty Name="ID_Tour" ColumnName="ID_Tour" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tour_Price">
+      <EntityTypeMapping TypeName="Model.Tour_Price">
+        <MappingFragment StoreEntitySet="Tour_Price">
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="ID_Tour" ColumnName="ID_Tour" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tour_Reservation">
+      <EntityTypeMapping TypeName="Model.Tour_Reservation">
+        <MappingFragment StoreEntitySet="Tour_Reservation">
+          <ScalarProperty Name="PeopleNumber" ColumnName="PeopleNumber" />
+          <ScalarProperty Name="ID_Package" ColumnName="ID_Package" />
+          <ScalarProperty Name="IsPaid" ColumnName="IsPaid" />
+          <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+          <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+          <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="MemberTourReservation" TypeName="Model.MemberTourReservation" StoreEntitySet="MemberTourReservation">
+      <EndProperty Name="Tour_Reservation">
+        <ScalarProperty Name="Id" ColumnName="ID_Tour_Reservation" />
+      </EndProperty>
+      <EndProperty Name="Member">
+        <ScalarProperty Name="Id" ColumnName="ID_Member" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping>

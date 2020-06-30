@@ -1,0 +1,185 @@
+﻿@model QD_Tour_Web.Models.Tour_Package
+
+@{
+
+    ViewBag.Title = "华康旅游 - " + Model.Tour.Course;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes" />
+<script src="~/Scripts/datetimepicker/js/jquery.timepicker.min.js"></script>
+<link href="~/Scripts/datetimepicker/css/jquery.timepicker.css" rel="stylesheet" />
+<link href="~/Scripts/css/calendar-pro.css" rel="stylesheet" />
+<link href="~/Scripts/css/photo.css" rel="stylesheet" />
+<script src="~/Scripts/calendar-pro.js"></script>
+<hr />
+<script>
+    $(document).ready(function () {
+        var currentUrl = window.location.href;
+        var Id = currentUrl.split("/").pop();
+
+        var myDate = new Date;
+        var year = myDate.getFullYear(); //获取当前年
+        var mon = myDate.getMonth() + 1; //获取当前月
+        if (mon < 10) {
+            mon = "0" + mon;
+        }
+        var date = myDate.getDate();
+
+        var currentDate = year + "-" + mon + "-" + date;
+        var endDate = year + "-12-31";
+
+        var calendarPrice = {
+            data:[]
+        };
+
+        $.ajax({
+            url: '/Tour/GetAllPrices',
+            type: "GET",
+            data: { Id: Id },
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                console.log(data);
+                for (var i = 0; i < data.length; i++) {
+                    calendarPrice.data.push({ "data": data[i].Price, "date": ChangeDateFormat(data[i].Date) });
+                }
+                $('#calendar-tour').calendar({
+                    ele: '.start-date', //依附
+                    title: '预约时间',
+                    beginDate: currentDate,
+                    endDate: endDate,
+                    data: calendarPrice.data
+                });
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+    });
+
+    function daysBetween(sDate1,sDate2){
+        var time1 = Date.parse(new Date(sDate1));
+        var time2 = Date.parse(new Date(sDate2));
+        var nDays = Math.abs(parseInt((time2 - time1)/1000/3600/24));
+        return  nDays;
+    };
+
+    function convert(str) {
+        var date = new Date(str),
+          mnth = ("0" + (date.getMonth() + 1)).slice(-2),
+          day = ("0" + date.getDate()).slice(-2);
+        return [date.getFullYear(), mnth, day].join("-");
+    };
+
+    function ChangeDateFormat(cellval) {
+        var date = new Date(parseInt(cellval.replace("/Date(", "").replace(")/", ""), 10));
+        //getMonth()从0开始算
+        var month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+        var currentDate = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+        return date.getFullYear() + "-" + month + "-" + currentDate;
+    };
+
+</script>
+<div class="section-paddings incredible-places">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                <img src="http://localhost:59442/@Model.Photo" style="height:551px; width:100%" />
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <p style="display:none" id="package-id">@Model.Id</p>
+                <p><h2 id="input-country">@Model.Tour.Course @(Model.Tour.TourDate - 1)夜<span id="days">@(Model.Tour.TourDate)</span>日</h2></p>
+                <p>。。。。</p>
+                <p><a href="#" class="travel-booking-btn hvr-shutter-out-horizontal" data-toggle="collapse" data-target="#collapseRserve">预约</a>                </p>
+                <div class="collapse" role="document" id="collapseRserve">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">旅游预约</h5>
+                        </div>
+                        <div class="modal-body">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">预约人数</span>
+                                </div>
+                                <input type="number" min="1" id="input-number-of-people" class="form-control" aria-label="NumberOfPeople" aria-describedby="inputGroup-sizing-default">
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="calendar-tour start-date"></div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" onclick="tourReserve()">预约</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<hr />
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-md-12 col-sm-12 col-xs-12">
+            <h3>详细内容</h3>
+            <p>@Model.Description</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    function tourReserve() {
+
+        if ($('#input-number-of-people').val() == null || $('#input-number-of-people').val() == '') {
+            alert("请选择预约人数！");
+            return;
+        }
+
+        var calendar = $('.calendar-tour').calendarGetActive();
+
+        if (calendar.length == 0) {
+            alert("请选择时间！");
+            return;
+        }
+
+        if ($('#member-id').text() == null || $('#member-id').text() == '') {
+            alert("请先登录！");
+            window.location.href = "/Login/Index";
+        }
+
+        $.ajax({
+            url: '/Member/GetMemberInfo',
+            type: 'GET',
+            data: { Id: $('#member-id').text() },
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                var datas = $('.calendar-tour').calendarGetActive();
+                var numberOfPeople = $('#input-number-of-people').val();
+                var startTime = datas[0].date;
+                var tourPackageId = $('#package-id').text();
+                var selectedDate = new Date(datas[0].date);
+                var endTime = selectedDate.setDate(selectedDate.getDate() + parseInt($('#days').text()) - 1);
+                
+                var reservationModel = {
+                    country: $('#input-country').text(),
+                    numberOfPeople: numberOfPeople,
+                    startTime: startTime,
+                    endTime: convert(new Date(endTime)),
+                    tourPackageId: tourPackageId,
+                    member: data,
+                };
+
+                console.log(reservationModel);
+
+                sessionStorage.setItem("info", JSON.stringify(reservationModel));
+                window.location.href = "/Order/TourOrderDetails"
+
+            },
+            error: function (data) {
+                console.log(data);
+                if (data.responseText == "添加成功") {
+                    window.location.reload();
+                }
+            }
+        });
+    };
+</script>

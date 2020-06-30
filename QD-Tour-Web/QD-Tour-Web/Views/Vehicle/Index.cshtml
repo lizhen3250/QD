@@ -1,0 +1,52 @@
+﻿@model IEnumerable<QD_Tour_Web.Models.Vehicle_Package>
+
+@{
+    ViewBag.Title = "华康旅游 - 车辆预约";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="section-paddings incredible-places">
+    <div class="container">
+        <section class="popular-packages">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="section-title">
+                            <h2>车辆预约</h2>
+                            <p>提供司机 - 司机吃饭，住宿费用自付</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    @foreach (var vehiclePackage in Model)
+                    {
+                        <div class="col-12 col-sm-6 col-md-6 col-lg-4">
+                            <div class="single-package">
+                                <div class="package-image">
+                                    <img src="http://localhost:59442/@vehiclePackage.Photo" alt="" style="width:100%; height:300px">
+                                </div>
+                                <div class="package-content">
+                                    <h3><a href="" title="">@vehiclePackage.Type</a></h3>
+                                    <p>每天租车费用: <span>$@vehiclePackage.Price</span></p>
+                                </div>
+                                <div class="package-calto-action">
+                                    <ul class="ct-action">
+                                        <li><a href="/Vehicle/Details/@vehiclePackage.Id" class="travel-booking-btn hvr-shutter-out-horizontal">查看详情</a></li>
+                                        <li>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div> <!-- single package end -->
+                    }
+                </div>
+            </div>
+        </section> <!--end  popular packajge -->
+
+    </div>
+</div>

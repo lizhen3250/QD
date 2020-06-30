@@ -1,0 +1,307 @@
+﻿@model IEnumerable<QD_Tour_Admin.Model.Hotel_Price>
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="/vendors/jquery/dist/jquery.min.js"></script>
+<script src="~/vendors/datetimepicker/js/jquery.timepicker.min.js"></script>
+<link href="~/vendors/datetimepicker/css/jquery.timepicker.css" rel="stylesheet" />
+<script>
+    $(document).ready(function () {
+        $('#input-date').datetimepicker({
+            timepicker: false,
+        });
+
+        $('#input-date').change(function () {
+            $(this).val(convert(new Date($(this).val())));
+        });
+
+        $('#input-edit-date').datetimepicker({
+            timepicker: false,
+        });
+
+        $('#input-edit-date').change(function () {
+            $(this).val(convert(new Date($(this).val())));
+        });
+        
+    });
+
+    function convert(str) {
+        var date = new Date(str),
+          mnth = ("0" + (date.getMonth() + 1)).slice(-2),
+          day = ("0" + date.getDate()).slice(-2);
+        return [date.getFullYear(), mnth, day].join("-");
+    }
+</script>
+
+<div class="content mt-3">
+    <div class="animated fadeIn">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <strong class="card-title">酒店价格设置 <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModel" style="float:right">添 加 酒 店 价 格</button></strong>
+                    </div>
+                    <div class="card-body">
+                        <table id="bootstrap-data-table-export" class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="display:none">Id</th>
+                                    <th style="display:none">Hotel Id</th>
+                                    <th style="display:none">Hotel Id</th>
+                                    <th>时间</th>
+                                    <th>单人间价格/天</th>
+                                    <th>双人间价格/天</th>
+                                    <th>其他房型价格/天</th>
+                                    <th>房间是否已满</th>
+                                    <th>编辑</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var hotelPrice in Model)
+                                {
+                                    <tr>
+                                        <td style="display:none">@hotelPrice.Id</td>
+                                        <td style="display:none">@hotelPrice.ID_Hotel</td>
+                                        <td style="display:none" id="hotel-id"></td>
+                                        <td>@hotelPrice.Date.ToString("yyyy-MM-dd")</td>
+                                        <td>@hotelPrice.SingleRoomPrice</td>
+                                        <td>@hotelPrice.DoulbeRoomPrice</td>
+                                        <td>@hotelPrice.OtherRoomPrice</td>
+                                        @if (hotelPrice.CanReserve == 0)
+                                        {
+                                        <td>是</td>}
+                                        else
+                                        {
+                                        <td>否</td>}
+                                        <td>
+                                            <button type="submit" class="btn btn-primary btn-default" data-toggle="modal" data-target="#editModel" onclick="getHotelPrice('@hotelPrice.Id')">编辑</button>
+                                            @*<button type="submit" class="btn btn-danger btn-default" id="member-delete" onclick="deleteMember('@member.Id')">删除</button>*@
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div><!-- .animated -->
+</div><!-- .content -->
+
+<div class="modal fade" id="addModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">添加酒店价格</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">日期</span>
+                    </div>
+                    <input type="text" id="input-date" class="form-control" aria-label="Date" aria-describedby="inputGroup-sizing-default">
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">单人间价格</span>
+                    </div>
+                    <input type="text" id="input-single-price" class="form-control" aria-label="SingleRoomPrice" aria-describedby="inputGroup-sizing-default">
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">双人间价格</span>
+                    </div>
+                    <input type="text" id="input-double-price" class="form-control" aria-label="DoulbeRoomPrice" aria-describedby="inputGroup-sizing-default">
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">其他房型价格</span>
+                    </div>
+                    <input type="text" id="input-other-price" class="form-control" aria-label="OtherRoomPrice" aria-describedby="inputGroup-sizing-default">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="addHotelPrice()">添加</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">编辑车辆页面</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">日期</span>
+                    </div>
+                    <input type="text" id="input-edit-date" class="form-control" aria-label="Date" aria-describedby="inputGroup-sizing-default">
+                    <span style="display:none" id="input-edit-hotel-id"></span>
+                    <span style="display:none" id="input-edit-id"></span>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">单人间价格</span>
+                    </div>
+                    <input type="text" id="input-edit-single-price" class="form-control" aria-label="SingleRoomPrice" aria-describedby="inputGroup-sizing-default">
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">双人间价格</span>
+                    </div>
+                    <input type="text" id="input-edit-double-price" class="form-control" aria-label="DoulbeRoomPrice" aria-describedby="inputGroup-sizing-default">
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">其他房型价格</span>
+                    </div>
+                    <input type="text" id="input-edit-other-price" class="form-control" aria-label="OtherRoomPrice" aria-describedby="inputGroup-sizing-default">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="updateHotelPrice()">更新</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function addHotelPrice() {
+        var currentUrl = window.location.href;
+        var hotelId = currentUrl.split("/").pop();
+        console.log(hotelId);
+        $('#hotel-id').val(hotelId);
+        var date = $('#input-date').val();
+        var singleRoomPrice = $('#input-single-price').val();
+        var doubleRoomPrice = $('#input-double-price').val();
+        var otherPrice = $('#input-other-price').val();
+
+        var hotelPrice = {
+            Date: date,
+            SingleRoomPrice: singleRoomPrice,
+            DoubleRoomPrice: doubleRoomPrice,
+            OtherRoomPrice: otherPrice,
+            HotelId : hotelId
+        };
+
+        console.log(hotelPrice);
+
+        $.ajax({
+            url: '/Hotel/AddHotelPrice',
+            type: "POST",
+            data: JSON.stringify(hotelPrice),
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                console.log(data);
+                if (data == "添加成功") {
+                    window.location.reload();
+                }
+            },
+            error: function (data) {
+                console.log(data);
+                if (data.responseText == "添加成功") {
+                    window.location.reload();
+                }
+            }
+        });
+    }
+
+    function getHotelPrice(Id) {
+        $.ajax({
+            url: '/Hotel/EditHotelPrice',
+            type: "GET",
+            data: { Id: Id },
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                console.log(data);
+                $('#input-edit-id').html(data[0].Id);
+                $('#input-edit-date').val(new Date(getDateFromAspNetFormat(data[0].Date)).format("yyyy-MM-dd"));
+                $('#input-edit-single-price').val(data[0].SingleRoomPrice);
+                $('#input-edit-double-price').val(data[0].DoubleRoomPrice);
+                $('#input-edit-other-price').val(data[0].OtherRoomPrice);
+                $('#input-edit-hotel-id').html(data[0].HotelId);
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+    }
+
+    function updateHotelPrice() {
+        var id = $('#input-edit-id').html();
+        var hotelId = $('#input-edit-hotel-id').html();
+        var date = $('#input-edit-date').val();
+        var singleRoomPrice = $('#input-edit-single-price').val();
+        var doubleRoomPrice = $('#input-edit-double-price').val();
+        var otherRoomPrice = $('#input-edit-other-price').val();
+
+        var inputData = {
+            Id: id,
+            HotelId: hotelId,
+            Date: date,
+            SingleRoomPrice: singleRoomPrice,
+            DoubleRoomPrice: doubleRoomPrice,
+            OtherRoomPrice: otherRoomPrice,
+        };
+
+        console.log(inputData);
+
+        $.ajax({
+            url: '/Hotel/UpdateHotelPrice',
+            type: 'POST',
+            data: JSON.stringify(inputData),
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                console.log(data);
+                if (data == "更新成功") {
+                    window.location.reload();
+                }
+
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+    }
+
+    function getDateFromAspNetFormat(date) {
+        const re = /-?\d+/;
+        const m = re.exec(date);
+        return parseInt(m[0], 10);
+    }
+
+    Date.prototype.format = function (format) {
+        var date = {
+            "M+": this.getMonth() + 1,
+            "d+": this.getDate(),
+            "h+": this.getHours(),
+            "m+": this.getMinutes(),
+            "s+": this.getSeconds(),
+            "q+": Math.floor((this.getMonth() + 3) / 3),
+            "S": this.getMilliseconds()
+        };
+        if (/(y+)/i.test(format)) {
+            format = format.replace(RegExp.$1, (this.getFullYear() + '').substr(4 - RegExp.$1.length));
+        }
+        for (var k in date) {
+            if (new RegExp("(" + k + ")").test(format)) {
+                format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? date[k] : ("00" + date[k]).substr(("" + date[k]).length));
+            }
+        }
+        return format;
+    };
+</script>
+

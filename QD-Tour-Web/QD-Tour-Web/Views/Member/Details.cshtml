@@ -1,0 +1,329 @@
+﻿@{
+
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes" />
+<script src="~/Scripts/datetimepicker/js/jquery.timepicker.min.js"></script>
+<link href="~/Scripts/datetimepicker/css/jquery.timepicker.css" rel="stylesheet" />
+<link href="~/Scripts/css/calendar-pro.css" rel="stylesheet" />
+<link href="~/Scripts/css/photo.css" rel="stylesheet" />
+<script src="~/Scripts/calendar-pro.js"></script>
+<hr />
+<style>
+
+    .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+        background: #f15b5c;
+    }
+    a{
+        color:#727272;
+    }
+    h3{
+        color:#f15b5c;
+    }
+    
+</style>
+<div class="section-paddings incredible-places">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                    <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true" onclick="getMember();">会员信息</a>
+                    <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false" onclick="getTourReservation();">国内旅游预约</a>
+                    <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false" onclick="getGuideReservation();">导游预约</a>
+                    <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false" onclick="getVehicleReservation();">车辆预约</a>
+                    <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false" onclick="getHotelReservation();">酒店预约</a>
+                </div>
+            </div>
+            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10" style="display:none" id="member-info">
+                <h3>会员信息</h3>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="inputEmail4">姓名</label>
+                        <span class="form-control" id="member-name"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="inputPassword4">邮箱</label>
+                        <span class="form-control" id="member-email"></span>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="inputEmail4">出生年月日</label>
+                        <span class="form-control" id="member-birth"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="inputPassword4">联系方式</label>
+                        <span class="form-control" id="member-phone"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputAddress">会员ID</label>
+                    <span class="form-control" id="member-ids"></span>
+                </div>
+            </div>
+
+            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10" style="display:none" id="package-info">
+                <h3>国内旅游预约</h3>
+                <table class="table" id="package-table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">城市</th>
+                            <th scope="col">旅游名字</th>
+                            <th scope="col">旅游开始时间</th>
+                            <th scope="col">旅游结束时间</th>
+                            <th scope="col">预约总人数</th>
+                            <th scope="col">总价格</th>
+                            <th scope="col">是否已支付?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10" style="display:none" id="guide-info">
+                <h3>导游预约</h3>
+                <table class="table" id="guide-table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">城市</th>
+                            <th scope="col">旅游开始时间</th>
+                            <th scope="col">旅游结束时间</th>
+                            <th scope="col">预约总人数</th>
+                            <th scope="col">总价格</th>
+                            <th scope="col">是否已支付？</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10" style="display:none" id="vehicle-info">
+                <h3>车辆预约</h3>
+                <table class="table" id="vehicle-table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">地区</th>
+                            <th scope="col">车辆种类</th>
+                            <th scope="col">开始时间</th>
+                            <th scope="col">结束时间</th>
+                            <th scope="col">预约总人数</th>
+                            <th scope="col">总价格</th>
+                            <th scope="col">是否已支付？</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10" style="display:none" id="hotel-info">
+                <h3>酒店预约</h3>
+                <table class="table" id="hotel-table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">城市</th>
+                            <th scope="col">地区</th>
+                            <th scope="col">酒店名</th>
+                            <th scope="col">酒店房间种类</th>
+                            <th scope="col">入住时间</th>
+                            <th scope="col">退房时间</th>
+                            <th scope="col">总价</th>
+                            <th scope="col">是否已支付？</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var Id = window.location.href.split("/").pop();
+    var packageCount = 0;
+    var guideCount = 0;
+    var vehicleCount = 0;
+    var hotelCount = 0;
+    function getMember() {
+        $('#member-info').show();
+        $('#package-info').hide();
+        $('#guide-info').hide();
+        $('#vehicle-info').hide();
+        $('#hotel-info').hide();
+        $.ajax({
+            url: '/Member/GetMemberInfo',
+            type: "GET",
+            data: { Id: Id },
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                console.log(data.Id);
+                $('#member-name').text(data.Name);
+                $('#member-email').text(data.Email);
+                $('#member-birth').text(data.Birth);
+                $('#member-ids').text(data.Id);
+                $('#member-phone').text(data.Phone);
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+    }
+
+    function getTourReservation() {
+        $('#member-info').hide();
+        $('#package-info').show();
+        $('#guide-info').hide();
+        $('#vehicle-info').hide();
+        $('#hotel-info').hide();
+        if (packageCount == 0) {
+            $.ajax({
+                url: '/Member/GetTourReservation',
+                type: "GET",
+                data: { Id: Id },
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    console.log(data);
+                    var str = '';
+                    for (var i = 0; i < data.length; i++) {
+                        if (data[i].isPaid == 0) {
+                            str = '否';
+                        } else {
+                            str = "是";
+                        }
+                        $('#package-table').append('<tr><td>' + data[i].country + '</td><td>' + data[i].name + '</td><td>' + new Date(getDateFromAspNetFormat(data[i].startTime)).format("yyyy-MM-dd") + '</td><td>' + new Date(getDateFromAspNetFormat(data[i].endTime)).format("yyyy-MM-dd") + '</td><td>' + data[i].numberOfPeople + '</td><td>' + data[i].totalPrice + '</td><td>' + str + '</td></tr>');
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        }
+        packageCount++;
+    }
+
+    function getGuideReservation() {
+        $('#member-info').hide();
+        $('#package-info').hide();
+        $('#guide-info').show();
+        $('#vehicle-info').hide();
+        $('#hotel-info').hide();
+        if (guideCount == 0) {
+            $.ajax({
+                url: '/Member/GetGuideReservation',
+                type: "GET",
+                data: { Id: Id },
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    console.log(data);
+                    var str = '';
+                    for (var i = 0; i < data.length; i++) {
+                        if (data[i].isPaid == 0) {
+                            str = '否';
+                        } else {
+                            str = "是";
+                        }
+                        $('#guide-table').append('<tr><td>' + data[i].country + '</td><td>' + new Date(getDateFromAspNetFormat(data[i].startTime)).format("yyyy-MM-dd") + '</td><td>' + new Date(getDateFromAspNetFormat(data[i].endTime)).format("yyyy-MM-dd") + '</td><td>' + data[i].numberOfPeople + '</td><td>' + data[i].totalPrice + '</td><td>' + str + '</td></tr>');
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        }
+        guideCount++;
+    }
+
+    function getVehicleReservation() {
+        $('#member-info').hide();
+        $('#package-info').hide();
+        $('#guide-info').hide();
+        $('#vehicle-info').show();
+        $('#hotel-info').hide();
+        if (vehicleCount == 0) {
+            $.ajax({
+                url: '/Member/GetVehicleReservation',
+                type: "GET",
+                data: { Id: Id },
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    console.log(data);
+                    var str = '';
+                    for (var i = 0; i < data.length; i++) {
+                        if (data[i].isPaid == 0) {
+                            str = '否';
+                        } else {
+                            str = "是";
+                        }
+                        $('#vehicle-table').append('<tr><td>' + data[i].area + '</td><td>' + data[i].type + '</td><td>' + new Date(getDateFromAspNetFormat(data[i].startTime)).format("yyyy-MM-dd") + '</td><td>' + new Date(getDateFromAspNetFormat(data[i].endTime)).format("yyyy-MM-dd") + '</td><td>' + data[i].numberOfPeople + '</td><td>' + data[i].totalPrice + '</td><td>' + str + '</td></tr>');
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        }
+        vehicleCount++;
+    }
+
+    function getHotelReservation() {
+        $('#member-info').hide();
+        $('#package-info').hide();
+        $('#guide-info').hide();
+        $('#vehicle-info').hide();
+        $('#hotel-info').show();
+        if (hotelCount == 0) {
+            $.ajax({
+                url: '/Member/GetHotelReservation',
+                type: "GET",
+                data: { Id: Id },
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    console.log(data);
+                    if (data.length > 0) {
+                        var str = '';
+                        for (var i = 0; i < data.length; i++) {
+                            if (data[i].isPaid == 0) {
+                                str = '否';
+                            } else {
+                                str = "是";
+                            }
+                            $('#hotel-table').append('<tr><td>' + data[i].country + '</td><td>' + data[i].area + '</td><td>' + data[i].name + '</td><td>' + data[i].type + '</td><td>' + new Date(getDateFromAspNetFormat(data[i].startTime)).format("yyyy-MM-dd") + '</td><td>' + new Date(getDateFromAspNetFormat(data[i].endTime)).format("yyyy-MM-dd") + '</td><td>' + data[i].totalPrice + '</td><td>' + str + '</td></tr>');
+                        }
+                    }                  
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        }
+        hotelCount++;
+    }
+
+    function getDateFromAspNetFormat(date) {
+        const re = /-?\d+/;
+        const m = re.exec(date);
+        return parseInt(m[0], 10);
+    }
+
+    Date.prototype.format = function (format) {
+        var date = {
+            "M+": this.getMonth() + 1,
+            "d+": this.getDate(),
+            "h+": this.getHours(),
+            "m+": this.getMinutes(),
+            "s+": this.getSeconds(),
+            "q+": Math.floor((this.getMonth() + 3) / 3),
+            "S": this.getMilliseconds()
+        };
+        if (/(y+)/i.test(format)) {
+            format = format.replace(RegExp.$1, (this.getFullYear() + '').substr(4 - RegExp.$1.length));
+        }
+        for (var k in date) {
+            if (new RegExp("(" + k + ")").test(format)) {
+                format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? date[k] : ("00" + date[k]).substr(("" + date[k]).length));
+            }
+        }
+        return format;
+    };
+</script>
