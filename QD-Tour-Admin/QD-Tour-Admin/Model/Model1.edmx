@@ -1,0 +1,1260 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Admin">
+          <Key>
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Guide">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="StartTime" Type="datetime" />
+          <Property Name="EndTime" Type="datetime" />
+          <Property Name="TotalEarnPrice" Type="money" />
+        </EntityType>
+        <EntityType Name="Guide_Package">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Destination" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Photo" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="StartDate" Type="datetime" Nullable="false" />
+          <Property Name="EndDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Guide_Reservation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Start_Time" Type="datetime" Nullable="false" />
+          <Property Name="End_Time" Type="datetime" Nullable="false" />
+          <Property Name="People_Number" Type="int" Nullable="false" />
+          <Property Name="ID_Guide_Package" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ID_Guide" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsPaid" Type="int" />
+          <Property Name="TotalPrice" Type="decimal" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="Hotel">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Country" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Area" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Address" Type="nvarchar" MaxLength="50" />
+          <Property Name="ContactNumber" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Hotel_Package">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Photo" Type="nvarchar(max)" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Country" Type="nvarchar" MaxLength="50" />
+          <Property Name="Area" Type="nvarchar" MaxLength="50" />
+          <Property Name="ID_Hotel" Type="nvarchar" MaxLength="50" />
+          <Property Name="SingRommPhoto" Type="nvarchar(max)" />
+          <Property Name="DoubleRoomPhoto" Type="nvarchar(max)" />
+          <Property Name="OtherRoomPhoto" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Hotel_Price">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="SingleRoomPrice" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="DoulbeRoomPrice" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="OtherRoomPrice" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="ID_Hotel" Type="nvarchar" MaxLength="50" />
+          <Property Name="CanReserve" Type="int" />
+        </EntityType>
+        <EntityType Name="Hotel_Reservation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="StartTime" Type="datetime" Nullable="false" />
+          <Property Name="EndTime" Type="datetime" Nullable="false" />
+          <Property Name="TotalPrice" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="IsPaid" Type="int" />
+          <Property Name="ID_Package" Type="nvarchar" MaxLength="50" />
+          <Property Name="RoomType" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Member">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Sex" Type="int" Nullable="false" />
+          <Property Name="Birth" Type="nvarchar" MaxLength="50" />
+          <Property Name="GuideId" Type="nvarchar" MaxLength="50" />
+          <Property Name="Varification" Type="int" />
+        </EntityType>
+        <EntityType Name="MembersGuideReservations">
+          <Key>
+            <PropertyRef Name="ID_Member" />
+            <PropertyRef Name="ID_Guide_Reservation" />
+          </Key>
+          <Property Name="ID_Member" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ID_Guide_Reservation" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MembersHotelReservation">
+          <Key>
+            <PropertyRef Name="ID_Member" />
+            <PropertyRef Name="ID_Hotel_Reservation" />
+          </Key>
+          <Property Name="ID_Member" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ID_Hotel_Reservation" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MemberTourReservation">
+          <Key>
+            <PropertyRef Name="ID_Member" />
+            <PropertyRef Name="ID_Tour_Reservation" />
+          </Key>
+          <Property Name="ID_Member" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ID_Tour_Reservation" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MemberVehicleReservation">
+          <Key>
+            <PropertyRef Name="ID_Member" />
+            <PropertyRef Name="ID_Vehicle_Reservation" />
+          </Key>
+          <Property Name="ID_Member" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ID_Vehicle_Reservation" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Tour">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Province" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Course" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="TourDate" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tour_Package">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ID_Tour" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Photo" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Tour_Price">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="ID_Tour" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tour_Reservation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="StartTime" Type="datetime" Nullable="false" />
+          <Property Name="EndTime" Type="datetime" Nullable="false" />
+          <Property Name="TotalPrice" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="IsPaid" Type="int" Nullable="false" />
+          <Property Name="ID_Package" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PeopleNumber" Type="int" />
+        </EntityType>
+        <EntityType Name="Vehicle">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Type" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Area" Type="nvarchar" MaxLength="50" />
+          <Property Name="Photo" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Vehicle_Package">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Photo" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Area" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Type" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Vehicle_Reservation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Start_Time" Type="datetime" Nullable="false" />
+          <Property Name="End_Time" Type="datetime" Nullable="false" />
+          <Property Name="People_Number" Type="int" Nullable="false" />
+          <Property Name="ID_Vehicle_Package" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ID_Vehicle" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsPaid" Type="int" />
+          <Property Name="TotalPrice" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="Type" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_Guide_Reservation_Guide">
+          <End Role="Guide" Type="Self.Guide" Multiplicity="0..1" />
+          <End Role="Guide_Reservation" Type="Self.Guide_Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Guide">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Guide_Reservation">
+              <PropertyRef Name="ID_Guide" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Guide_Reservation_Guide_Package">
+          <End Role="Guide_Package" Type="Self.Guide_Package" Multiplicity="1" />
+          <End Role="Guide_Reservation" Type="Self.Guide_Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Guide_Package">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Guide_Reservation">
+              <PropertyRef Name="ID_Guide_Package" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Hotel_Package_Hotel">
+          <End Role="Hotel" Type="Self.Hotel" Multiplicity="0..1" />
+          <End Role="Hotel_Package" Type="Self.Hotel_Package" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Hotel">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Hotel_Package">
+              <PropertyRef Name="ID_Hotel" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Hotel_Price_Hotel">
+          <End Role="Hotel" Type="Self.Hotel" Multiplicity="0..1" />
+          <End Role="Hotel_Price" Type="Self.Hotel_Price" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Hotel">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Hotel_Price">
+              <PropertyRef Name="ID_Hotel" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Hotel_Reservation_Hotel_Package">
+          <End Role="Hotel_Package" Type="Self.Hotel_Package" Multiplicity="0..1" />
+          <End Role="Hotel_Reservation" Type="Self.Hotel_Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Hotel_Package">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Hotel_Reservation">
+              <PropertyRef Name="ID_Package" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MembersGuideReservations_Guide_Reservation">
+          <End Role="Guide_Reservation" Type="Self.Guide_Reservation" Multiplicity="1" />
+          <End Role="MembersGuideReservations" Type="Self.MembersGuideReservations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Guide_Reservation">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MembersGuideReservations">
+              <PropertyRef Name="ID_Guide_Reservation" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MembersGuideReservations_Member">
+          <End Role="Member" Type="Self.Member" Multiplicity="1" />
+          <End Role="MembersGuideReservations" Type="Self.MembersGuideReservations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MembersGuideReservations">
+              <PropertyRef Name="ID_Member" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MembersHotelReservation_Hotel_Reservation">
+          <End Role="Hotel_Reservation" Type="Self.Hotel_Reservation" Multiplicity="1" />
+          <End Role="MembersHotelReservation" Type="Self.MembersHotelReservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Hotel_Reservation">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MembersHotelReservation">
+              <PropertyRef Name="ID_Hotel_Reservation" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MembersHotelReservation_Member">
+          <End Role="Member" Type="Self.Member" Multiplicity="1" />
+          <End Role="MembersHotelReservation" Type="Self.MembersHotelReservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MembersHotelReservation">
+              <PropertyRef Name="ID_Member" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MemberTourReservation_Member">
+          <End Role="Member" Type="Self.Member" Multiplicity="1" />
+          <End Role="MemberTourReservation" Type="Self.MemberTourReservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MemberTourReservation">
+              <PropertyRef Name="ID_Member" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MemberTourReservation_Tour_Reservation">
+          <End Role="Tour_Reservation" Type="Self.Tour_Reservation" Multiplicity="1" />
+          <End Role="MemberTourReservation" Type="Self.MemberTourReservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tour_Reservation">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MemberTourReservation">
+              <PropertyRef Name="ID_Tour_Reservation" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MemberVehicleReservation_Member">
+          <End Role="Member" Type="Self.Member" Multiplicity="1" />
+          <End Role="MemberVehicleReservation" Type="Self.MemberVehicleReservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MemberVehicleReservation">
+              <PropertyRef Name="ID_Member" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MemberVehicleReservation_Vehicle_Reservation">
+          <End Role="Vehicle_Reservation" Type="Self.Vehicle_Reservation" Multiplicity="1" />
+          <End Role="MemberVehicleReservation" Type="Self.MemberVehicleReservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vehicle_Reservation">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MemberVehicleReservation">
+              <PropertyRef Name="ID_Vehicle_Reservation" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tour_Package_Tour">
+          <End Role="Tour" Type="Self.Tour" Multiplicity="1" />
+          <End Role="Tour_Package" Type="Self.Tour_Package" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tour">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tour_Package">
+              <PropertyRef Name="ID_Tour" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tour_Price_Tour">
+          <End Role="Tour" Type="Self.Tour" Multiplicity="1" />
+          <End Role="Tour_Price" Type="Self.Tour_Price" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tour">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tour_Price">
+              <PropertyRef Name="ID_Tour" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tour_Reservation_Tour_Package">
+          <End Role="Tour_Package" Type="Self.Tour_Package" Multiplicity="1" />
+          <End Role="Tour_Reservation" Type="Self.Tour_Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tour_Package">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tour_Reservation">
+              <PropertyRef Name="ID_Package" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Vehicle_Reservation_Vehicle">
+          <End Role="Vehicle" Type="Self.Vehicle" Multiplicity="0..1" />
+          <End Role="Vehicle_Reservation" Type="Self.Vehicle_Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vehicle">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Vehicle_Reservation">
+              <PropertyRef Name="ID_Vehicle" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Vehicle_Reservation_Vehicle_Package">
+          <End Role="Vehicle_Package" Type="Self.Vehicle_Package" Multiplicity="1" />
+          <End Role="Vehicle_Reservation" Type="Self.Vehicle_Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vehicle_Package">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Vehicle_Reservation">
+              <PropertyRef Name="ID_Vehicle_Package" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="Admin" EntityType="Self.Admin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Guide" EntityType="Self.Guide" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Guide_Package" EntityType="Self.Guide_Package" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Guide_Reservation" EntityType="Self.Guide_Reservation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Hotel" EntityType="Self.Hotel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Hotel_Package" EntityType="Self.Hotel_Package" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Hotel_Price" EntityType="Self.Hotel_Price" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Hotel_Reservation" EntityType="Self.Hotel_Reservation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Member" EntityType="Self.Member" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MembersGuideReservations" EntityType="Self.MembersGuideReservations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MembersHotelReservation" EntityType="Self.MembersHotelReservation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MemberTourReservation" EntityType="Self.MemberTourReservation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MemberVehicleReservation" EntityType="Self.MemberVehicleReservation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tour" EntityType="Self.Tour" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tour_Package" EntityType="Self.Tour_Package" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tour_Price" EntityType="Self.Tour_Price" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tour_Reservation" EntityType="Self.Tour_Reservation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Vehicle" EntityType="Self.Vehicle" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Vehicle_Package" EntityType="Self.Vehicle_Package" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Vehicle_Reservation" EntityType="Self.Vehicle_Reservation" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Guide_Reservation_Guide" Association="Self.FK_Guide_Reservation_Guide">
+            <End Role="Guide" EntitySet="Guide" />
+            <End Role="Guide_Reservation" EntitySet="Guide_Reservation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Guide_Reservation_Guide_Package" Association="Self.FK_Guide_Reservation_Guide_Package">
+            <End Role="Guide_Package" EntitySet="Guide_Package" />
+            <End Role="Guide_Reservation" EntitySet="Guide_Reservation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Hotel_Package_Hotel" Association="Self.FK_Hotel_Package_Hotel">
+            <End Role="Hotel" EntitySet="Hotel" />
+            <End Role="Hotel_Package" EntitySet="Hotel_Package" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Hotel_Price_Hotel" Association="Self.FK_Hotel_Price_Hotel">
+            <End Role="Hotel" EntitySet="Hotel" />
+            <End Role="Hotel_Price" EntitySet="Hotel_Price" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Hotel_Reservation_Hotel_Package" Association="Self.FK_Hotel_Reservation_Hotel_Package">
+            <End Role="Hotel_Package" EntitySet="Hotel_Package" />
+            <End Role="Hotel_Reservation" EntitySet="Hotel_Reservation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MembersGuideReservations_Guide_Reservation" Association="Self.FK_MembersGuideReservations_Guide_Reservation">
+            <End Role="Guide_Reservation" EntitySet="Guide_Reservation" />
+            <End Role="MembersGuideReservations" EntitySet="MembersGuideReservations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MembersGuideReservations_Member" Association="Self.FK_MembersGuideReservations_Member">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="MembersGuideReservations" EntitySet="MembersGuideReservations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MembersHotelReservation_Hotel_Reservation" Association="Self.FK_MembersHotelReservation_Hotel_Reservation">
+            <End Role="Hotel_Reservation" EntitySet="Hotel_Reservation" />
+            <End Role="MembersHotelReservation" EntitySet="MembersHotelReservation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MembersHotelReservation_Member" Association="Self.FK_MembersHotelReservation_Member">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="MembersHotelReservation" EntitySet="MembersHotelReservation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MemberTourReservation_Member" Association="Self.FK_MemberTourReservation_Member">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="MemberTourReservation" EntitySet="MemberTourReservation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MemberTourReservation_Tour_Reservation" Association="Self.FK_MemberTourReservation_Tour_Reservation">
+            <End Role="Tour_Reservation" EntitySet="Tour_Reservation" />
+            <End Role="MemberTourReservation" EntitySet="MemberTourReservation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MemberVehicleReservation_Member" Association="Self.FK_MemberVehicleReservation_Member">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="MemberVehicleReservation" EntitySet="MemberVehicleReservation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MemberVehicleReservation_Vehicle_Reservation" Association="Self.FK_MemberVehicleReservation_Vehicle_Reservation">
+            <End Role="Vehicle_Reservation" EntitySet="Vehicle_Reservation" />
+            <End Role="MemberVehicleReservation" EntitySet="MemberVehicleReservation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tour_Package_Tour" Association="Self.FK_Tour_Package_Tour">
+            <End Role="Tour" EntitySet="Tour" />
+            <End Role="Tour_Package" EntitySet="Tour_Package" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tour_Price_Tour" Association="Self.FK_Tour_Price_Tour">
+            <End Role="Tour" EntitySet="Tour" />
+            <End Role="Tour_Price" EntitySet="Tour_Price" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tour_Reservation_Tour_Package" Association="Self.FK_Tour_Reservation_Tour_Package">
+            <End Role="Tour_Package" EntitySet="Tour_Package" />
+            <End Role="Tour_Reservation" EntitySet="Tour_Reservation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Vehicle_Reservation_Vehicle" Association="Self.FK_Vehicle_Reservation_Vehicle">
+            <End Role="Vehicle" EntitySet="Vehicle" />
+            <End Role="Vehicle_Reservation" EntitySet="Vehicle_Reservation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Vehicle_Reservation_Vehicle_Package" Association="Self.FK_Vehicle_Reservation_Vehicle_Package">
+            <End Role="Vehicle_Package" EntitySet="Vehicle_Package" />
+            <End Role="Vehicle_Reservation" EntitySet="Vehicle_Reservation" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Guide">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="StartTime" Type="DateTime" Precision="3" />
+          <Property Name="EndTime" Type="DateTime" Precision="3" />
+          <Property Name="TotalEarnPrice" Type="Decimal" Precision="19" Scale="4" />
+          <NavigationProperty Name="Members" Relationship="Self.FK_Member_Guide1" FromRole="Guide" ToRole="Member" />
+          <NavigationProperty Name="Guide_Reservation" Relationship="Model.FK_Guide_Reservation_Guide" FromRole="Guide" ToRole="Guide_Reservation" />
+        </EntityType>
+        <EntityType Name="Member">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Sex" Type="Int32" Nullable="false" />
+          <Property Name="Birth" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="GuideId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Varification" Type="Int32" />
+          <NavigationProperty Name="Guide" Relationship="Self.FK_Member_Guide1" FromRole="Member" ToRole="Guide" />
+          <NavigationProperty Name="Guide_Reservation" Relationship="Model.MembersGuideReservations" FromRole="Member" ToRole="Guide_Reservation" />
+          <NavigationProperty Name="Vehicle_Reservation" Relationship="Model.MemberVehicleReservation" FromRole="Member" ToRole="Vehicle_Reservation" />
+          <NavigationProperty Name="Hotel_Reservation" Relationship="Model.MembersHotelReservation" FromRole="Member" ToRole="Hotel_Reservation" />
+          <NavigationProperty Name="Tour_Reservation" Relationship="Model.MemberTourReservation" FromRole="Member" ToRole="Tour_Reservation" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK_Member_Guide1">
+          <End Role="Guide" Type="Self.Guide" Multiplicity="0..1" />
+          <End Role="Member" Type="Self.Member" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Guide">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Member">
+              <PropertyRef Name="GuideId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="QDTourAdminEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Guides" EntityType="Self.Guide" />
+          <EntitySet Name="Members" EntityType="Self.Member" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <AssociationSet Name="FK_Member_Guide1" Association="Self.FK_Member_Guide1">
+            <End Role="Guide" EntitySet="Guides" />
+            <End Role="Member" EntitySet="Members" />
+          </AssociationSet>
+          <EntitySet Name="Guide_Package" EntityType="Model.Guide_Package" />
+          <EntitySet Name="Guide_Reservation" EntityType="Model.Guide_Reservation" />
+          <AssociationSet Name="FK_Guide_Reservation_Guide" Association="Model.FK_Guide_Reservation_Guide">
+            <End Role="Guide" EntitySet="Guides" />
+            <End Role="Guide_Reservation" EntitySet="Guide_Reservation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Guide_Reservation_Guide_Package" Association="Model.FK_Guide_Reservation_Guide_Package">
+            <End Role="Guide_Package" EntitySet="Guide_Package" />
+            <End Role="Guide_Reservation" EntitySet="Guide_Reservation" />
+          </AssociationSet>
+          <AssociationSet Name="MembersGuideReservations" Association="Model.MembersGuideReservations">
+            <End Role="Guide_Reservation" EntitySet="Guide_Reservation" />
+            <End Role="Member" EntitySet="Members" />
+          </AssociationSet>
+          <EntitySet Name="Vehicles" EntityType="Model.Vehicle" />
+          <EntitySet Name="Vehicle_Package" EntityType="Model.Vehicle_Package" />
+          <EntitySet Name="Vehicle_Reservation" EntityType="Model.Vehicle_Reservation" />
+          <AssociationSet Name="FK_Vehicle_Reservation_Vehicle" Association="Model.FK_Vehicle_Reservation_Vehicle">
+            <End Role="Vehicle" EntitySet="Vehicles" />
+            <End Role="Vehicle_Reservation" EntitySet="Vehicle_Reservation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Vehicle_Reservation_Vehicle_Package" Association="Model.FK_Vehicle_Reservation_Vehicle_Package">
+            <End Role="Vehicle_Package" EntitySet="Vehicle_Package" />
+            <End Role="Vehicle_Reservation" EntitySet="Vehicle_Reservation" />
+          </AssociationSet>
+          <AssociationSet Name="MemberVehicleReservation" Association="Model.MemberVehicleReservation">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="Vehicle_Reservation" EntitySet="Vehicle_Reservation" />
+          </AssociationSet>
+          <EntitySet Name="Hotels" EntityType="Model.Hotel" />
+          <EntitySet Name="Hotel_Package" EntityType="Model.Hotel_Package" />
+          <EntitySet Name="Hotel_Price" EntityType="Model.Hotel_Price" />
+          <EntitySet Name="Hotel_Reservation" EntityType="Model.Hotel_Reservation" />
+          <AssociationSet Name="FK_Hotel_Package_Hotel" Association="Model.FK_Hotel_Package_Hotel">
+            <End Role="Hotel" EntitySet="Hotels" />
+            <End Role="Hotel_Package" EntitySet="Hotel_Package" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Hotel_Price_Hotel" Association="Model.FK_Hotel_Price_Hotel">
+            <End Role="Hotel" EntitySet="Hotels" />
+            <End Role="Hotel_Price" EntitySet="Hotel_Price" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Hotel_Reservation_Hotel_Package" Association="Model.FK_Hotel_Reservation_Hotel_Package">
+            <End Role="Hotel_Package" EntitySet="Hotel_Package" />
+            <End Role="Hotel_Reservation" EntitySet="Hotel_Reservation" />
+          </AssociationSet>
+          <AssociationSet Name="MembersHotelReservation" Association="Model.MembersHotelReservation">
+            <End Role="Hotel_Reservation" EntitySet="Hotel_Reservation" />
+            <End Role="Member" EntitySet="Members" />
+          </AssociationSet>
+          <EntitySet Name="Tours" EntityType="Model.Tour" />
+          <EntitySet Name="Tour_Package" EntityType="Model.Tour_Package" />
+          <EntitySet Name="Tour_Price" EntityType="Model.Tour_Price" />
+          <EntitySet Name="Tour_Reservation" EntityType="Model.Tour_Reservation" />
+          <AssociationSet Name="FK_Tour_Package_Tour" Association="Model.FK_Tour_Package_Tour">
+            <End Role="Tour" EntitySet="Tours" />
+            <End Role="Tour_Package" EntitySet="Tour_Package" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tour_Price_Tour" Association="Model.FK_Tour_Price_Tour">
+            <End Role="Tour" EntitySet="Tours" />
+            <End Role="Tour_Price" EntitySet="Tour_Price" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tour_Reservation_Tour_Package" Association="Model.FK_Tour_Reservation_Tour_Package">
+            <End Role="Tour_Package" EntitySet="Tour_Package" />
+            <End Role="Tour_Reservation" EntitySet="Tour_Reservation" />
+          </AssociationSet>
+          <AssociationSet Name="MemberTourReservation" Association="Model.MemberTourReservation">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="Tour_Reservation" EntitySet="Tour_Reservation" />
+          </AssociationSet>
+          <EntitySet Name="Admins" EntityType="Model.Admin" />
+        </EntityContainer>
+        <EntityType Name="Guide_Package">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Destination" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Price" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Photo" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Guide_Reservation" Relationship="Model.FK_Guide_Reservation_Guide_Package" FromRole="Guide_Package" ToRole="Guide_Reservation" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="Guide_Reservation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Start_Time" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="End_Time" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="People_Number" Type="Int32" Nullable="false" />
+          <Property Name="ID_Guide_Package" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ID_Guide" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Guide" Relationship="Model.FK_Guide_Reservation_Guide" FromRole="Guide_Reservation" ToRole="Guide" />
+          <NavigationProperty Name="Guide_Package" Relationship="Model.FK_Guide_Reservation_Guide_Package" FromRole="Guide_Reservation" ToRole="Guide_Package" />
+          <NavigationProperty Name="Members" Relationship="Model.MembersGuideReservations" FromRole="Guide_Reservation" ToRole="Member" />
+          <Property Name="IsPaid" Type="Int32" />
+          <Property Name="TotalPrice" Type="Decimal" Precision="18" Scale="0" />
+        </EntityType>
+        <Association Name="FK_Guide_Reservation_Guide">
+          <End Type="Model.Guide" Role="Guide" Multiplicity="0..1" />
+          <End Type="Model.Guide_Reservation" Role="Guide_Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Guide">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Guide_Reservation">
+              <PropertyRef Name="ID_Guide" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Guide_Reservation_Guide_Package">
+          <End Type="Model.Guide_Package" Role="Guide_Package" Multiplicity="1" />
+          <End Type="Model.Guide_Reservation" Role="Guide_Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Guide_Package">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Guide_Reservation">
+              <PropertyRef Name="ID_Guide_Package" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MembersGuideReservations">
+          <End Type="Model.Guide_Reservation" Role="Guide_Reservation" Multiplicity="*" />
+          <End Type="Model.Member" Role="Member" Multiplicity="*" />
+        </Association>
+        <EntityType Name="Vehicle">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Price" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Area" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Vehicle_Reservation" Relationship="Model.FK_Vehicle_Reservation_Vehicle" FromRole="Vehicle" ToRole="Vehicle_Reservation" />
+          <Property Name="Photo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Vehicle_Package">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Price" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Photo" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Area" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Vehicle_Reservation" Relationship="Model.FK_Vehicle_Reservation_Vehicle_Package" FromRole="Vehicle_Package" ToRole="Vehicle_Reservation" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Vehicle_Reservation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Start_Time" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="End_Time" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="People_Number" Type="Int32" Nullable="false" />
+          <Property Name="ID_Vehicle_Package" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ID_Vehicle" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsPaid" Type="Int32" />
+          <Property Name="TotalPrice" Type="Decimal" Precision="18" Scale="0" />
+          <NavigationProperty Name="Vehicle" Relationship="Model.FK_Vehicle_Reservation_Vehicle" FromRole="Vehicle_Reservation" ToRole="Vehicle" />
+          <NavigationProperty Name="Vehicle_Package" Relationship="Model.FK_Vehicle_Reservation_Vehicle_Package" FromRole="Vehicle_Reservation" ToRole="Vehicle_Package" />
+          <NavigationProperty Name="Members" Relationship="Model.MemberVehicleReservation" FromRole="Vehicle_Reservation" ToRole="Member" />
+          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_Vehicle_Reservation_Vehicle">
+          <End Type="Model.Vehicle" Role="Vehicle" Multiplicity="0..1" />
+          <End Type="Model.Vehicle_Reservation" Role="Vehicle_Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vehicle">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Vehicle_Reservation">
+              <PropertyRef Name="ID_Vehicle" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Vehicle_Reservation_Vehicle_Package">
+          <End Type="Model.Vehicle_Package" Role="Vehicle_Package" Multiplicity="1" />
+          <End Type="Model.Vehicle_Reservation" Role="Vehicle_Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vehicle_Package">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Vehicle_Reservation">
+              <PropertyRef Name="ID_Vehicle_Package" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MemberVehicleReservation">
+          <End Type="Model.Member" Role="Member" Multiplicity="*" />
+          <End Type="Model.Vehicle_Reservation" Role="Vehicle_Reservation" Multiplicity="*" />
+        </Association>
+        <EntityType Name="Hotel">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Country" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Area" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ContactNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Hotel_Package" Relationship="Model.FK_Hotel_Package_Hotel" FromRole="Hotel" ToRole="Hotel_Package" />
+          <NavigationProperty Name="Hotel_Price" Relationship="Model.FK_Hotel_Price_Hotel" FromRole="Hotel" ToRole="Hotel_Price" />
+        </EntityType>
+        <EntityType Name="Hotel_Package">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Photo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Area" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ID_Hotel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Hotel" Relationship="Model.FK_Hotel_Package_Hotel" FromRole="Hotel_Package" ToRole="Hotel" />
+          <NavigationProperty Name="Hotel_Reservation" Relationship="Model.FK_Hotel_Reservation_Hotel_Package" FromRole="Hotel_Package" ToRole="Hotel_Reservation" />
+          <Property Name="SingRommPhoto" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DoubleRoomPhoto" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OtherRoomPhoto" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Hotel_Price">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="SingleRoomPrice" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="DoulbeRoomPrice" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="OtherRoomPrice" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="ID_Hotel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CanReserve" Type="Int32" />
+          <NavigationProperty Name="Hotel" Relationship="Model.FK_Hotel_Price_Hotel" FromRole="Hotel_Price" ToRole="Hotel" />
+        </EntityType>
+        <EntityType Name="Hotel_Reservation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="StartTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EndTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="TotalPrice" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="IsPaid" Type="Int32" />
+          <Property Name="ID_Package" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Hotel_Package" Relationship="Model.FK_Hotel_Reservation_Hotel_Package" FromRole="Hotel_Reservation" ToRole="Hotel_Package" />
+          <NavigationProperty Name="Members" Relationship="Model.MembersHotelReservation" FromRole="Hotel_Reservation" ToRole="Member" />
+          <Property Name="RoomType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_Hotel_Package_Hotel">
+          <End Type="Model.Hotel" Role="Hotel" Multiplicity="0..1" />
+          <End Type="Model.Hotel_Package" Role="Hotel_Package" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Hotel">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Hotel_Package">
+              <PropertyRef Name="ID_Hotel" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Hotel_Price_Hotel">
+          <End Type="Model.Hotel" Role="Hotel" Multiplicity="0..1" />
+          <End Type="Model.Hotel_Price" Role="Hotel_Price" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Hotel">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Hotel_Price">
+              <PropertyRef Name="ID_Hotel" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Hotel_Reservation_Hotel_Package">
+          <End Type="Model.Hotel_Package" Role="Hotel_Package" Multiplicity="0..1" />
+          <End Type="Model.Hotel_Reservation" Role="Hotel_Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Hotel_Package">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Hotel_Reservation">
+              <PropertyRef Name="ID_Package" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MembersHotelReservation">
+          <End Type="Model.Hotel_Reservation" Role="Hotel_Reservation" Multiplicity="*" />
+          <End Type="Model.Member" Role="Member" Multiplicity="*" />
+        </Association>
+        <EntityType Name="Tour">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Province" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Course" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TourDate" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Tour_Package" Relationship="Model.FK_Tour_Package_Tour" FromRole="Tour" ToRole="Tour_Package" />
+          <NavigationProperty Name="Tour_Price" Relationship="Model.FK_Tour_Price_Tour" FromRole="Tour" ToRole="Tour_Price" />
+        </EntityType>
+        <EntityType Name="Tour_Package">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ID_Tour" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Photo" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Tour" Relationship="Model.FK_Tour_Package_Tour" FromRole="Tour_Package" ToRole="Tour" />
+          <NavigationProperty Name="Tour_Reservation" Relationship="Model.FK_Tour_Reservation_Tour_Package" FromRole="Tour_Package" ToRole="Tour_Reservation" />
+        </EntityType>
+        <EntityType Name="Tour_Price">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ID_Tour" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Price" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <NavigationProperty Name="Tour" Relationship="Model.FK_Tour_Price_Tour" FromRole="Tour_Price" ToRole="Tour" />
+        </EntityType>
+        <EntityType Name="Tour_Reservation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="StartTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EndTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="TotalPrice" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="IsPaid" Type="Int32" Nullable="false" />
+          <Property Name="ID_Package" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PeopleNumber" Type="Int32" />
+          <NavigationProperty Name="Tour_Package" Relationship="Model.FK_Tour_Reservation_Tour_Package" FromRole="Tour_Reservation" ToRole="Tour_Package" />
+          <NavigationProperty Name="Members" Relationship="Model.MemberTourReservation" FromRole="Tour_Reservation" ToRole="Member" />
+        </EntityType>
+        <Association Name="FK_Tour_Package_Tour">
+          <End Type="Model.Tour" Role="Tour" Multiplicity="1" />
+          <End Type="Model.Tour_Package" Role="Tour_Package" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tour">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tour_Package">
+              <PropertyRef Name="ID_Tour" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tour_Price_Tour">
+          <End Type="Model.Tour" Role="Tour" Multiplicity="1" />
+          <End Type="Model.Tour_Price" Role="Tour_Price" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tour">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tour_Price">
+              <PropertyRef Name="ID_Tour" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tour_Reservation_Tour_Package">
+          <End Type="Model.Tour_Package" Role="Tour_Package" Multiplicity="1" />
+          <End Type="Model.Tour_Reservation" Role="Tour_Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tour_Package">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tour_Reservation">
+              <PropertyRef Name="ID_Package" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MemberTourReservation">
+          <End Type="Model.Member" Role="Member" Multiplicity="*" />
+          <End Type="Model.Tour_Reservation" Role="Tour_Reservation" Multiplicity="*" />
+        </Association>
+        <EntityType Name="Admin">
+          <Key>
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="QDTourAdminEntities">
+          <EntitySetMapping Name="Guides">
+            <EntityTypeMapping TypeName="Model.Guide">
+              <MappingFragment StoreEntitySet="Guide">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="TotalEarnPrice" ColumnName="TotalEarnPrice" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Members">
+            <EntityTypeMapping TypeName="Model.Member">
+              <MappingFragment StoreEntitySet="Member">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Sex" ColumnName="Sex" />
+                <ScalarProperty Name="Birth" ColumnName="Birth" />
+                <ScalarProperty Name="GuideId" ColumnName="GuideId" />
+                <ScalarProperty Name="Varification" ColumnName="Varification" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="Model.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Guide_Package">
+            <EntityTypeMapping TypeName="Model.Guide_Package">
+              <MappingFragment StoreEntitySet="Guide_Package">
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Destination" ColumnName="Destination" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Guide_Reservation">
+            <EntityTypeMapping TypeName="Model.Guide_Reservation">
+              <MappingFragment StoreEntitySet="Guide_Reservation">
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+                <ScalarProperty Name="IsPaid" ColumnName="IsPaid" />
+                <ScalarProperty Name="ID_Guide" ColumnName="ID_Guide" />
+                <ScalarProperty Name="ID_Guide_Package" ColumnName="ID_Guide_Package" />
+                <ScalarProperty Name="People_Number" ColumnName="People_Number" />
+                <ScalarProperty Name="End_Time" ColumnName="End_Time" />
+                <ScalarProperty Name="Start_Time" ColumnName="Start_Time" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="MembersGuideReservations" TypeName="Model.MembersGuideReservations" StoreEntitySet="MembersGuideReservations">
+            <EndProperty Name="Member">
+              <ScalarProperty Name="Id" ColumnName="ID_Member" />
+            </EndProperty>
+            <EndProperty Name="Guide_Reservation">
+              <ScalarProperty Name="Id" ColumnName="ID_Guide_Reservation" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="Vehicles">
+            <EntityTypeMapping TypeName="Model.Vehicle">
+              <MappingFragment StoreEntitySet="Vehicle">
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vehicle_Package">
+            <EntityTypeMapping TypeName="Model.Vehicle_Package">
+              <MappingFragment StoreEntitySet="Vehicle_Package">
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vehicle_Reservation">
+            <EntityTypeMapping TypeName="Model.Vehicle_Reservation">
+              <MappingFragment StoreEntitySet="Vehicle_Reservation">
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+                <ScalarProperty Name="IsPaid" ColumnName="IsPaid" />
+                <ScalarProperty Name="ID_Vehicle" ColumnName="ID_Vehicle" />
+                <ScalarProperty Name="ID_Vehicle_Package" ColumnName="ID_Vehicle_Package" />
+                <ScalarProperty Name="People_Number" ColumnName="People_Number" />
+                <ScalarProperty Name="End_Time" ColumnName="End_Time" />
+                <ScalarProperty Name="Start_Time" ColumnName="Start_Time" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="MemberVehicleReservation" TypeName="Model.MemberVehicleReservation" StoreEntitySet="MemberVehicleReservation">
+            <EndProperty Name="Vehicle_Reservation">
+              <ScalarProperty Name="Id" ColumnName="ID_Vehicle_Reservation" />
+            </EndProperty>
+            <EndProperty Name="Member">
+              <ScalarProperty Name="Id" ColumnName="ID_Member" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="Hotels">
+            <EntityTypeMapping TypeName="Model.Hotel">
+              <MappingFragment StoreEntitySet="Hotel">
+                <ScalarProperty Name="ContactNumber" ColumnName="ContactNumber" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Hotel_Package">
+            <EntityTypeMapping TypeName="Model.Hotel_Package">
+              <MappingFragment StoreEntitySet="Hotel_Package">
+                <ScalarProperty Name="OtherRoomPhoto" ColumnName="OtherRoomPhoto" />
+                <ScalarProperty Name="DoubleRoomPhoto" ColumnName="DoubleRoomPhoto" />
+                <ScalarProperty Name="SingRommPhoto" ColumnName="SingRommPhoto" />
+                <ScalarProperty Name="ID_Hotel" ColumnName="ID_Hotel" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Hotel_Price">
+            <EntityTypeMapping TypeName="Model.Hotel_Price">
+              <MappingFragment StoreEntitySet="Hotel_Price">
+                <ScalarProperty Name="CanReserve" ColumnName="CanReserve" />
+                <ScalarProperty Name="ID_Hotel" ColumnName="ID_Hotel" />
+                <ScalarProperty Name="OtherRoomPrice" ColumnName="OtherRoomPrice" />
+                <ScalarProperty Name="DoulbeRoomPrice" ColumnName="DoulbeRoomPrice" />
+                <ScalarProperty Name="SingleRoomPrice" ColumnName="SingleRoomPrice" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Hotel_Reservation">
+            <EntityTypeMapping TypeName="Model.Hotel_Reservation">
+              <MappingFragment StoreEntitySet="Hotel_Reservation">
+                <ScalarProperty Name="RoomType" ColumnName="RoomType" />
+                <ScalarProperty Name="ID_Package" ColumnName="ID_Package" />
+                <ScalarProperty Name="IsPaid" ColumnName="IsPaid" />
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="MembersHotelReservation" TypeName="Model.MembersHotelReservation" StoreEntitySet="MembersHotelReservation">
+            <EndProperty Name="Member">
+              <ScalarProperty Name="Id" ColumnName="ID_Member" />
+            </EndProperty>
+            <EndProperty Name="Hotel_Reservation">
+              <ScalarProperty Name="Id" ColumnName="ID_Hotel_Reservation" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="Tours">
+            <EntityTypeMapping TypeName="Model.Tour">
+              <MappingFragment StoreEntitySet="Tour">
+                <ScalarProperty Name="TourDate" ColumnName="TourDate" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Course" ColumnName="Course" />
+                <ScalarProperty Name="Province" ColumnName="Province" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tour_Package">
+            <EntityTypeMapping TypeName="Model.Tour_Package">
+              <MappingFragment StoreEntitySet="Tour_Package">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+                <ScalarProperty Name="ID_Tour" ColumnName="ID_Tour" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tour_Price">
+            <EntityTypeMapping TypeName="Model.Tour_Price">
+              <MappingFragment StoreEntitySet="Tour_Price">
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="ID_Tour" ColumnName="ID_Tour" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tour_Reservation">
+            <EntityTypeMapping TypeName="Model.Tour_Reservation">
+              <MappingFragment StoreEntitySet="Tour_Reservation">
+                <ScalarProperty Name="PeopleNumber" ColumnName="PeopleNumber" />
+                <ScalarProperty Name="ID_Package" ColumnName="ID_Package" />
+                <ScalarProperty Name="IsPaid" ColumnName="IsPaid" />
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="MemberTourReservation" TypeName="Model.MemberTourReservation" StoreEntitySet="MemberTourReservation">
+            <EndProperty Name="Tour_Reservation">
+              <ScalarProperty Name="Id" ColumnName="ID_Tour_Reservation" />
+            </EndProperty>
+            <EndProperty Name="Member">
+              <ScalarProperty Name="Id" ColumnName="ID_Member" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="Admins">
+            <EntityTypeMapping TypeName="Model.Admin">
+              <MappingFragment StoreEntitySet="Admin">
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

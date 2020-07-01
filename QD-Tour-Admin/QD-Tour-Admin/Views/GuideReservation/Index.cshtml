@@ -1,0 +1,299 @@
+﻿@model IEnumerable<QD_Tour_Admin.Controllers.GuideReservationModel>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="/vendors/jquery/dist/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {       
+        $.ajax({
+            url: '/Guide/GetAllGuides',
+            type: 'GET',
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                $("#input-edit-guide").append($("<option/>").text("请选择...").attr("value", "choose"));
+                $.each(data, function (i, item) {
+                    $("#input-edit-guide").append($("<option/>").text(item.Name).attr("value", item.Id));
+                });
+            }
+        });
+    });
+</script>
+<div class="content mt-3">
+    <div class="animated fadeIn">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <strong class="card-title">Data Table</strong>
+                    </div>
+                    <div class="card-body">
+                        <table id="bootstrap-data-table-export" class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="display:none">Id</th>
+                                    <th>照片</th>
+                                    <th>旅游地区</th>
+                                    <th>邮箱</th>
+                                    <th>姓名</th>
+                                    <th>联系电话</th>
+                                    <th>开始时间</th>
+                                    <th>结束时间</th>
+                                    <th>总人数</th>
+                                    <th>总价</th>
+                                    <th>是否付费</th>
+                                    <th>导游是否安排</th>
+                                    <th>编辑/删除</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var guideReservation in Model)
+                                {
+                                    <tr>
+                                        <td style="display:none">@guideReservation.GuideReservations.Id</td>
+                                        <td style="width:15%"><img src="@guideReservation.GuidePackages.Photo" style="width:100%; height:100px" /></td>
+                                        <td>@guideReservation.GuidePackages.Destination</td>
+                                        <td>@guideReservation.Member.Email</td>
+                                        <td>@guideReservation.Member.Name</td>
+                                        <td>@guideReservation.Member.Phone</td>
+                                        <td>@guideReservation.GuideReservations.Start_Time.ToString("yyyy-MM-dd")</td>
+                                        <td>@guideReservation.GuideReservations.End_Time.ToString("yyyy-MM-dd")</td>
+                                        <td>@guideReservation.GuideReservations.People_Number</td>
+                                        <td>@guideReservation.GuideReservations.TotalPrice</td>
+                                        @if (guideReservation.GuideReservations.IsPaid == 0)
+                                        {
+                                            <td style="color:red;">否 </td>
+                                        }
+                                        else
+                                        {
+                                            <td>是 </td>
+                                        }
+                                        @if (string.IsNullOrEmpty(guideReservation.GuideReservations.ID_Guide))
+                                        {
+                                            <td style="color:red;"> 否 </td >
+                                        }
+                                        else
+                                        {
+                                            <td> 是 </td >
+                                        }
+                                        <td>
+                                            <button type="submit" class="btn btn-primary btn-default" data-target="#editModel" data-toggle="modal" onclick="getGuideReservation('@guideReservation.GuideReservations.Id')">编辑</button>
+                                            <button type="submit" class="btn btn-danger btn-default" onclick="deleteGuideReservation('@guideReservation.GuideReservations.Id', '@guideReservation.Member.Id')">删除</button>
+                                        </td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div><!-- .animated -->
+</div><!-- .content -->
+
+<div class="modal fade" id="editModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">编辑导游预约</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" onclick="close()">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">姓名</span>
+                    </div>
+                    <input type="text" id="input-edit-name" class="form-control" aria-label="Destination" aria-describedby="inputGroup-sizing-default" disabled>
+                    <span style="display:none" id="input-edit-id"></span>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">地区</span>
+                    </div>
+                    <input type="text" id="input-edit-destination" class="form-control" aria-label="Destination" aria-describedby="inputGroup-sizing-default" disabled>
+                    <span style="display:none" id="input-edit-id"></span>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">开始时间</span>
+                    </div>
+                    <input type="text" id="input-edit-start-date" class="form-control" aria-label="StartDate" aria-describedby="inputGroup-sizing-default" disabled>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">结束时间</span>
+                    </div>
+                    <input type="text" id="input-edit-end-date" class="form-control" aria-label="EndDate" aria-describedby="inputGroup-sizing-default" disabled>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">预约人数</span>
+                    </div>
+                    <input type="number" min="0" id="input-edit-number-of-people" class="form-control" aria-label="Destination" aria-describedby="inputGroup-sizing-default">
+                    <span style="display:none" id="input-edit-id"></span>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">总价</span>
+                    </div>
+                    <input type="text" id="input-edit-total-price" class="form-control" aria-label="Amount (to the nearest dollar)">
+                    <div class="input-group-append">
+                        <span class="input-group-text">.00</span>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">是否付费</span>
+                    </div>
+                    <select class="form-control" id="input-edit-paid">
+                        <option value="1">是</option>
+                        <option value="0">否</option>
+                    </select>
+
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">导游安排</span>
+                    </div>
+                    <select class="form-control" id="input-edit-guide">
+                        
+                    </select>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">图片 </span>
+                    </div>
+
+                    <div class="border rounded-lg text-center p-3">
+                        <img src="" class="img-fluid" id="edit-preview" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="updateGuideReservation()">更新</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function updateGuideReservation() {
+        var Id = $('#input-edit-id').val();
+        var numberOfPeople = $('#input-edit-number-of-people').val();
+        var totalPrice = $('#input-edit-total-price').val();
+        var isPaid = $("#input-edit-paid").find("option:selected").val();
+        var guideId = $('#input-edit-guide').find("option:selected").val();
+
+        var data = {
+            Id: Id,
+            People_Number: numberOfPeople,
+            TotalPrice: totalPrice,
+            IsPaid: isPaid,
+            ID_Guide: guideId
+        };
+
+        $.ajax({
+            url: '/GuideReservation/Update',
+            type: 'POST',
+            data: JSON.stringify(data),
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                console.log(data);
+                if (data == "更新成功") {
+                    window.location.reload();
+                }
+
+            },
+            error: function (data) {
+                console.log(data);
+                if (data.responseText == "添加成功") {
+                    window.location.reload();
+                }
+            }
+        });
+    };
+
+    function deleteGuideReservation(guideReservationId, memberId) {
+        $.ajax({
+            url: '/GuideReservation/Delete',
+            type: 'POST',
+            data: JSON.stringify({ guideReservationId: guideReservationId, memberId:memberId }),
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                console.log(data);
+                if (data == "删除成功") {
+                    window.location.reload();
+                } else if (data == "已有预约") {
+                    alert("已有预约，无法删除");
+                }
+
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+    }
+
+    function getGuideReservation(id) {
+        $("#input-edit-guide option").attr("selected", false);
+        $.ajax({
+            url: '/GuideReservation/Details',
+            type: "GET",
+            data: { Id: id },
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                console.log(data[0].guideId);
+                $('#input-edit-id').val(data[0].guideReservationId);
+                $('#input-edit-name').val(data[0].memberName);
+                $('#input-edit-destination').val(data[0].destination);
+                $('#input-edit-start-date').val(new Date(getDateFromAspNetFormat(data[0].startTime)).format("yyyy-MM-dd"));
+                $('#input-edit-end-date').val(new Date(getDateFromAspNetFormat(data[0].endTime)).format("yyyy-MM-dd"));
+                $('#input-edit-number-of-people').val(data[0].numberOfPeople);
+                $('#input-edit-total-price').val(data[0].totalPrice);
+                $('#edit-preview').attr('src', "http://localhost:59442" + data[0].Photo).fadeIn('slow');
+                $('#input-edit-paid').val(data[0].isPaid);
+                if (data[0].guideId != null) {
+                    $("#input-edit-guide option[value='"+data[0].guideId+"']").attr("selected", true);
+                } else {
+                    $("#input-edit-guide option[value='choose']").attr("selected", true);
+                }
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+    };
+
+    function getDateFromAspNetFormat(date) {
+        const re = /-?\d+/;
+        const m = re.exec(date);
+        return parseInt(m[0], 10);
+    }
+
+    Date.prototype.format = function (format) {
+        var date = {
+            "M+": this.getMonth() + 1,
+            "d+": this.getDate(),
+            "h+": this.getHours(),
+            "m+": this.getMinutes(),
+            "s+": this.getSeconds(),
+            "q+": Math.floor((this.getMonth() + 3) / 3),
+            "S": this.getMilliseconds()
+        };
+        if (/(y+)/i.test(format)) {
+            format = format.replace(RegExp.$1, (this.getFullYear() + '').substr(4 - RegExp.$1.length));
+        }
+        for (var k in date) {
+            if (new RegExp("(" + k + ")").test(format)) {
+                format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? date[k] : ("00" + date[k]).substr(("" + date[k]).length));
+            }
+        }
+        return format;
+    };
+</script>

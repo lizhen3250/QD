@@ -1,0 +1,394 @@
+﻿@model IEnumerable<QD_Tour_Admin.Model.Vehicle_Package>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="/vendors/jquery/dist/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#input-photo').on('change', function () {
+            ////get the file name
+            var fileName = $(this).val().split('\\').pop();
+            ////replace the "Choose a file" label
+            $(this).next('.custom-file-label').html(fileName);
+
+            var input = $(this)[0];
+            //console.log(input.files[0]);
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#preview').attr('src', e.target.result).fadeIn('slow');
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        });
+
+        $('#input-edit-photo').on('change', function () {
+            ////get the file name
+            var fileName = $(this).val().split('\\').pop();
+            ////replace the "Choose a file" label
+            $(this).next('.custom-file-label').html(fileName);
+
+            var input = $(this)[0];
+            //console.log(input.files[0]);
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#edit-preview').attr('src', e.target.result).fadeIn('slow');
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        });
+    });
+</script>
+
+<div class="content mt-3">
+    <div class="animated fadeIn">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <strong class="card-title">车辆页面管理 <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModel" style="float:right">添 加 页 面</button></strong>
+                    </div>
+                    <div class="card-body">
+                        <table id="bootstrap-data-table-export" class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="display:none">Id</th>
+                                    <th>照片</th>
+                                    <th>种类</th>
+                                    <th>地区</th>
+                                    <th>价格</th>
+                                    <th>编辑 / 删除</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var vehiclePackage in Model)
+                                {
+                                    <tr>
+                                        <td style="display:none">@vehiclePackage.Id</td>
+                                        <td style="width:15%"><img src="@vehiclePackage.Photo" style="width:100%; height:100px" /></td>
+                                        <td>@vehiclePackage.Type</td>
+                                        <td>@vehiclePackage.Area</td>
+                                        <td>@vehiclePackage.Price</td>
+                                        <td>
+                                            <button type="button" class="btn btn-primary btn-default" onclick="editVehiclePackage('@vehiclePackage.Id')" data-toggle="modal" data-target="#editModel">编辑</button>
+                                            <button type="button" class="btn btn-danger btn-default" onclick="deleteVehiclePackage('@vehiclePackage.Id')">删除</button>
+                                        </td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div><!-- .animated -->
+</div><!-- .content -->
+
+<div class="modal fade" id="addModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">添加车辆页面</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">种类</span>
+                    </div>
+                    <select class="form-control" id="input-type">
+                        <option value="7人坐">7人坐</option>
+                        <option value="15人坐">15人坐</option>
+                        <option value="22人坐">22人坐</option>
+                        <option value="33人坐">33人坐</option>
+                        <option value="37人坐">37人坐</option>
+                        <option value="45人坐">45人坐</option>
+                        <option value="51人坐">51人坐</option>
+                    </select>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">地区</span>
+                    </div>
+                    <input type="text" id="input-area" class="form-control" aria-label="Destination" aria-describedby="inputGroup-sizing-default" value="市内" disabled>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">价格/天</span>
+                    </div>
+                    <input type="text" id="input-price" class="form-control" aria-label="Amount (to the nearest dollar)">
+                    <div class="input-group-append">
+                        <span class="input-group-text">.00</span>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">图片 </span>
+                    </div>
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="input-photo">
+                        <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                    </div>
+
+                    <div class="border rounded-lg text-center p-3">
+                        <img src="" class="img-fluid" id="preview" />
+                    </div>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">描述</span>
+                    </div>
+                    <textarea class="form-control" id="input-description" aria-label="With textarea"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="addVehiclePackage()">添加</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">编辑车辆页面</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">种类</span>
+                    </div>
+                    <select class="form-control" id="input-edit-type">
+                        <option value="7人坐">7人坐</option>
+                        <option value="15人坐">15人坐</option>
+                        <option value="22人坐">22人坐</option>
+                        <option value="33人坐">33人坐</option>
+                        <option value="37人坐">37人坐</option>
+                        <option value="45人坐">45人坐</option>
+                        <option value="51人坐">51人坐</option>
+                    </select>
+                    <span style="display:none" id="input-edit-id"></span>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">地区</span>
+                    </div>
+                    <input type="text" id="input-edit-area" class="form-control" aria-label="Destination" aria-describedby="inputGroup-sizing-default">
+                    <span style="display:none" id="input-edit-id"></span>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">价格/天</span>
+                    </div>
+                    <input type="text" id="input-edit-price" class="form-control" aria-label="Amount (to the nearest dollar)">
+                    <div class="input-group-append">
+                        <span class="input-group-text">.00</span>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">图片 </span>
+                    </div>
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="input-edit-photo">
+                        <label class="custom-file-label" for="inputGroupFile01" id="edit-label"></label>
+                    </div>
+
+                    <div class="border rounded-lg text-center p-3">
+                        <img src="" class="img-fluid" id="edit-preview" />
+                    </div>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">描述</span>
+                    </div>
+                    <textarea class="form-control" id="input-edit-description" aria-label="With textarea"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="updateVehiclePackage()">更新</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function addVehiclePackage() {
+        var type = $("#input-type").find("option:selected").val();
+        var price = $('#input-price').val();
+        var area = $('#input-area').val();
+        var p = $('#input-photo')[0];
+        var photo = p.files[0];
+        var description = $('#input-description').val();
+
+        if (area === "" || price === "" || photo === "" || description === "" || area === "") {
+            alert("必须全部填写！！");
+            return;
+        }
+
+        if (window.FormData !== undefined) {
+
+            var fileUpload = $("#input-photo").get(0);
+            var files = fileUpload.files;
+
+            // Create FormData object  
+            var fileData = new FormData();
+
+            // Looping over all files and add it to FormData object  
+            for (var i = 0; i < files.length; i++) {
+                fileData.append(files[i].name, files[i]);
+            }
+
+            // Adding one more key to FormData object  
+            fileData.append('area', area);
+            fileData.append('photo', photo)
+            fileData.append('description', description)
+            fileData.append('price', price)
+            fileData.append('type', type);
+
+            console.log(fileData);
+
+            $.ajax({
+                url: '/VehiclePage/Add',
+                type: "POST",
+                contentType: false, // Not to set any content header  
+                processData: false, // Not to process data  
+                data: fileData,
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data);
+                    if (data.responseText == "添加成功") {
+                        window.location.reload();
+                    }
+
+                },
+                error: function (data) {
+                    console.log(data);
+                    if (data.responseText == "添加成功") {
+                        window.location.reload();
+                    }
+                }
+            });
+        } else {
+            alert("FormData is not supported.");
+        }
+    }
+
+    function editVehiclePackage(id) {
+        $.ajax({
+            url: '/VehiclePage/Edit',
+            type: "GET",
+            data: { Id: id },
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                $('#input-edit-id').val(data[0].Id);
+                $('#input-edit-area').val(data[0].Area);
+                $('#input-edit-price').val(data[0].Price);
+                $('#edit-label').html(data[0].Photo.split("/").pop());
+                $('#input-edit-description').val(data[0].Description);
+                $('#edit-preview').attr('src', "http://localhost:59442" + data[0].Photo).fadeIn('slow');
+                $('#input-edit-type').find('option[value="' + data[0].Type + '"]').attr('selected', 'selected');
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+    }
+
+    function updateVehiclePackage() {
+        var id = $('#input-edit-id').val();
+        var area = $('#input-edit-area').val();
+        var price = $('#input-edit-price').val();
+        var photoName = $('#edit-label').html();
+        var description = $('#input-edit-description').val();
+        var type = $('#input-edit-type').val();
+        var p = $('#input-edit-photo')[0];
+        var photo = p.files[0];
+
+
+        if (window.FormData !== undefined) {
+
+            var fileUpload = $("#input-edit-photo").get(0);
+            var files = fileUpload.files;
+
+            // Create FormData object  
+            var fileData = new FormData();
+
+            if (files.length == 0) {
+                fileData.append('photo', photoName);
+            } else {
+                // Looping over all files and add it to FormData object  
+                for (var i = 0; i < files.length; i++) {
+                    fileData.append(files[i].name, files[i]);
+                }
+            }
+
+            // Adding one more key to FormData object  
+            fileData.append('id', id);
+            fileData.append('area', area);
+            //fileData.append('photo', photoName);
+            fileData.append('description', description);
+            fileData.append('price', price);
+            fileData.append('type', type);
+
+            console.log(fileData);
+
+            $.ajax({
+                url: '/VehiclePage/Update',
+                type: "POST",
+                contentType: false, // Not to set any content header  
+                processData: false, // Not to process data  
+                data: fileData,
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data);
+                    if (data.responseText == "更新成功" && data.statusText == "OK") {
+                        window.location.reload();
+                    }
+
+                },
+                error: function (data) {
+                    console.log(data);
+                    if (data.responseText == "更新成功" && data.statusText == "OK") {
+                        window.location.reload();
+                    }
+                }
+            });
+        } else {
+            alert("FormData is not supported.");
+        }
+    }
+
+    function deleteVehiclePackage(id) {
+        $.ajax({
+            url: '/VehiclePage/Delete',
+            type: 'POST',
+            data: JSON.stringify({ Id: id }),
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                console.log(data);
+                if (data == "删除成功") {
+                    window.location.reload();
+                } else if (data == "已有预约") {
+                    alert("已有预约，无法删除");
+                }
+
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+    }
+</script>

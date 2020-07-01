@@ -1,0 +1,140 @@
+﻿@model List<QD_Tour_Admin.Model.Guide>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="/vendors/jquery/dist/jquery.min.js"></script>
+<div class="content mt-3">
+    <div class="animated fadeIn">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <strong class="card-title">导游管理 <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModel" style="float:right">添 加 导 游</button></strong>
+                    </div>
+                    <div class="card-body">
+                        <table id="bootstrap-data-table-export" class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="display:none">Id</th>
+                                    <th>姓名</th>
+                                    <th>入职时间</th>
+                                    @*<th>薪资</th>*@
+                                    @*<th>预约详情</th>*@
+                                    <th>删除</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var guide in Model)
+                                {
+                                    <tr>
+                                        <td style="display:none">@guide.Id</td>
+                                        <td>@guide.Name</td>
+                                        <td>@guide.StartTime.ToString()</td>
+                                        @*<td>@guide.TotalEarnPrice</td>*@
+                                        @*<td><a href="/Guide/Details/@guide.Id" class="btn btn-primary">预约详情</a></td>*@                                        
+                                        <td>
+                                            <button type="submit" class="btn btn-danger btn-default" onclick="deleteGuide('@guide.Id')">删除</button>
+                                        </td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div><!-- .animated -->
+</div><!-- .content -->
+
+<div class="modal fade" id="addModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">添加导游信息</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">姓名</span>
+                    </div>
+                    <input type="text" id="input-name" class="form-control" aria-label="name" aria-describedby="inputGroup-sizing-default">
+                </div>               
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="addGuide()">添加</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showReservationDetails(guideId) {
+        $.ajax({
+            url: '/Guide/GetReservationDetails',
+            type: "GET",
+            data: { guideId: guideId },
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                console.log(data);
+                if (data.length == 0) {
+                    alert("该导游暂时没有预约")
+                } else {
+
+                }
+                
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+    }
+
+    function deleteGuide(guideId) {
+        $.ajax({
+            url: '/Guide/Delete',
+            type: 'POST',
+            data: JSON.stringify({ guideId: guideId }),
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                console.log(data);
+                if (data == "删除成功") {
+                    window.location.reload();
+                } else if (data == "已有预约") {
+                    alert("已有预约，无法删除");
+                }
+
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+    }
+
+    function addGuide() {
+        var name = $('#input-name').val();
+        $.ajax({
+            url: '/Guide/Add',
+            type: "POST",
+            data: JSON.stringify({name: name}),
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                console.log(data);
+                if (data == "添加成功") {
+                    window.location.reload();
+                }
+            },
+            error: function (data) {
+                console.log(data);
+                if (data.responseText == "添加成功") {
+                    window.location.reload();
+                }
+            }
+        });
+    }
+</script>
