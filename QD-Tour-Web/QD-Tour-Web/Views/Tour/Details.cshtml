@@ -13,6 +13,7 @@
 <script src="~/Scripts/calendar-pro.js"></script>
 <hr />
 <script>
+    var calendarData = [];
     $(document).ready(function () {
         var currentUrl = window.location.href;
         var Id = currentUrl.split("/").pop();
@@ -39,6 +40,7 @@
             contentType: 'application/json; charset=utf-8',
             success: function (data) {
                 console.log(data);
+                calendarData = data;
                 for (var i = 0; i < data.length; i++) {
                     calendarPrice.data.push({ "data": data[i].Price, "date": ChangeDateFormat(data[i].Date) });
                 }
@@ -87,7 +89,7 @@
             </div>
             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                 <p style="display:none" id="package-id">@Model.Id</p>
-                <p><h2 id="input-country">@Model.Tour.Course @(Model.Tour.TourDate - 1)夜<span id="days">@(Model.Tour.TourDate)</span>日</h2></p>
+                <p><h2 id="input-country">@Model.Tour.Course @(Model.Tour.TourDate - 1)晚<span id="days">@(Model.Tour.TourDate)</span>天</h2></p>
                 <p>。。。。</p>
                 <p><a href="#" class="travel-booking-btn hvr-shutter-out-horizontal" data-toggle="collapse" data-target="#collapseRserve">预约</a>                </p>
                 <div class="collapse" role="document" id="collapseRserve">
@@ -127,6 +129,55 @@
 </div>
 
 <script>
+
+    function addDate(date, days) {
+
+        if (days == undefined || days == '') {
+
+            days = 1;
+
+        }
+
+        var date = new Date(date);
+
+        date.setDate(date.getDate() + days);
+
+        var month = date.getMonth() + 1;
+
+        var day = date.getDate();
+
+        var hours = date.getHours();
+
+        var minutes = date.getMinutes();
+
+        var mm = "'" + month + "'";
+
+        var dd = "'" + day + "'";
+
+
+
+        //单位数前面加0
+
+        if (mm.length == 3) {
+
+            month = "0" + month;
+
+        }
+
+        if (dd.length == 3) {
+
+            day = "0" + day;
+
+        }
+
+
+
+        var time = date.getFullYear() + "-" + month + "-" + day;
+
+        return time;
+
+    }
+
     function tourReserve() {
 
         if ($('#input-number-of-people').val() == null || $('#input-number-of-people').val() == '') {
@@ -138,6 +189,29 @@
 
         if (calendar.length == 0) {
             alert("请选择时间！");
+            return;
+        }
+
+        var now = new Date();
+        var seletedTime = new Date(calendar[0].date);
+        var futureTime = addDate(seletedTime, $('#days').text() - 1);
+
+        if (seletedTime <= now) {
+            alert("选择的时间必须大于今天！");
+            return;
+        }
+
+        var canReserve = false;
+        for (var i = 0; i < calendarData.length; i++) {
+            console.log(ChangeDateFormat(calendarData[i].Date) + "Future Time: " + futureTime);
+            if (ChangeDateFormat(calendarData[i].Date) == futureTime) {
+                canReserve = true;
+                break;
+            }
+        }
+
+        if (canReserve == false) {
+            alert(futureTime + "暂无法预约");
             return;
         }
 
