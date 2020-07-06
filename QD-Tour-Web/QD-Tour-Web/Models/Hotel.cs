@@ -27,6 +27,7 @@ namespace QD_Tour_Web.Models
         public string Name { get; set; }
         public string Address { get; set; }
         public string ContactNumber { get; set; }
+        public Nullable<int> DiamondNumber { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Hotel_Package> Hotel_Package { get; set; }

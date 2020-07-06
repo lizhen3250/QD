@@ -7,7 +7,6 @@
       <Diagram DiagramId="470788977d0a4a23a8039dad50044273" Name="Diagram1">
         <EntityTypeShape EntityType="Model.Guide" Width="1.5" PointX="0.75" PointY="2.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.Member" Width="1.5" PointX="3" PointY="3.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.sysdiagram" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
         <AssociationConnector Association="Model.FK_Member_Guide1" ManuallyRouted="false" />
         <EntityTypeShape EntityType="Model.Guide_Package" Width="1.5" PointX="3.75" PointY="8" />
         <EntityTypeShape EntityType="Model.Guide_Reservation" Width="1.5" PointX="6" PointY="3.625" />

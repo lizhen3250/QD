@@ -16,6 +16,8 @@ namespace QD_Tour_Admin.Controllers
         public string Address { get; set; }
         public string ContactNumber { get; set; }
 
+        public int DiamondNumber { get; set; }
+
     }
 
     public class HotelPriceModel
@@ -49,7 +51,9 @@ namespace QD_Tour_Admin.Controllers
                 Country = hotel.Country,
                 Address = hotel.Address,
                 ContactNumber = hotel.ContactNumber,
-                Area = hotel.Area
+                Area = hotel.Area,
+                DiamondNumber = hotel.DiamondNumber
+
             };
 
             db.Hotels.Add(newHotel);
@@ -71,6 +75,7 @@ namespace QD_Tour_Admin.Controllers
         [HttpGet]
         public JsonResult Edit(string Id)
         {
+            db.Configuration.ProxyCreationEnabled = false;
 
             var hotel = db.Hotels.Where(v => v.Id == Id).FirstOrDefault();
 
@@ -87,6 +92,7 @@ namespace QD_Tour_Admin.Controllers
             newHotel.Country = hotel.Country;
             newHotel.ContactNumber = hotel.ContactNumber;
             newHotel.Area = hotel.Area;
+            newHotel.DiamondNumber = hotel.DiamondNumber;
 
             db.Entry(newHotel).State = System.Data.Entity.EntityState.Modified;
 

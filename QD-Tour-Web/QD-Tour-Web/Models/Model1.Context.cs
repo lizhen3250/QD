@@ -27,7 +27,6 @@ namespace QD_Tour_Web.Models
     
         public virtual DbSet<Guide> Guides { get; set; }
         public virtual DbSet<Member> Members { get; set; }
-        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<Guide_Package> Guide_Package { get; set; }
         public virtual DbSet<Guide_Reservation> Guide_Reservation { get; set; }
         public virtual DbSet<Vehicle> Vehicles { get; set; }
@@ -41,5 +40,6 @@ namespace QD_Tour_Web.Models
         public virtual DbSet<Tour_Package> Tour_Package { get; set; }
         public virtual DbSet<Tour_Price> Tour_Price { get; set; }
         public virtual DbSet<Tour_Reservation> Tour_Reservation { get; set; }
+        public virtual DbSet<Admin> Admins { get; set; }
     }
 }

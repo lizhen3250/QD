@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\zhenli3\Desktop\QD-Tour-Web\QD-Tour-Web\QD-Tour-Web\Models\Model1.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\Dell\Desktop\青岛华康旅行社\QD\QD-Tour-Web\QD-Tour-Web\Models\Model1.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

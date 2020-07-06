@@ -27,7 +27,6 @@ namespace QD_Tour_Admin.Model
     
         public virtual DbSet<Guide> Guides { get; set; }
         public virtual DbSet<Member> Members { get; set; }
-        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<Guide_Package> Guide_Package { get; set; }
         public virtual DbSet<Guide_Reservation> Guide_Reservation { get; set; }
         public virtual DbSet<Vehicle> Vehicles { get; set; }

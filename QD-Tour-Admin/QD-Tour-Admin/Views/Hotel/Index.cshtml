@@ -95,6 +95,12 @@
                     </div>
                     <input type="text" id="input-phone" class="form-control" aria-label="Phone" aria-describedby="inputGroup-sizing-default">
                 </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">酒店星号</span>
+                    </div>
+                    <input type="number" id="input-diamond" class="form-control" aria-label="Diamond" aria-describedby="inputGroup-sizing-default" min="1" max="5">
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
@@ -145,6 +151,12 @@
                     </div>
                     <input type="text" id="input-edit-phone" class="form-control" aria-label="Country" aria-describedby="inputGroup-sizing-default">
                 </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">酒店星号</span>
+                    </div>
+                    <input type="number" id="input-edit-diamond" class="form-control" aria-label="Diamond" aria-describedby="inputGroup-sizing-default" min="1" max="5">
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
@@ -160,13 +172,15 @@
         var name = $('#input-name').val();
         var address = $('#input-address').val();
         var phone = $('#input-phone').val();
+        var diamondNumber = $('#input-diamond').val();
 
         var hotelModel = {
             Country: country,
             Area: area,
             Name: name,
             Address: address,
-            ContactNumber: phone
+            ContactNumber: phone,
+            DiamondNumber: diamondNumber
         };
 
         $.ajax({
@@ -203,6 +217,7 @@
                 $('#input-edit-name').val(data.Name);
                 $('#input-edit-address').val(data.Address);
                 $('#input-edit-phone').val(data.ContactNumber);
+                $('#input-edit-diamond').val(data.DiamondNumber);
             },
             error: function (err) {
                 console.log(err);
@@ -217,6 +232,7 @@
         var name = $('#input-edit-name').val();
         var address = $('#input-edit-address').val();
         var phone = $('#input-edit-phone').val();
+        var diamond = $('#input-edit-diamond').val();
 
         var inputData = {
             Id: id,
@@ -224,7 +240,8 @@
             Country: country,
             Name: name,
             Address: address,
-            ContactNumber: phone
+            ContactNumber: phone,
+            DiamondNumber: diamond
         };
 
         console.log(inputData);

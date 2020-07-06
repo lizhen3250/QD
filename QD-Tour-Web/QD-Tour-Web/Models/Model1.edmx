@@ -5,6 +5,13 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Admin">
+          <Key>
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="Guide">
           <Key>
             <PropertyRef Name="Id" />
@@ -50,6 +57,7 @@
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Address" Type="nvarchar" MaxLength="50" />
           <Property Name="ContactNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="DiamondNumber" Type="int" />
         </EntityType>
         <EntityType Name="Hotel_Package">
           <Key>
@@ -134,16 +142,6 @@
           </Key>
           <Property Name="ID_Member" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="ID_Vehicle_Reservation" Type="nvarchar" MaxLength="50" Nullable="false" />
-        </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="principal_id" Type="int" Nullable="false" />
-          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="version" Type="int" />
-          <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="Tour">
           <Key>
@@ -437,6 +435,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="Admin" EntityType="Self.Admin" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Guide" EntityType="Self.Guide" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Guide_Package" EntityType="Self.Guide_Package" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Guide_Reservation" EntityType="Self.Guide_Reservation" Schema="dbo" store:Type="Tables" />
@@ -449,7 +448,6 @@
           <EntitySet Name="MembersHotelReservation" EntityType="Self.MembersHotelReservation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MemberTourReservation" EntityType="Self.MemberTourReservation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MemberVehicleReservation" EntityType="Self.MemberVehicleReservation" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tour" EntityType="Self.Tour" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tour_Package" EntityType="Self.Tour_Package" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tour_Price" EntityType="Self.Tour_Price" Schema="dbo" store:Type="Tables" />
@@ -565,16 +563,6 @@
           <NavigationProperty Name="Hotel_Reservation" Relationship="Model.MembersHotelReservation" FromRole="Member" ToRole="Hotel_Reservation" />
           <NavigationProperty Name="Tour_Reservation" Relationship="Model.MemberTourReservation" FromRole="Member" ToRole="Tour_Reservation" />
         </EntityType>
-        <EntityType Name="sysdiagram">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
-        </EntityType>
         <Association Name="FK_Member_Guide1">
           <End Role="Guide" Type="Self.Guide" Multiplicity="0..1" />
           <End Role="Member" Type="Self.Member" Multiplicity="*" />
@@ -590,7 +578,6 @@
         <EntityContainer Name="QDTourWebEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Guides" EntityType="Self.Guide" />
           <EntitySet Name="Members" EntityType="Self.Member" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <AssociationSet Name="FK_Member_Guide1" Association="Self.FK_Member_Guide1">
             <End Role="Guide" EntitySet="Guides" />
             <End Role="Member" EntitySet="Members" />
@@ -664,6 +651,7 @@
             <End Role="Member" EntitySet="Members" />
             <End Role="Tour_Reservation" EntitySet="Tour_Reservation" />
           </AssociationSet>
+          <EntitySet Name="Admins" EntityType="Model.Admin" />
         </EntityContainer>
         <EntityType Name="Guide_Package">
           <Key>
@@ -802,6 +790,7 @@
           <Property Name="ContactNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Hotel_Package" Relationship="Model.FK_Hotel_Package_Hotel" FromRole="Hotel" ToRole="Hotel_Package" />
           <NavigationProperty Name="Hotel_Price" Relationship="Model.FK_Hotel_Price_Hotel" FromRole="Hotel" ToRole="Hotel_Price" />
+          <Property Name="DiamondNumber" Type="Int32" />
         </EntityType>
         <EntityType Name="Hotel_Package">
           <Key>
@@ -973,6 +962,13 @@
           <End Type="Model.Member" Role="Member" Multiplicity="*" />
           <End Type="Model.Tour_Reservation" Role="Tour_Reservation" Multiplicity="*" />
         </Association>
+        <EntityType Name="Admin">
+          <Key>
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1002,17 +998,6 @@
                 <ScalarProperty Name="Birth" ColumnName="Birth" />
                 <ScalarProperty Name="GuideId" ColumnName="GuideId" />
                 <ScalarProperty Name="Varification" ColumnName="Varification" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="Model.sysdiagram">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="definition" ColumnName="definition" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1100,6 +1085,7 @@
           <EntitySetMapping Name="Hotels">
             <EntityTypeMapping TypeName="Model.Hotel">
               <MappingFragment StoreEntitySet="Hotel">
+                <ScalarProperty Name="DiamondNumber" ColumnName="DiamondNumber" />
                 <ScalarProperty Name="ContactNumber" ColumnName="ContactNumber" />
                 <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -1210,6 +1196,14 @@
               <ScalarProperty Name="Id" ColumnName="ID_Member" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="Admins">
+            <EntityTypeMapping TypeName="Model.Admin">
+              <MappingFragment StoreEntitySet="Admin">
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

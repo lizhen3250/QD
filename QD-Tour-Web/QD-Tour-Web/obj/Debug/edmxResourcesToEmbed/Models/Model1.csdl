@@ -31,16 +31,6 @@
     <NavigationProperty Name="Hotel_Reservation" Relationship="Model.MembersHotelReservation" FromRole="Member" ToRole="Hotel_Reservation" />
     <NavigationProperty Name="Tour_Reservation" Relationship="Model.MemberTourReservation" FromRole="Member" ToRole="Tour_Reservation" />
   </EntityType>
-  <EntityType Name="sysdiagram">
-    <Key>
-      <PropertyRef Name="diagram_id" />
-    </Key>
-    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="principal_id" Type="Int32" Nullable="false" />
-    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="version" Type="Int32" />
-    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
-  </EntityType>
   <Association Name="FK_Member_Guide1">
     <End Role="Guide" Type="Self.Guide" Multiplicity="0..1" />
     <End Role="Member" Type="Self.Member" Multiplicity="*" />
@@ -56,7 +46,6 @@
   <EntityContainer Name="QDTourWebEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="Guides" EntityType="Self.Guide" />
     <EntitySet Name="Members" EntityType="Self.Member" />
-    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
     <AssociationSet Name="FK_Member_Guide1" Association="Self.FK_Member_Guide1">
       <End Role="Guide" EntitySet="Guides" />
       <End Role="Member" EntitySet="Members" />
@@ -130,6 +119,7 @@
       <End Role="Member" EntitySet="Members" />
       <End Role="Tour_Reservation" EntitySet="Tour_Reservation" />
     </AssociationSet>
+    <EntitySet Name="Admins" EntityType="Model.Admin" />
   </EntityContainer>
   <EntityType Name="Guide_Package">
     <Key>
@@ -268,6 +258,7 @@
     <Property Name="ContactNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="Hotel_Package" Relationship="Model.FK_Hotel_Package_Hotel" FromRole="Hotel" ToRole="Hotel_Package" />
     <NavigationProperty Name="Hotel_Price" Relationship="Model.FK_Hotel_Price_Hotel" FromRole="Hotel" ToRole="Hotel_Price" />
+    <Property Name="DiamondNumber" Type="Int32" />
   </EntityType>
   <EntityType Name="Hotel_Package">
     <Key>
@@ -439,4 +430,11 @@
     <End Type="Model.Member" Role="Member" Multiplicity="*" />
     <End Type="Model.Tour_Reservation" Role="Tour_Reservation" Multiplicity="*" />
   </Association>
+  <EntityType Name="Admin">
+    <Key>
+      <PropertyRef Name="Name" />
+    </Key>
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
 </Schema>
