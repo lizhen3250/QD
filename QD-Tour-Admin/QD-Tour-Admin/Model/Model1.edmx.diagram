@@ -36,6 +36,9 @@
         <AssociationConnector Association="Model.FK_Tour_Reservation_Tour_Package" />
         <AssociationConnector Association="Model.MemberTourReservation" />
         <EntityTypeShape EntityType="Model.Admin" Width="1.5" PointX="8.375" PointY="8.75" />
+        <EntityTypeShape EntityType="Model.sysdiagram" Width="1.5" PointX="3.375" PointY="0.75" />
+        <EntityTypeShape EntityType="Model.Hotel_Package_Image" Width="1.5" PointX="5.25" PointY="14.875" />
+        <AssociationConnector Association="Model.FK_Hotel_Package_Image_Hotel_Package" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

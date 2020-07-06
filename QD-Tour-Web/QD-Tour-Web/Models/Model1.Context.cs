@@ -41,5 +41,7 @@ namespace QD_Tour_Web.Models
         public virtual DbSet<Tour_Price> Tour_Price { get; set; }
         public virtual DbSet<Tour_Reservation> Tour_Reservation { get; set; }
         public virtual DbSet<Admin> Admins { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
+        public virtual DbSet<Hotel_Package_Image> Hotel_Package_Image { get; set; }
     }
 }

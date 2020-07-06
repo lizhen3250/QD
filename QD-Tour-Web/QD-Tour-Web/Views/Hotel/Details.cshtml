@@ -11,9 +11,17 @@
 <link href="~/Scripts/css/calendar-pro.css" rel="stylesheet" />
 <link href="~/Scripts/css/photo.css" rel="stylesheet" />
 <script src="~/Scripts/calendar-pro.js"></script>
+<script>
+    
+</script>
 <hr />
 <script>
     $(document).ready(function () {
+        $('.nav .nav-link').on("click", function () {
+            $('.nav').find(".active").removeClass("active");
+            $(this).parent().addClass("active");
+        });
+
         $('#room-select').change(function () {
             var roomSelected = $('#room-select').find("option:selected").val();
             if (roomSelected == "单人间") {
@@ -101,8 +109,8 @@
 
         function convert(str) {
             var date = new Date(str),
-              mnth = ("0" + (date.getMonth() + 1)).slice(-2),
-              day = ("0" + date.getDate()).slice(-2);
+                mnth = ("0" + (date.getMonth() + 1)).slice(-2),
+                day = ("0" + date.getDate()).slice(-2);
             return [date.getFullYear(), mnth, day].join("-");
         }
 
@@ -118,7 +126,7 @@
 <div class="section-paddings incredible-places">
     <div class="container">
         <div class="row">
-            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" data-target="#searchModel" data-toggle="modal">
                 <img src="http://localhost:59442/@Model.Photo" style="width:100%; border:1px solid #e8e8e8" />
             </div>
             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
@@ -127,38 +135,8 @@
                 <p style="font-size:20px; font:bold">酒店名: <span id="price">@Model.Hotel.Name </span></p>
                 <p style="font-size:20px; font:bold">地址: <span id="price">@Model.Hotel.Address </span></p>
                 <p style="font-size:20px; font:bold">联系电话: <span id="price">@Model.Hotel.ContactNumber </span></p>
-            </div>
-        </div>
-    </div>
-    <div id="myModal" class="modalPhoto">
-        <span class="close">&times;</span>
-        <img class="modal-content" id="img01">
-        <div id="caption"></div>
-    </div>
-    <div class="container" style="margin-top:5px">
-        <div class="row">
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                <img src="http://localhost:59442/@Model.SingRommPhoto" alt="싱글룸" style="width:100%; height:70px; border:1px solid #e8e8e8" id="single-photo" onclick="popupPhoto('single-photo')" />
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                <img src="http://localhost:59442/@Model.SingRommPhoto" alt="싱글룸" style="width:100%; height:70px; border:1px solid #e8e8e8" id="single-photo" onclick="popupPhoto('single-photo')" />
-            </div>
-            <div class="ol-lg-2 col-md-2 col-sm-2 col-xs-2">
-                <img src="http://localhost:59442/@Model.DoubleRoomPhoto" alt="따블룸" style="width:100%; height:70px; border:1px solid #e8e8e8" id="double-photo" onclick="popupPhoto('double-photo')" />
-            </div>
-            <div class="ol-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
-            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                 <p><button type="button" class="travel-booking-btn hvr-shutter-out-horizontal" data-toggle="modal" data-target="#addModel">预约</button></p>
             </div>
-        </div>
-    </div>
-</div>
-<hr />
-<div class="container">
-    <div class="row">
-        <div class="col-12 col-md-12 col-sm-12 col-xs-12">
-            <h3>详细内容</h3>
-            <p>@Model.Description</p>
         </div>
     </div>
 </div>
@@ -206,6 +184,70 @@
                     <button type="button" class="btn btn-primary" onclick="hotelReservation('@Model.Id')">预约</button>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="searchModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="height:100%;">
+        <div class="modal-content" style="height:80%;">
+            <div class="modal-header">
+                <span style="color:#007bff">酒店官方</span> <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <img id="modal-image" src="http://localhost:59442/@Model.Photo" style="width:100%; height:100%; border:1px solid #e8e8e8" />
+                    <br />
+                    <p id="modal-image-text" style="text-align:center; color:#007bff">外观</p>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#" onclick="">外观</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " href="#">大厅</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " href="#">早餐厅</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " href="#">单人间</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " href="#">双人间</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " href="#">其他</a>
+                        </li>
+                    </ul>
+                    <div class="row no-gutters">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                            <img src="http://localhost:59442/@Model.SingRommPhoto" alt="外观-1" class="img-thumbnail" style="width:100%; height:100%" onclick="showModalImage(this)"/>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                            <img src="http://localhost:59442/@Model.SingRommPhoto" alt="外观-2" class="img-thumbnail" style="width:100%; height:100%" onclick="showModalImage(this)"/>
+
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                            <img src="http://localhost:59442/@Model.DoubleRoomPhoto" alt="外观-3" class="img-thumbnail" style="width:100%; height:100%" onclick="showModalImage(this)"/>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr />
+
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-md-12 col-sm-12 col-xs-12">
+            <h3>详细内容</h3>
+            <p>@Model.Description</p>
         </div>
     </div>
 </div>
@@ -265,10 +307,8 @@
                     window.location.reload();
                 }
             }
-        });     
+        });
     }
-
-
 
     function popupPhoto(Id) {
         var modal = document.getElementById("myModal");
@@ -296,5 +336,13 @@
         var data = $('.calendar-box').calendarGetActive();
         console.log(data);
         alert(data.date + "--¥" + data.money);
+    }
+
+    function showModalImage(o) {
+        console.log(o);
+        console.log(o.alt);
+        console.log(o.src);
+        $('#modal-image-text').text(o.alt);
+        $('#modal-image').attr("src", o.src);
     }
 </script>

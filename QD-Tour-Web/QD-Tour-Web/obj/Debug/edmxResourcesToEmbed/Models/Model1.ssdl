@@ -68,6 +68,22 @@
     <Property Name="DoubleRoomPhoto" Type="nvarchar(max)" />
     <Property Name="OtherRoomPhoto" Type="nvarchar(max)" />
   </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'QD-TOUR.dbo.Hotel_Package_Image' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="Hotel_Package_Image">
+    <Key>
+      <PropertyRef Name="Id" />
+      <PropertyRef Name="Hotel_Package_Id" />
+      <PropertyRef Name="Type" />
+      <PropertyRef Name="ImageUrl" />
+      <PropertyRef Name="ImageName" />
+    </Key>
+    <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Hotel_Package_Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Type" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="ImageUrl" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ImageName" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
   <EntityType Name="Hotel_Price">
     <Key>
       <PropertyRef Name="Id" />
@@ -137,6 +153,16 @@
     </Key>
     <Property Name="ID_Member" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="ID_Vehicle_Reservation" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
   </EntityType>
   <EntityType Name="Tour">
     <Key>
@@ -246,6 +272,18 @@
       </Principal>
       <Dependent Role="Hotel_Package">
         <PropertyRef Name="ID_Hotel" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Hotel_Package_Image_Hotel_Package">
+    <End Role="Hotel_Package" Type="Self.Hotel_Package" Multiplicity="1" />
+    <End Role="Hotel_Package_Image" Type="Self.Hotel_Package_Image" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Hotel_Package">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Hotel_Package_Image">
+        <PropertyRef Name="Hotel_Package_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -443,6 +481,7 @@
     <EntitySet Name="MembersHotelReservation" EntityType="Self.MembersHotelReservation" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="MemberTourReservation" EntityType="Self.MemberTourReservation" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="MemberVehicleReservation" EntityType="Self.MemberVehicleReservation" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Tour" EntityType="Self.Tour" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Tour_Package" EntityType="Self.Tour_Package" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Tour_Price" EntityType="Self.Tour_Price" Schema="dbo" store:Type="Tables" />
@@ -450,6 +489,15 @@
     <EntitySet Name="Vehicle" EntityType="Self.Vehicle" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Vehicle_Package" EntityType="Self.Vehicle_Package" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Vehicle_Reservation" EntityType="Self.Vehicle_Reservation" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Hotel_Package_Image" EntityType="Self.Hotel_Package_Image" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [Hotel_Package_Image].[Id] AS [Id], 
+    [Hotel_Package_Image].[Hotel_Package_Id] AS [Hotel_Package_Id], 
+    [Hotel_Package_Image].[Type] AS [Type], 
+    [Hotel_Package_Image].[ImageUrl] AS [ImageUrl], 
+    [Hotel_Package_Image].[ImageName] AS [ImageName]
+    FROM [dbo].[Hotel_Package_Image] AS [Hotel_Package_Image]</DefiningQuery>
+    </EntitySet>
     <AssociationSet Name="FK_Guide_Reservation_Guide" Association="Self.FK_Guide_Reservation_Guide">
       <End Role="Guide" EntitySet="Guide" />
       <End Role="Guide_Reservation" EntitySet="Guide_Reservation" />
@@ -461,6 +509,10 @@
     <AssociationSet Name="FK_Hotel_Package_Hotel" Association="Self.FK_Hotel_Package_Hotel">
       <End Role="Hotel" EntitySet="Hotel" />
       <End Role="Hotel_Package" EntitySet="Hotel_Package" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Hotel_Package_Image_Hotel_Package" Association="Self.FK_Hotel_Package_Image_Hotel_Package">
+      <End Role="Hotel_Package" EntitySet="Hotel_Package" />
+      <End Role="Hotel_Package_Image" EntitySet="Hotel_Package_Image" />
     </AssociationSet>
     <AssociationSet Name="FK_Hotel_Price_Hotel" Association="Self.FK_Hotel_Price_Hotel">
       <End Role="Hotel" EntitySet="Hotel" />

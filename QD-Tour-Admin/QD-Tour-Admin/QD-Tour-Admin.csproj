@@ -217,6 +217,9 @@
     <Compile Include="Model\Hotel_Package.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\Hotel_Package_Image.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\Hotel_Price.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -240,6 +243,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Model1.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Model\sysdiagram.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Tour.cs">
       <DependentUpon>Model1.tt</DependentUpon>

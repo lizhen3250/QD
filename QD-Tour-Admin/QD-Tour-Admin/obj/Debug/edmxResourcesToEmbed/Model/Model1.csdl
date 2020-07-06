@@ -120,6 +120,12 @@
       <End Role="Tour_Reservation" EntitySet="Tour_Reservation" />
     </AssociationSet>
     <EntitySet Name="Admins" EntityType="Model.Admin" />
+    <EntitySet Name="sysdiagrams" EntityType="Model.sysdiagram" />
+    <EntitySet Name="Hotel_Package_Image" EntityType="Model.Hotel_Package_Image" />
+    <AssociationSet Name="FK_Hotel_Package_Image_Hotel_Package" Association="Model.FK_Hotel_Package_Image_Hotel_Package">
+      <End Role="Hotel_Package" EntitySet="Hotel_Package" />
+      <End Role="Hotel_Package_Image" EntitySet="Hotel_Package_Image" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Guide_Package">
     <Key>
@@ -275,6 +281,7 @@
     <Property Name="SingRommPhoto" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="DoubleRoomPhoto" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="OtherRoomPhoto" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Hotel_Package_Image" Relationship="Model.FK_Hotel_Package_Image_Hotel_Package" FromRole="Hotel_Package" ToRole="Hotel_Package_Image" />
   </EntityType>
   <EntityType Name="Hotel_Price">
     <Key>
@@ -437,4 +444,41 @@
     <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Hotel_Package_Image">
+    <Key>
+      <PropertyRef Name="Id" />
+      <PropertyRef Name="Hotel_Package_Id" />
+      <PropertyRef Name="Type" />
+      <PropertyRef Name="ImageUrl" />
+      <PropertyRef Name="ImageName" />
+    </Key>
+    <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Hotel_Package_Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Type" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ImageUrl" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ImageName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Hotel_Package" Relationship="Model.FK_Hotel_Package_Image_Hotel_Package" FromRole="Hotel_Package_Image" ToRole="Hotel_Package" />
+  </EntityType>
+  <Association Name="FK_Hotel_Package_Image_Hotel_Package">
+    <End Type="Model.Hotel_Package" Role="Hotel_Package" Multiplicity="1" />
+    <End Type="Model.Hotel_Package_Image" Role="Hotel_Package_Image" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Hotel_Package">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Hotel_Package_Image">
+        <PropertyRef Name="Hotel_Package_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

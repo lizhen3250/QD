@@ -18,6 +18,7 @@ namespace QD_Tour_Web.Models
         public Hotel_Package()
         {
             this.Hotel_Reservation = new HashSet<Hotel_Reservation>();
+            this.Hotel_Package_Image = new HashSet<Hotel_Package_Image>();
         }
     
         public string Id { get; set; }
@@ -33,5 +34,7 @@ namespace QD_Tour_Web.Models
         public virtual Hotel Hotel { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Hotel_Reservation> Hotel_Reservation { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Hotel_Package_Image> Hotel_Package_Image { get; set; }
     }
 }
