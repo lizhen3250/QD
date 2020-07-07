@@ -73,15 +73,9 @@
           <Property Name="DoubleRoomPhoto" Type="nvarchar(max)" />
           <Property Name="OtherRoomPhoto" Type="nvarchar(max)" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'QD-TOUR.dbo.Hotel_Package_Image' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Hotel_Package_Image">
           <Key>
             <PropertyRef Name="Id" />
-            <PropertyRef Name="Hotel_Package_Id" />
-            <PropertyRef Name="Type" />
-            <PropertyRef Name="ImageUrl" />
-            <PropertyRef Name="ImageName" />
           </Key>
           <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Hotel_Package_Id" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -479,6 +473,7 @@ warning 6002: The table/view 'QD-TOUR.dbo.Hotel_Package_Image' does not have a p
           <EntitySet Name="Guide_Reservation" EntityType="Self.Guide_Reservation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Hotel" EntityType="Self.Hotel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Hotel_Package" EntityType="Self.Hotel_Package" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Hotel_Package_Image" EntityType="Self.Hotel_Package_Image" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Hotel_Price" EntityType="Self.Hotel_Price" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Hotel_Reservation" EntityType="Self.Hotel_Reservation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Member" EntityType="Self.Member" Schema="dbo" store:Type="Tables" />
@@ -494,15 +489,6 @@ warning 6002: The table/view 'QD-TOUR.dbo.Hotel_Package_Image' does not have a p
           <EntitySet Name="Vehicle" EntityType="Self.Vehicle" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Vehicle_Package" EntityType="Self.Vehicle_Package" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Vehicle_Reservation" EntityType="Self.Vehicle_Reservation" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Hotel_Package_Image" EntityType="Self.Hotel_Package_Image" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [Hotel_Package_Image].[Id] AS [Id], 
-    [Hotel_Package_Image].[Hotel_Package_Id] AS [Hotel_Package_Id], 
-    [Hotel_Package_Image].[Type] AS [Type], 
-    [Hotel_Package_Image].[ImageUrl] AS [ImageUrl], 
-    [Hotel_Package_Image].[ImageName] AS [ImageName]
-    FROM [dbo].[Hotel_Package_Image] AS [Hotel_Package_Image]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK_Guide_Reservation_Guide" Association="Self.FK_Guide_Reservation_Guide">
             <End Role="Guide" EntitySet="Guide" />
             <End Role="Guide_Reservation" EntitySet="Guide_Reservation" />

@@ -25,54 +25,24 @@
                 reader.readAsDataURL(input.files[0]);
             }
         });
-        $('#input-single-photo').on('change', function () {
+
+        $('#input-add-photo').on('change', function () {
             ////get the file name
             var fileName = $(this).val().split('\\').pop();
             ////replace the "Choose a file" label
-            $('#single-label').html(fileName);
+            $(this).next('.custom-file-label').html(fileName);
 
             var input = $(this)[0];
             //console.log(input.files[0]);
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
                 reader.onload = function (e) {
-                    $('#preview-single').attr('src', e.target.result).fadeIn('slow');
+                    $('#add-photo-preview').attr('src', e.target.result).fadeIn('slow');
                 }
                 reader.readAsDataURL(input.files[0]);
             }
         });
-        $('#input-double-photo').on('change', function () {
-            ////get the file name
-            var fileName = $(this).val().split('\\').pop();
-            ////replace the "Choose a file" label
-            $('#double-label').html(fileName);
-
-            var input = $(this)[0];
-            //console.log(input.files[0]);
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $('#preview-double').attr('src', e.target.result).fadeIn('slow');
-                }
-                reader.readAsDataURL(input.files[0]);
-            }
-        });
-        $('#input-other-photo').on('change', function () {
-            ////get the file name
-            var fileName = $(this).val().split('\\').pop();
-            ////replace the "Choose a file" label
-            $('#other-label').html(fileName);
-
-            var input = $(this)[0];
-            //console.log(input.files[0]);
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $('#preview-other').attr('src', e.target.result).fadeIn('slow');
-                }
-                reader.readAsDataURL(input.files[0]);
-            }
-        });
+     
         $('#input-edit-photo').on('change', function () {
             ////get the file name
             var fileName = $(this).val().split('\\').pop();
@@ -89,54 +59,22 @@
                 reader.readAsDataURL(input.files[0]);
             }
         });
-        $('#input-edit-single-photo').on('change', function () {
-            ////get the file name
-            var fileName = $(this).val().split('\\').pop();
-            ////replace the "Choose a file" label
-            $(this).next('.custom-file-label').html(fileName);
+        //$('#input-edit-single-photo').on('change', function () {
+        //    ////get the file name
+        //    var fileName = $(this).val().split('\\').pop();
+        //    ////replace the "Choose a file" label
+        //    $(this).next('.custom-file-label').html(fileName);
 
-            var input = $(this)[0];
-            //console.log(input.files[0]);
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $('#edit-preview-single').attr('src', e.target.result).fadeIn('slow');
-                }
-                reader.readAsDataURL(input.files[0]);
-            }
-        });
-        $('#input-edit-double-photo').on('change', function () {
-            ////get the file name
-            var fileName = $(this).val().split('\\').pop();
-            ////replace the "Choose a file" label
-            $(this).next('.custom-file-label').html(fileName);
-
-            var input = $(this)[0];
-            //console.log(input.files[0]);
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $('#edit-preview-double').attr('src', e.target.result).fadeIn('slow');
-                }
-                reader.readAsDataURL(input.files[0]);
-            }
-        });
-        $('#input-edit-other-photo').on('change', function () {
-            ////get the file name
-            var fileName = $(this).val().split('\\').pop();
-            ////replace the "Choose a file" label
-            $(this).next('.custom-file-label').html(fileName);
-
-            var input = $(this)[0];
-            //console.log(input.files[0]);
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $('#edit-preview-other').attr('src', e.target.result).fadeIn('slow');
-                }
-                reader.readAsDataURL(input.files[0]);
-            }
-        });
+        //    var input = $(this)[0];
+        //    //console.log(input.files[0]);
+        //    if (input.files && input.files[0]) {
+        //        var reader = new FileReader();
+        //        reader.onload = function (e) {
+        //            $('#edit-preview-single').attr('src', e.target.result).fadeIn('slow');
+        //        }
+        //        reader.readAsDataURL(input.files[0]);
+        //    }
+        //});
 
         $.ajax({
             url: '/Hotel/GetAllHotels',
@@ -227,6 +165,7 @@
                                     <th>名字</th>
                                     <th>地址</th>
                                     <th>联系电话</th>
+                                    <th>添加图片</th>
                                     <th>编辑 / 删除</th>
                                 </tr>
                             </thead>
@@ -241,6 +180,9 @@
                                         <td>@hotelPackage.Hotel.Name</td>
                                         <td>@hotelPackage.Hotel.Address</td>
                                         <td>@hotelPackage.Hotel.ContactNumber</td>
+                                        <td>
+                                            <button type="button" class="btn btn-primary btn-default" onclick="addHotelImage('@hotelPackage.Id')" data-toggle="modal" data-target="#addPhotoModel">添加图片</button>
+                                        </td>
                                         <td>
                                             <button type="button" class="btn btn-primary btn-default" onclick="editHotelPackage('@hotelPackage.Id')" data-toggle="modal" data-target="#editModel">编辑</button>
                                             <button type="button" class="btn btn-danger btn-default" onclick="deleteHotelPackage('@hotelPackage.Id')">删除</button>
@@ -305,8 +247,18 @@
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text">主图片 </span>
+                        <span class="input-group-text">照片</span>
                     </div>
+                    <select class="custom-select" id="input-photo-label">
+                        <option>外观</option>
+                        <option>大厅</option>
+                        <option>早餐厅</option>
+                        <option>单人间</option>
+                        <option>双人间</option>
+                        <option>其他</option>
+                    </select>
+                </div>
+                <div class="input-group mb-3">
                     <div class="custom-file">
                         <input type="file" class="custom-file-input" id="input-photo">
                         <label class="custom-file-label" for="inputGroupFile01" id="edit-label">Choose file</label>
@@ -316,45 +268,45 @@
                         <img src="" class="img-fluid" id="preview" />
                     </div>
                 </div>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">单人间 </span>
-                    </div>
-                    <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="input-single-photo">
-                        <label class="custom-file-label" id="single-label" for="inputGroupFile01">Choose file</label>
-                    </div>
+                @*<div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">单人间 </span>
+                        </div>
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="input-single-photo">
+                            <label class="custom-file-label" id="single-label" for="inputGroupFile01">Choose file</label>
+                        </div>
 
-                    <div class="border rounded-lg text-center p-3">
-                        <img src="" class="img-fluid" id="preview-single" />
+                        <div class="border rounded-lg text-center p-3">
+                            <img src="" class="img-fluid" id="preview-single" />
+                        </div>
                     </div>
-                </div>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">双人间 </span>
-                    </div>
-                    <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="input-double-photo">
-                        <label class="custom-file-label" id="double-label" for="inputGroupFile01">Choose file</label>
-                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">双人间 </span>
+                        </div>
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="input-double-photo">
+                            <label class="custom-file-label" id="double-label" for="inputGroupFile01">Choose file</label>
+                        </div>
 
-                    <div class="border rounded-lg text-center p-3">
-                        <img src="" class="img-fluid" id="preview-double" />
+                        <div class="border rounded-lg text-center p-3">
+                            <img src="" class="img-fluid" id="preview-double" />
+                        </div>
                     </div>
-                </div>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">其他 </span>
-                    </div>
-                    <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="input-other-photo">
-                        <label class="custom-file-label" id="other-label" for="inputGroupFile01">Choose file</label>
-                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">其他 </span>
+                        </div>
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="input-other-photo">
+                            <label class="custom-file-label" id="other-label" for="inputGroupFile01">Choose file</label>
+                        </div>
 
-                    <div class="border rounded-lg text-center p-3">
-                        <img src="" class="img-fluid" id="preview-other" />
-                    </div>
-                </div>
+                        <div class="border rounded-lg text-center p-3">
+                            <img src="" class="img-fluid" id="preview-other" />
+                        </div>
+                    </div>*@
                 <div class="input-group">
                     <div class="input-group-prepend">
                         <span class="input-group-text">描述</span>
@@ -365,6 +317,50 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
                 <button type="button" class="btn btn-primary" onclick="addHotelPackage()">添加</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="addPhotoModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">添加酒店图片</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">照片</span>
+                    </div>
+                    <select class="custom-select" id="input-add-photo-label">
+                        <option>外观</option>
+                        <option>大厅</option>
+                        <option>早餐厅</option>
+                        <option>单人间</option>
+                        <option>双人间</option>
+                        <option>其他</option>
+                    </select>
+                </div>
+                <span id="input-hotel-package-id" style="display:none"></span>
+                <div class="input-group mb-3">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="input-add-photo">
+                        <label class="custom-file-label" for="inputGroupFile01" id="edit-label">Choose file</label>
+                    </div>
+
+                    <div class="border rounded-lg text-center p-3">
+                        <img src="" class="img-fluid" id="add-photo-preview" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="addHotelPackageImage()">添加</button>
             </div>
         </div>
     </div>
@@ -487,19 +483,20 @@
 <script>
     function addHotelPackage() {
         var p = $('#input-photo')[0];
-        var single = $('#input-single-photo')[0];
-        var double = $('#input-double-photo')[0];
-        var other = $('#input-other-photo')[0];
+        //var single = $('#input-single-photo')[0];
+        //var double = $('#input-double-photo')[0];
+        //var other = $('#input-other-photo')[0];
         var hotelId = $("#input-hotel-id").html();
         var country = $("#input-country").find("option:selected").val();
         var area = $("#input-area").find("option:selected").val();
         var address = $('#input-address').val();
         var phone = $('#input-phone').val();
         var name = $('#input-name').val();
+        var photoLabel = $('#input-photo-label').find("option:selected").val();
         var photo = p.files[0];
-        var singlePhoto = single.files[0];
-        var doublePhoto = double.files[0];
-        var otherPhoto = other.files[0];
+        //var singlePhoto = single.files[0];
+        //var doublePhoto = double.files[0];
+        //var otherPhoto = other.files[0];
         var description = $('#input-description').val();
 
         if (window.FormData !== undefined) {
@@ -515,30 +512,6 @@
                 fileData.append(files[i].name, files[i]);
             }
 
-            var fileUpload = $("#input-single-photo").get(0);
-            var files = fileUpload.files;
-
-            // Looping over all files and add it to FormData object
-            for (var i = 0; i < files.length; i++) {
-                fileData.append(files[i].name, files[i]);
-            }
-
-            var fileUpload = $("#input-double-photo").get(0);
-            var files = fileUpload.files;
-
-            // Looping over all files and add it to FormData object
-            for (var i = 0; i < files.length; i++) {
-                fileData.append(files[i].name, files[i]);
-            }
-
-            var fileUpload = $("#input-other-photo").get(0);
-            var files = fileUpload.files;
-
-            // Looping over all files and add it to FormData object
-            for (var i = 0; i < files.length; i++) {
-                fileData.append(files[i].name, files[i]);
-            }
-
             // Adding one more key to FormData object
             fileData.append('hotelId', hotelId);
             fileData.append('country', country)
@@ -547,6 +520,7 @@
             fileData.append('phone', phone);
             fileData.append('name', name);
             fileData.append('description', description);
+            fileData.append('photoLabel', photoLabel);
 
             $.ajax({
                 url: '/HotelPage/Add',
@@ -573,6 +547,58 @@
             alert("FormData is not supported.");
         }
     };
+
+    function addHotelImage(id) {
+        $('#input-hotel-package-id').val(id);
+    }
+
+    function addHotelPackageImage() {
+        var p = $('#input-add-photo')[0];
+        var photoLabel = $('#input-add-photo-label').find("option:selected").val();
+        var photo = p.files[0];
+
+        if (window.FormData !== undefined) {
+
+            var fileUpload = $("#input-add-photo").get(0);
+            var files = fileUpload.files;
+
+            // Create FormData object
+            var fileData = new FormData();
+
+            // Looping over all files and add it to FormData object
+            for (var i = 0; i < files.length; i++) {
+                fileData.append(files[i].name, files[i]);
+            }
+
+            // Adding one more key to FormData object
+            fileData.append('photoLabel', photoLabel);
+            fileData.append('hotelPackageId', $('#input-hotel-package-id').val());
+
+            $.ajax({
+                url: '/HotelPage/AddHotelPackageImage',
+                type: "POST",
+                contentType: false, // Not to set any content header
+                processData: false, // Not to process data
+                data: fileData,
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data);
+                    if (data.responseText == "添加成功") {
+                        window.location.reload();
+                    }
+
+                },
+                error: function (data) {
+                    console.log(data);
+                    if (data.responseText == "添加成功") {
+                        window.location.reload();
+                    }
+                }
+            });
+        } else {
+            alert("FormData is not supported.");
+        }
+    }
 
     function editHotelPackage(id) {
         console.log(id);
@@ -643,7 +669,7 @@
             if (files.length == 0) {
                 fileData.append('photo', photo);
             } else {
-                // Looping over all files and add it to FormData object  
+                // Looping over all files and add it to FormData object
                 for (var i = 0; i < files.length; i++) {
                     fileData.append(files[i].name, files[i]);
                 }
@@ -655,7 +681,7 @@
             if (files.length == 0) {
                 fileData.append('singleRoomPhoto', singleRoomPhoto);
             } else {
-                // Looping over all files and add it to FormData object  
+                // Looping over all files and add it to FormData object
                 for (var i = 0; i < files.length; i++) {
                     fileData.append(files[i].name, files[i]);
                 }
@@ -667,7 +693,7 @@
             if (files.length == 0) {
                 fileData.append('doubleRoomPhoto', doulbeRoomPhoto);
             } else {
-                // Looping over all files and add it to FormData object  
+                // Looping over all files and add it to FormData object
                 for (var i = 0; i < files.length; i++) {
                     fileData.append(files[i].name, files[i]);
                 }
@@ -679,7 +705,7 @@
             if (files.length == 0) {
                 fileData.append('otherRoomPhoto', otherRoomPhoto);
             } else {
-                // Looping over all files and add it to FormData object  
+                // Looping over all files and add it to FormData object
                 for (var i = 0; i < files.length; i++) {
                     fileData.append(files[i].name, files[i]);
                 }

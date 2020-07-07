@@ -73,21 +73,15 @@
           <Property Name="DoubleRoomPhoto" Type="nvarchar(max)" />
           <Property Name="OtherRoomPhoto" Type="nvarchar(max)" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'QD-TOUR.dbo.Hotel_Package_Image' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Hotel_Package_Image">
           <Key>
             <PropertyRef Name="Id" />
-            <PropertyRef Name="Hotel_Package_Id" />
-            <PropertyRef Name="Type" />
-            <PropertyRef Name="ImageUrl" />
-            <PropertyRef Name="ImageName" />
           </Key>
           <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Hotel_Package_Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="HotelPackage_Id" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Type" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="ImageUrl" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="ImageName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ImageUrl" Type="nvarchar(max)" />
+          <Property Name="ImageName" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="Hotel_Price">
           <Key>
@@ -288,7 +282,7 @@ warning 6002: The table/view 'QD-TOUR.dbo.Hotel_Package_Image' does not have a p
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Hotel_Package_Image">
-              <PropertyRef Name="Hotel_Package_Id" />
+              <PropertyRef Name="HotelPackage_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -479,6 +473,7 @@ warning 6002: The table/view 'QD-TOUR.dbo.Hotel_Package_Image' does not have a p
           <EntitySet Name="Guide_Reservation" EntityType="Self.Guide_Reservation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Hotel" EntityType="Self.Hotel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Hotel_Package" EntityType="Self.Hotel_Package" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Hotel_Package_Image" EntityType="Self.Hotel_Package_Image" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Hotel_Price" EntityType="Self.Hotel_Price" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Hotel_Reservation" EntityType="Self.Hotel_Reservation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Member" EntityType="Self.Member" Schema="dbo" store:Type="Tables" />
@@ -494,15 +489,6 @@ warning 6002: The table/view 'QD-TOUR.dbo.Hotel_Package_Image' does not have a p
           <EntitySet Name="Vehicle" EntityType="Self.Vehicle" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Vehicle_Package" EntityType="Self.Vehicle_Package" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Vehicle_Reservation" EntityType="Self.Vehicle_Reservation" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Hotel_Package_Image" EntityType="Self.Hotel_Package_Image" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [Hotel_Package_Image].[Id] AS [Id], 
-    [Hotel_Package_Image].[Hotel_Package_Id] AS [Hotel_Package_Id], 
-    [Hotel_Package_Image].[Type] AS [Type], 
-    [Hotel_Package_Image].[ImageUrl] AS [ImageUrl], 
-    [Hotel_Package_Image].[ImageName] AS [ImageName]
-    FROM [dbo].[Hotel_Package_Image] AS [Hotel_Package_Image]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK_Guide_Reservation_Guide" Association="Self.FK_Guide_Reservation_Guide">
             <End Role="Guide" EntitySet="Guide" />
             <End Role="Guide_Reservation" EntitySet="Guide_Reservation" />
@@ -710,7 +696,7 @@ warning 6002: The table/view 'QD-TOUR.dbo.Hotel_Package_Image' does not have a p
             <End Role="Hotel_Package" EntitySet="Hotel_Package" />
             <End Role="Hotel_Package_Image" EntitySet="Hotel_Package_Image" />
           </AssociationSet>
-        </EntityContainer>
+          </EntityContainer>
         <EntityType Name="Guide_Package">
           <Key>
             <PropertyRef Name="Id" />
@@ -866,7 +852,7 @@ warning 6002: The table/view 'QD-TOUR.dbo.Hotel_Package_Image' does not have a p
           <Property Name="DoubleRoomPhoto" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="OtherRoomPhoto" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Hotel_Package_Image" Relationship="Model.FK_Hotel_Package_Image_Hotel_Package" FromRole="Hotel_Package" ToRole="Hotel_Package_Image" />
-        </EntityType>
+          </EntityType>
         <EntityType Name="Hotel_Price">
           <Key>
             <PropertyRef Name="Id" />
@@ -1041,16 +1027,12 @@ warning 6002: The table/view 'QD-TOUR.dbo.Hotel_Package_Image' does not have a p
         <EntityType Name="Hotel_Package_Image">
           <Key>
             <PropertyRef Name="Id" />
-            <PropertyRef Name="Hotel_Package_Id" />
-            <PropertyRef Name="Type" />
-            <PropertyRef Name="ImageUrl" />
-            <PropertyRef Name="ImageName" />
           </Key>
           <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Hotel_Package_Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="HotelPackage_Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Type" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ImageUrl" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ImageName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ImageUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ImageName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Hotel_Package" Relationship="Model.FK_Hotel_Package_Image_Hotel_Package" FromRole="Hotel_Package_Image" ToRole="Hotel_Package" />
         </EntityType>
         <Association Name="FK_Hotel_Package_Image_Hotel_Package">
@@ -1061,11 +1043,11 @@ warning 6002: The table/view 'QD-TOUR.dbo.Hotel_Package_Image' does not have a p
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Hotel_Package_Image">
-              <PropertyRef Name="Hotel_Package_Id" />
+              <PropertyRef Name="HotelPackage_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -1317,7 +1299,7 @@ warning 6002: The table/view 'QD-TOUR.dbo.Hotel_Package_Image' does not have a p
                 <ScalarProperty Name="ImageName" ColumnName="ImageName" />
                 <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="Hotel_Package_Id" ColumnName="Hotel_Package_Id" />
+                <ScalarProperty Name="HotelPackage_Id" ColumnName="HotelPackage_Id" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

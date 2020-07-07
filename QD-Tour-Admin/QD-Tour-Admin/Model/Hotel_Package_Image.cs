@@ -15,7 +15,7 @@ namespace QD_Tour_Admin.Model
     public partial class Hotel_Package_Image
     {
         public string Id { get; set; }
-        public string Hotel_Package_Id { get; set; }
+        public string HotelPackage_Id { get; set; }
         public string Type { get; set; }
         public string ImageUrl { get; set; }
         public string ImageName { get; set; }

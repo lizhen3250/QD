@@ -14,7 +14,7 @@
         <AssociationConnector Association="Model.FK_Guide_Reservation_Guide_Package" />
         <AssociationConnector Association="Model.MembersGuideReservations" />
         <EntityTypeShape EntityType="Model.Vehicle" Width="1.5" PointX="4" PointY="12.125" />
-        <EntityTypeShape EntityType="Model.Vehicle_Package" Width="1.5" PointX="4" PointY="14.875" />
+        <EntityTypeShape EntityType="Model.Vehicle_Package" Width="1.5" PointX="5.25" PointY="14.875" />
         <EntityTypeShape EntityType="Model.Vehicle_Reservation" Width="1.5" PointX="6.25" PointY="8" />
         <AssociationConnector Association="Model.FK_Vehicle_Reservation_Vehicle" />
         <AssociationConnector Association="Model.FK_Vehicle_Reservation_Vehicle_Package" />

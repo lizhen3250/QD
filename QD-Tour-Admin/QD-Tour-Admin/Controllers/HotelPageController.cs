@@ -23,20 +23,14 @@ namespace QD_Tour_Admin.Controllers
         }
 
         [HttpPost]
-        public string Add(FormCollection formCollection)
+        public string AddHotelPackageImage(FormCollection formCollection)
         {
-            string photoUrl = "", area = "", address = "", hotelId = "", country = "", phone = "", name = "", description = "";
-            StringBuilder allPhotoUrls = new StringBuilder();
+            string photoLabel = "", photoUrl = "", hotelPackageId = "";
 
             foreach (var key in formCollection.AllKeys)
             {
-                area = formCollection["area"];
-                description = formCollection["description"];
-                address = formCollection["address"];
-                hotelId = formCollection["hotelId"];
-                country = formCollection["country"];
-                phone = formCollection["phone"];
-                name = formCollection["name"];
+                photoLabel = formCollection["photoLabel"];
+                hotelPackageId = formCollection["hotelPackageId"];
             }
 
             if (Request.Files.Count > 0)
@@ -73,7 +67,6 @@ namespace QD_Tour_Admin.Controllers
                         // Get the complete folder path and store the file inside it.  
                         string fullPathUrl = Path.Combine(Server.MapPath("~/Uploads/"), photoUrl);
                         file.SaveAs(fullPathUrl);
-                        allPhotoUrls.Append(photoUrl + ";");
                     }
                     // Returns message that successfully uploaded  
                     //return "File Uploaded Successfully!";
@@ -97,7 +90,98 @@ namespace QD_Tour_Admin.Controllers
                 return "No files selected.";
             }
 
-            string[] photos = allPhotoUrls.ToString().Split(';');
+            Hotel_Package_Image hpi = new Hotel_Package_Image()
+            {
+                Id = Guid.NewGuid().ToString(),
+                HotelPackage_Id = hotelPackageId,
+                ImageName = photoUrl,
+                ImageUrl = "/Uploads/" + photoUrl,
+                Type = photoLabel,
+            };
+
+            db.Hotel_Package_Image.Add(hpi);
+
+            if (db.SaveChanges() > 0)
+            {
+                return "添加成功";
+            }
+
+            return "添加失败";
+        }
+
+        [HttpPost]
+        public string Add(FormCollection formCollection)
+        {
+            string photoUrl = "", area = "", address = "", hotelId = "", country = "", phone = "", name = "", description = "", photoLabel = "";
+
+            foreach (var key in formCollection.AllKeys)
+            {
+                area = formCollection["area"];
+                description = formCollection["description"];
+                address = formCollection["address"];
+                hotelId = formCollection["hotelId"];
+                country = formCollection["country"];
+                phone = formCollection["phone"];
+                name = formCollection["name"];
+                photoLabel = formCollection["photoLabel"];
+            }
+
+            if (Request.Files.Count > 0)
+            {
+                try
+                {
+                    //  Get all files from Request object  
+                    HttpFileCollectionBase files = Request.Files;
+                    for (int i = 0; i < files.Count; i++)
+                    {
+                        //string path = AppDomain.CurrentDomain.BaseDirectory + "Uploads/";  
+                        //string filename = Path.GetFileName(Request.Files[i].FileName);  
+
+                        HttpPostedFileBase file = files[i];
+
+                        // Checking for Internet Explorer  
+                        if (Request.Browser.Browser.ToUpper() == "IE" || Request.Browser.Browser.ToUpper() == "INTERNETEXPLORER")
+                        {
+                            string[] testfiles = file.FileName.Split(new char[] { '\\' });
+                            photoUrl = testfiles[testfiles.Length - 1];
+                        }
+                        else
+                        {
+                            photoUrl = file.FileName;
+                        }
+
+                        if (!System.IO.Directory.Exists(Server.MapPath("~/Uploads/")))
+                        {
+
+                            System.IO.Directory.CreateDirectory(Server.MapPath("~/Uploads/"));
+
+                        }
+
+                        // Get the complete folder path and store the file inside it.  
+                        string fullPathUrl = Path.Combine(Server.MapPath("~/Uploads/"), photoUrl);
+                        file.SaveAs(fullPathUrl);
+                    }
+                    // Returns message that successfully uploaded  
+                    //return "File Uploaded Successfully!";
+                }
+                catch (DbEntityValidationException dbEx)
+                {
+                    StringBuilder sb = new StringBuilder();
+                    foreach (var validationErrors in dbEx.EntityValidationErrors)
+                    {
+                        foreach (var validationError in validationErrors.ValidationErrors)
+                        {
+                            sb.Append("Property:" + validationError.PropertyName + "  Error: " + validationError.ErrorMessage);
+                        }
+                    }
+
+                    return sb.ToString();
+                }
+            }
+            else
+            {
+                return "No files selected.";
+            }
 
             Hotel_Package hotelPackage = new Hotel_Package()
             {
@@ -105,19 +189,25 @@ namespace QD_Tour_Admin.Controllers
                 Description = description,
                 Area = area,
                 Country = country,
-                Photo = "/Uploads/" + photos[0],
-                SingRommPhoto = "/Uploads/" + photos[1],
-                DoubleRoomPhoto = "/Uploads/" + photos[2],
-                OtherRoomPhoto = "/Uploads/" + photos[3],
+                Photo = "/Uploads/" + photoUrl,
                 Hotel = db.Hotels.Where(h => h.Id == hotelId).FirstOrDefault(),
                 ID_Hotel = hotelId
             };
 
+            Hotel_Package_Image hpi = new Hotel_Package_Image()
+            {
+                Id = Guid.NewGuid().ToString(),
+                HotelPackage_Id = hotelPackage.Id,
+                ImageName = photoUrl,
+                ImageUrl = hotelPackage.Photo,
+                Type = photoLabel,
+            };
+
             db.Hotel_Package.Add(hotelPackage);
+            db.Hotel_Package_Image.Add(hpi);
 
             if (db.SaveChanges() > 0)
             {
-               
                 return "添加成功";
             }
 
