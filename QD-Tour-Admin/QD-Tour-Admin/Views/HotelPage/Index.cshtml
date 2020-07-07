@@ -346,6 +346,12 @@
                         <option>其他</option>
                     </select>
                 </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">照片名字</span>
+                    </div>
+                    <input type="text" id="input-photo-name" class="form-control" aria-label="Name" aria-describedby="inputGroup-sizing-default">
+                </div>
                 <span id="input-hotel-package-id" style="display:none"></span>
                 <div class="input-group mb-3">
                     <div class="custom-file">
@@ -556,6 +562,7 @@
         var p = $('#input-add-photo')[0];
         var photoLabel = $('#input-add-photo-label').find("option:selected").val();
         var photo = p.files[0];
+        var photoName = $('#input-photo-name').val();
 
         if (window.FormData !== undefined) {
 
@@ -573,6 +580,7 @@
             // Adding one more key to FormData object
             fileData.append('photoLabel', photoLabel);
             fileData.append('hotelPackageId', $('#input-hotel-package-id').val());
+            fileData.append('photoName', photoName);
 
             $.ajax({
                 url: '/HotelPage/AddHotelPackageImage',

@@ -25,12 +25,13 @@ namespace QD_Tour_Admin.Controllers
         [HttpPost]
         public string AddHotelPackageImage(FormCollection formCollection)
         {
-            string photoLabel = "", photoUrl = "", hotelPackageId = "";
+            string photoLabel = "", photoUrl = "", hotelPackageId = "", photoName = "";
 
             foreach (var key in formCollection.AllKeys)
             {
                 photoLabel = formCollection["photoLabel"];
                 hotelPackageId = formCollection["hotelPackageId"];
+                photoName = formCollection["photoName"];
             }
 
             if (Request.Files.Count > 0)
@@ -94,7 +95,7 @@ namespace QD_Tour_Admin.Controllers
             {
                 Id = Guid.NewGuid().ToString(),
                 HotelPackage_Id = hotelPackageId,
-                ImageName = photoUrl,
+                ImageName = photoName,
                 ImageUrl = "/Uploads/" + photoUrl,
                 Type = photoLabel,
             };
@@ -373,7 +374,14 @@ namespace QD_Tour_Admin.Controllers
 
             if (hotelPackage != null)
             {
+                var hotelPackageImages = db.Hotel_Package_Image.Where(h => h.HotelPackage_Id == hotelPackage.Id);
+                foreach(var hotelPackageImage in hotelPackageImages)
+                {
+                    db.Hotel_Package_Image.Remove(hotelPackageImage);
+                }
+
                 db.Hotel_Package.Remove(hotelPackage);
+
                 if (db.SaveChanges() > 0)
                 {
                     return "删除成功";

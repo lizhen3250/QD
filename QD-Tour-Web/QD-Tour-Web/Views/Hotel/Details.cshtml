@@ -164,7 +164,6 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text">入住时间</span>
                     </div>
-
                     <input type="text" id="input-start-date" class="form-control" aria-label="StartDate" aria-describedby="inputGroup-sizing-default" disabled >
                 </div>
                 <div class="input-group mb-3">
@@ -204,36 +203,89 @@
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                     <ul class="nav nav-tabs">
                         <li class="nav-item">
-                            <a class="nav-link active" href="#" onclick="">外观</a>
+                            <a class="nav-link active" href="#" onclick="clickAppearance()">外观</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link " href="#">大厅</a>
+                            <a class="nav-link " href="#" onclick="clickLobby()">大厅</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link " href="#">早餐厅</a>
+                            <a class="nav-link " href="#" onclick="clickRestaurant()">早餐厅</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link " href="#">单人间</a>
+                            <a class="nav-link " href="#" onclick="clickSingleRoom()">单人间</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link " href="#">双人间</a>
+                            <a class="nav-link " href="#" onclick="clickDoubleRoom()">双人间</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link " href="#">其他</a>
+                            <a class="nav-link " href="#" onclick="clickOtherRoom()">其他</a>
                         </li>
                     </ul>
-                    <div class="row no-gutters">
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                            <img src="http://localhost:59442/@Model.SingRommPhoto" alt="外观-1" class="img-thumbnail" style="width:100%; height:100%" onclick="showModalImage(this)"/>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                            <img src="http://localhost:59442/@Model.SingRommPhoto" alt="外观-2" class="img-thumbnail" style="width:100%; height:100%" onclick="showModalImage(this)"/>
-
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                            <img src="http://localhost:59442/@Model.DoubleRoomPhoto" alt="外观-3" class="img-thumbnail" style="width:100%; height:100%" onclick="showModalImage(this)"/>
-
-                        </div>
+                    <div class="row no-gutters" id="appearance">
+                        @foreach (var i in Model.Hotel_Package_Image)
+                        {
+                            if (i.Type == "外观")
+                            {
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <img src="http://localhost:59442/@i.ImageUrl" alt="@i.ImageName" class="img-thumbnail" style="width:100%; height:100%" onclick="showModalImage(this)" />
+                                </div>
+                            }
+                        }
+                    </div>
+                    <div class="row no-gutters" id="lobby" style="display:none">
+                        @foreach (var i in Model.Hotel_Package_Image)
+                        {
+                            if (i.Type == "大厅")
+                            {
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <img src="http://localhost:59442/@i.ImageUrl" alt="@i.ImageName" class="img-thumbnail" style="width:100%; height:100%" onclick="showModalImage(this)" />
+                                </div>
+                            }
+                        }
+                    </div>
+                    <div class="row no-gutters" id="restaurant" style="display:none">
+                        @foreach (var i in Model.Hotel_Package_Image)
+                        {
+                            if (i.Type == "早餐厅")
+                            {
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <img src="http://localhost:59442/@i.ImageUrl" alt="@i.ImageName" class="img-thumbnail" style="width:100%; height:100%" onclick="showModalImage(this)" />
+                                </div>
+                            }
+                        }
+                    </div>
+                    <div class="row no-gutters" id="single-room" style="display:none">
+                        @foreach (var i in Model.Hotel_Package_Image)
+                        {
+                            if (i.Type == "单人间")
+                            {
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <img src="http://localhost:59442/@i.ImageUrl" alt="@i.ImageName" class="img-thumbnail" style="width:100%; height:100%" onclick="showModalImage(this)" />
+                                </div>
+                            }
+                        }
+                    </div>
+                    <div class="row no-gutters" id="double-room" style="display:none">
+                        @foreach (var i in Model.Hotel_Package_Image)
+                        {
+                            if (i.Type == "双人间")
+                            {
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <img src="http://localhost:59442/@i.ImageUrl" alt="@i.ImageName" class="img-thumbnail" style="width:100%; height:100%" onclick="showModalImage(this)" />
+                                </div>
+                            }
+                        }
+                    </div>
+                    <div class="row no-gutters" id="other-room" style="display:none">
+                        @foreach (var i in Model.Hotel_Package_Image)
+                        {
+                            if (i.Type == "其他")
+                            {
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <img src="http://localhost:59442/@i.ImageUrl" alt="@i.ImageName" class="img-thumbnail" style="width:100%; height:100%" onclick="showModalImage(this)" />
+                                </div>
+                            }
+                        }
                     </div>
                 </div>
             </div>
@@ -253,6 +305,61 @@
 </div>
 
 <script>
+
+    function clickAppearance() {
+        $('#appearance').show();
+        $('#lobby').hide();
+        $('#restaurant').hide();
+        $('#single-room').hide();
+        $('#double-room').hide();
+        $('#other-room').hide();
+    }
+
+    function clickLobby() {
+        $('#appearance').hide();
+        $('#lobby').show();
+        $('#restaurant').hide();
+        $('#single-room').hide();
+        $('#double-room').hide();
+        $('#other-room').hide();
+    }
+
+    function clickRestaurant() {
+        $('#appearance').hide();
+        $('#lobby').hide();
+        $('#restaurant').show();
+        $('#single-room').hide();
+        $('#double-room').hide();
+        $('#other-room').hide();
+    }
+
+    function clickSingleRoom() {
+        $('#appearance').hide();
+        $('#lobby').hide();
+        $('#restaurant').hide();
+        $('#single-room').show();
+        $('#double-room').hide();
+        $('#other-room').hide();
+    }
+
+    function clickDoubleRoom() {
+        $('#appearance').hide();
+        $('#lobby').hide();
+        $('#restaurant').hide();
+        $('#single-room').hide();
+        $('#double-room').show();
+        $('#other-room').hide();
+    }
+
+    function clickOtherRoom() {
+        $('#appearance').hide();
+        $('#lobby').hide();
+        $('#restaurant').hide();
+        $('#single-room').hide();
+        $('#double-room').hide();
+        $('#other-room').show();
+    }
+
     function hotelReservation(id) {
 
         var date = $('.calendar-check-in').calendarGetActive();
@@ -339,9 +446,6 @@
     }
 
     function showModalImage(o) {
-        console.log(o);
-        console.log(o.alt);
-        console.log(o.src);
         $('#modal-image-text').text(o.alt);
         $('#modal-image').attr("src", o.src);
     }

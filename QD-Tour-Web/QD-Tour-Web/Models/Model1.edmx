@@ -78,10 +78,10 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Hotel_Package_Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="HotelPackage_Id" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Type" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="ImageUrl" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="ImageName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ImageUrl" Type="nvarchar(max)" />
+          <Property Name="ImageName" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="Hotel_Price">
           <Key>
@@ -282,7 +282,7 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Hotel_Package_Image">
-              <PropertyRef Name="Hotel_Package_Id" />
+              <PropertyRef Name="HotelPackage_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -696,7 +696,7 @@
             <End Role="Hotel_Package" EntitySet="Hotel_Package" />
             <End Role="Hotel_Package_Image" EntitySet="Hotel_Package_Image" />
           </AssociationSet>
-        </EntityContainer>
+          </EntityContainer>
         <EntityType Name="Guide_Package">
           <Key>
             <PropertyRef Name="Id" />
@@ -852,7 +852,7 @@
           <Property Name="DoubleRoomPhoto" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="OtherRoomPhoto" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Hotel_Package_Image" Relationship="Model.FK_Hotel_Package_Image_Hotel_Package" FromRole="Hotel_Package" ToRole="Hotel_Package_Image" />
-        </EntityType>
+          </EntityType>
         <EntityType Name="Hotel_Price">
           <Key>
             <PropertyRef Name="Id" />
@@ -1027,16 +1027,12 @@
         <EntityType Name="Hotel_Package_Image">
           <Key>
             <PropertyRef Name="Id" />
-            <PropertyRef Name="Hotel_Package_Id" />
-            <PropertyRef Name="Type" />
-            <PropertyRef Name="ImageUrl" />
-            <PropertyRef Name="ImageName" />
           </Key>
           <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Hotel_Package_Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="HotelPackage_Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Type" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ImageUrl" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ImageName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ImageUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ImageName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Hotel_Package" Relationship="Model.FK_Hotel_Package_Image_Hotel_Package" FromRole="Hotel_Package_Image" ToRole="Hotel_Package" />
         </EntityType>
         <Association Name="FK_Hotel_Package_Image_Hotel_Package">
@@ -1047,11 +1043,11 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Hotel_Package_Image">
-              <PropertyRef Name="Hotel_Package_Id" />
+              <PropertyRef Name="HotelPackage_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -1303,7 +1299,7 @@
                 <ScalarProperty Name="ImageName" ColumnName="ImageName" />
                 <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="Hotel_Package_Id" ColumnName="Hotel_Package_Id" />
+                <ScalarProperty Name="HotelPackage_Id" ColumnName="HotelPackage_Id" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

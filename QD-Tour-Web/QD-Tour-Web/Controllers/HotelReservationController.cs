@@ -84,11 +84,11 @@ namespace QD_Tour_Web.Controllers
 
             foreach (var hotel in hotelPrices)
             {
-                if (roomType == "싱글룸")
+                if (roomType == "单人间")
                 {
                     totalPrice += hotel.SingleRoomPrice;
                 }
-                else if (roomType == "따보룸")
+                else if (roomType == "双人间")
                 {
                     totalPrice += hotel.DoulbeRoomPrice;
                 }
