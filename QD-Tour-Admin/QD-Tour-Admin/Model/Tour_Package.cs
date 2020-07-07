@@ -18,6 +18,7 @@ namespace QD_Tour_Admin.Model
         public Tour_Package()
         {
             this.Tour_Reservation = new HashSet<Tour_Reservation>();
+            this.Tour_Pakcage_Image = new HashSet<Tour_Pakcage_Image>();
         }
     
         public string Id { get; set; }
@@ -28,5 +29,7 @@ namespace QD_Tour_Admin.Model
         public virtual Tour Tour { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Tour_Reservation> Tour_Reservation { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Tour_Pakcage_Image> Tour_Pakcage_Image { get; set; }
     }
 }

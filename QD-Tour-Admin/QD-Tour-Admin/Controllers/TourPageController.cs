@@ -23,6 +23,94 @@ namespace QD_Tour_Admin.Controllers
         }
 
         [HttpPost]
+        public string AddTourPackageImage(FormCollection formCollection)
+        {
+            string photoLabel = "", photoUrl = "", tourPackageId = "", photoName = "";
+
+            foreach (var key in formCollection.AllKeys)
+            {
+                photoLabel = formCollection["photoLabel"];
+                tourPackageId = formCollection["tourPackageId"];
+                photoName = formCollection["photoName"];
+            }
+
+            if (Request.Files.Count > 0)
+            {
+                try
+                {
+                    //  Get all files from Request object  
+                    HttpFileCollectionBase files = Request.Files;
+                    for (int i = 0; i < files.Count; i++)
+                    {
+                        //string path = AppDomain.CurrentDomain.BaseDirectory + "Uploads/";  
+                        //string filename = Path.GetFileName(Request.Files[i].FileName);  
+
+                        HttpPostedFileBase file = files[i];
+
+                        // Checking for Internet Explorer  
+                        if (Request.Browser.Browser.ToUpper() == "IE" || Request.Browser.Browser.ToUpper() == "INTERNETEXPLORER")
+                        {
+                            string[] testfiles = file.FileName.Split(new char[] { '\\' });
+                            photoUrl = testfiles[testfiles.Length - 1];
+                        }
+                        else
+                        {
+                            photoUrl = file.FileName;
+                        }
+
+                        if (!System.IO.Directory.Exists(Server.MapPath("~/Uploads/")))
+                        {
+
+                            System.IO.Directory.CreateDirectory(Server.MapPath("~/Uploads/"));
+
+                        }
+
+                        // Get the complete folder path and store the file inside it.  
+                        string fullPathUrl = Path.Combine(Server.MapPath("~/Uploads/"), photoUrl);
+                        file.SaveAs(fullPathUrl);
+                    }
+                    // Returns message that successfully uploaded  
+                    //return "File Uploaded Successfully!";
+                }
+                catch (DbEntityValidationException dbEx)
+                {
+                    StringBuilder sb = new StringBuilder();
+                    foreach (var validationErrors in dbEx.EntityValidationErrors)
+                    {
+                        foreach (var validationError in validationErrors.ValidationErrors)
+                        {
+                            sb.Append("Property:" + validationError.PropertyName + "  Error: " + validationError.ErrorMessage);
+                        }
+                    }
+
+                    return sb.ToString();
+                }
+            }
+            else
+            {
+                return "No files selected.";
+            }
+
+            Tour_Pakcage_Image tpi = new Tour_Pakcage_Image()
+            {
+                Id = Guid.NewGuid().ToString(),
+                TourPackage_Id = tourPackageId,
+                ImageName = photoName,
+                ImageUrl = "/Uploads/" + photoUrl,
+                Type = photoLabel
+            };
+
+            db.Tour_Pakcage_Image.Add(tpi);
+
+            if (db.SaveChanges() > 0)
+            {
+                return "添加成功";
+            }
+
+            return "添加失败";
+        }
+
+        [HttpPost]
         public string Add(FormCollection formCollection)
         {
             string photoUrl = "", country = "", date = "", tourId = "", province = "", name = "", description = "";

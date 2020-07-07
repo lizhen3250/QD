@@ -43,5 +43,6 @@ namespace QD_Tour_Admin.Model
         public virtual DbSet<Admin> Admins { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<Hotel_Package_Image> Hotel_Package_Image { get; set; }
+        public virtual DbSet<Tour_Pakcage_Image> Tour_Pakcage_Image { get; set; }
     }
 }

@@ -25,6 +25,24 @@
                 reader.readAsDataURL(input.files[0]);
             }
         });
+
+        $('#input-add-tour-photo').on('change', function () {
+            ////get the file name
+            var fileName = $(this).val().split('\\').pop();
+            ////replace the "Choose a file" label
+            $(this).next('.custom-file-label').html(fileName);
+
+            var input = $(this)[0];
+            //console.log(input.files[0]);
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#add-tour-photo-preview').attr('src', e.target.result).fadeIn('slow');
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        });
+
         $('#input-edit-photo').on('change', function () {
             ////get the file name
             var fileName = $(this).val().split('\\').pop();
@@ -259,24 +277,28 @@
                                     <th>城市</th>
                                     <th>名字</th>
                                     <th>旅游期间</th>
+                                    <th>添加图片</th>
                                     <th>编辑 / 删除</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach (var tourPackage in Model)
                                 {
-                                    <tr>
-                                        <td style="display:none">@tourPackage.Id</td>
-                                        <td style="width:15%"><img src="@tourPackage.Photo" style="width:100%; height:100px" /></td>
-                                        <td>@tourPackage.Tour.Province</td>
-                                        <td>@tourPackage.Tour.Course</td>
-                                        <td>@tourPackage.Tour.Name</td>
-                                        <td>@tourPackage.Tour.TourDate</td>
-                                        <td>
-                                            <button type="button" class="btn btn-primary btn-default" onclick="editTourPackage('@tourPackage.Id')" data-toggle="modal" data-target="#editModel">编辑</button>
-                                            <button type="button" class="btn btn-danger btn-default" onclick="deleteTourPackage('@tourPackage.Id')">删除</button>
-                                        </td>
-                                    </tr>
+                                <tr>
+                                    <td style="display:none">@tourPackage.Id</td>
+                                    <td style="width:15%"><img src="@tourPackage.Photo" style="width:100%; height:100px" /></td>
+                                    <td>@tourPackage.Tour.Province</td>
+                                    <td>@tourPackage.Tour.Course</td>
+                                    <td>@tourPackage.Tour.Name</td>
+                                    <td>@tourPackage.Tour.TourDate</td>
+                                    <td>
+                                        <button type="button" class="btn btn-primary btn-default" onclick="addTourImage('@tourPackage.Id')" data-toggle="modal" data-target="#addPhotoModel">添加图片</button>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-primary btn-default" onclick="editTourPackage('@tourPackage.Id')" data-toggle="modal" data-target="#editModel">编辑</button>
+                                        <button type="button" class="btn btn-danger btn-default" onclick="deleteTourPackage('@tourPackage.Id')">删除</button>
+                                    </td>
+                                </tr>
                                 }
 
                             </tbody>
@@ -288,6 +310,53 @@
         </div>
     </div><!-- .animated -->
 </div><!-- .content -->
+
+<div class="modal fade" id="addPhotoModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">添加旅游图片</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">照片</span>
+                    </div>
+                    <select class="custom-select" id="input-add-tour-photo-label">
+                        <option>景区</option>
+                        <option>饭店</option>
+                        <option>酒店</option>
+                        <option>其他</option>
+                    </select>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">照片名字</span>
+                    </div>
+                    <input type="text" id="input-tour-photo-name" class="form-control" aria-label="Name" aria-describedby="inputGroup-sizing-default">
+                </div>
+                <span id="input-tour-package-id" style="display:none"></span>
+                <div class="input-group mb-3">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="input-add-tour-photo">
+                        <label class="custom-file-label" for="inputGroupFile01" id="edit-label">Choose file</label>
+                    </div>
+
+                    <div class="border rounded-lg text-center p-3">
+                        <img src="" class="img-fluid" id="add-tour-photo-preview" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="addTourPackageImage()">添加</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="modal fade" id="addModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -432,6 +501,61 @@
     </div>
 </div>
 <script>
+
+    function addTourImage(id) {
+        $('#input-tour-package-id').val(id);
+    }
+
+    function addTourPackageImage() {
+        var p = $('#input-add-tour-photo')[0];
+        var photoLabel = $('#input-add-tour-photo-label').find("option:selected").val();
+        var photo = p.files[0];
+        var photoName = $('#input-tour-photo-name').val();
+
+        if (window.FormData !== undefined) {
+
+            var fileUpload = $("#input-add-tour-photo").get(0);
+            var files = fileUpload.files;
+
+            // Create FormData object
+            var fileData = new FormData();
+
+            // Looping over all files and add it to FormData object
+            for (var i = 0; i < files.length; i++) {
+                fileData.append(files[i].name, files[i]);
+            }
+
+            // Adding one more key to FormData object
+            fileData.append('photoLabel', photoLabel);
+            fileData.append('tourPackageId', $('#input-tour-package-id').val());
+            fileData.append('photoName', photoName);
+
+            $.ajax({
+                url: '/TourPage/AddTourPackageImage',
+                type: "POST",
+                contentType: false, // Not to set any content header
+                processData: false, // Not to process data
+                data: fileData,
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data);
+                    if (data.responseText == "添加成功") {
+                        window.location.reload();
+                    }
+
+                },
+                error: function (data) {
+                    console.log(data);
+                    if (data.responseText == "添加成功") {
+                        window.location.reload();
+                    }
+                }
+            });
+        } else {
+            alert("FormData is not supported.");
+        }
+    }
+
     function addTourPackage() {
         var p = $('#input-photo')[0];
         var tourId = $("#input-tour-id").html();

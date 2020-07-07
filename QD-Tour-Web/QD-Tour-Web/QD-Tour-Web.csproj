@@ -249,6 +249,9 @@
     <Compile Include="Models\Tour_Package.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Tour_Pakcage_Image.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Tour_Price.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

@@ -126,6 +126,11 @@
       <End Role="Hotel_Package" EntitySet="Hotel_Package" />
       <End Role="Hotel_Package_Image" EntitySet="Hotel_Package_Image" />
     </AssociationSet>
+    <EntitySet Name="Tour_Pakcage_Image" EntityType="Model.Tour_Pakcage_Image" />
+    <AssociationSet Name="FK_Tour_Pakcage_Image_Tour_Package" Association="Model.FK_Tour_Pakcage_Image_Tour_Package">
+      <End Role="Tour_Package" EntitySet="Tour_Package" />
+      <End Role="Tour_Pakcage_Image" EntitySet="Tour_Pakcage_Image" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Guide_Package">
     <Key>
@@ -372,6 +377,7 @@
     <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="Tour" Relationship="Model.FK_Tour_Package_Tour" FromRole="Tour_Package" ToRole="Tour" />
     <NavigationProperty Name="Tour_Reservation" Relationship="Model.FK_Tour_Reservation_Tour_Package" FromRole="Tour_Package" ToRole="Tour_Reservation" />
+    <NavigationProperty Name="Tour_Pakcage_Image" Relationship="Model.FK_Tour_Pakcage_Image_Tour_Package" FromRole="Tour_Package" ToRole="Tour_Pakcage_Image" />
   </EntityType>
   <EntityType Name="Tour_Price">
     <Key>
@@ -474,6 +480,29 @@
       </Principal>
       <Dependent Role="Hotel_Package_Image">
         <PropertyRef Name="HotelPackage_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Tour_Pakcage_Image">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="TourPackage_Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Type" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ImageUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ImageName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Tour_Package" Relationship="Model.FK_Tour_Pakcage_Image_Tour_Package" FromRole="Tour_Pakcage_Image" ToRole="Tour_Package" />
+  </EntityType>
+  <Association Name="FK_Tour_Pakcage_Image_Tour_Package">
+    <End Type="Model.Tour_Package" Role="Tour_Package" Multiplicity="1" />
+    <End Type="Model.Tour_Pakcage_Image" Role="Tour_Pakcage_Image" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tour_Package">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Tour_Pakcage_Image">
+        <PropertyRef Name="TourPackage_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

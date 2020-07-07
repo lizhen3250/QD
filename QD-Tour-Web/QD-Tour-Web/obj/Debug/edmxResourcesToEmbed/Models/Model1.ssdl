@@ -177,6 +177,16 @@
     <Property Name="Photo" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Description" Type="nvarchar(max)" />
   </EntityType>
+  <EntityType Name="Tour_Pakcage_Image">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="TourPackage_Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Type" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="ImageUrl" Type="nvarchar(max)" />
+    <Property Name="ImageName" Type="nvarchar" MaxLength="50" />
+  </EntityType>
   <EntityType Name="Tour_Price">
     <Key>
       <PropertyRef Name="Id" />
@@ -413,6 +423,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Tour_Pakcage_Image_Tour_Package">
+    <End Role="Tour_Package" Type="Self.Tour_Package" Multiplicity="1" />
+    <End Role="Tour_Pakcage_Image" Type="Self.Tour_Pakcage_Image" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tour_Package">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Tour_Pakcage_Image">
+        <PropertyRef Name="TourPackage_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Tour_Price_Tour">
     <End Role="Tour" Type="Self.Tour" Multiplicity="1" />
     <End Role="Tour_Price" Type="Self.Tour_Price" Multiplicity="*" />
@@ -479,6 +501,7 @@
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Tour" EntityType="Self.Tour" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Tour_Package" EntityType="Self.Tour_Package" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tour_Pakcage_Image" EntityType="Self.Tour_Pakcage_Image" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Tour_Price" EntityType="Self.Tour_Price" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Tour_Reservation" EntityType="Self.Tour_Reservation" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Vehicle" EntityType="Self.Vehicle" Schema="dbo" store:Type="Tables" />
@@ -543,6 +566,10 @@
     <AssociationSet Name="FK_Tour_Package_Tour" Association="Self.FK_Tour_Package_Tour">
       <End Role="Tour" EntitySet="Tour" />
       <End Role="Tour_Package" EntitySet="Tour_Package" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Tour_Pakcage_Image_Tour_Package" Association="Self.FK_Tour_Pakcage_Image_Tour_Package">
+      <End Role="Tour_Package" EntitySet="Tour_Package" />
+      <End Role="Tour_Pakcage_Image" EntitySet="Tour_Pakcage_Image" />
     </AssociationSet>
     <AssociationSet Name="FK_Tour_Price_Tour" Association="Self.FK_Tour_Price_Tour">
       <End Role="Tour" EntitySet="Tour" />
