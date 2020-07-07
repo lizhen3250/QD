@@ -263,5 +263,56 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Golves">
+      <EntityTypeMapping TypeName="Model.Golf">
+        <MappingFragment StoreEntitySet="Golf">
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Golf_Package">
+      <EntityTypeMapping TypeName="Model.Golf_Package">
+        <MappingFragment StoreEntitySet="Golf_Package">
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Photo" ColumnName="Photo" />
+          <ScalarProperty Name="Golf_Id" ColumnName="Golf_Id" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Golf_Price">
+      <EntityTypeMapping TypeName="Model.Golf_Price">
+        <MappingFragment StoreEntitySet="Golf_Price">
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="Golf_Id" ColumnName="Golf_Id" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Golf_Reservation">
+      <EntityTypeMapping TypeName="Model.Golf_Reservation">
+        <MappingFragment StoreEntitySet="Golf_Reservation">
+          <ScalarProperty Name="Golf_Package_Id" ColumnName="Golf_Package_Id" />
+          <ScalarProperty Name="IsPaid" ColumnName="IsPaid" />
+          <ScalarProperty Name="PeopleNumber" ColumnName="PeopleNumber" />
+          <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+          <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="MemberGolfReservation" TypeName="Model.MemberGolfReservation" StoreEntitySet="MemberGolfReservation">
+      <EndProperty Name="Member">
+        <ScalarProperty Name="Id" ColumnName="ID_Member" />
+      </EndProperty>
+      <EndProperty Name="Golf_Reservation">
+        <ScalarProperty Name="Id" ColumnName="ID_Golf_Reservation" />
+      </EndProperty>
+    </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping>

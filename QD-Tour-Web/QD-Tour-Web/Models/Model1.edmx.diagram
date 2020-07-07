@@ -41,6 +41,14 @@
         <AssociationConnector Association="Model.FK_Hotel_Package_Image_Hotel_Package" />
         <EntityTypeShape EntityType="Model.Tour_Pakcage_Image" Width="1.5" PointX="9.25" PointY="18.75" />
         <AssociationConnector Association="Model.FK_Tour_Pakcage_Image_Tour_Package" />
+        <EntityTypeShape EntityType="Model.Golf" Width="1.5" PointX="10.375" PointY="10.625" />
+        <EntityTypeShape EntityType="Model.Golf_Package" Width="1.5" PointX="12.625" PointY="12" />
+        <EntityTypeShape EntityType="Model.Golf_Price" Width="1.5" PointX="12.625" PointY="9.125" />
+        <EntityTypeShape EntityType="Model.Golf_Reservation" Width="1.5" PointX="14.875" PointY="11.875" />
+        <AssociationConnector Association="Model.FK_Golf_Package_Golf" />
+        <AssociationConnector Association="Model.FK_Golf_Price_Golf" />
+        <AssociationConnector Association="Model.FK_Golf_Reservation_Golf_Package" />
+        <AssociationConnector Association="Model.MemberGolfReservation" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

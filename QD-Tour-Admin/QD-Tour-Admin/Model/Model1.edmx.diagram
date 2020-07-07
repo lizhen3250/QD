@@ -35,12 +35,20 @@
         <AssociationConnector Association="Model.FK_Tour_Price_Tour" />
         <AssociationConnector Association="Model.FK_Tour_Reservation_Tour_Package" />
         <AssociationConnector Association="Model.MemberTourReservation" />
-        <EntityTypeShape EntityType="Model.Admin" Width="1.5" PointX="8.375" PointY="8.75" />
+        <EntityTypeShape EntityType="Model.Admin" Width="1.5" PointX="11.875" PointY="8.5" />
         <EntityTypeShape EntityType="Model.sysdiagram" Width="1.5" PointX="3.375" PointY="0.75" />
         <EntityTypeShape EntityType="Model.Hotel_Package_Image" Width="1.5" PointX="5.25" PointY="14.875" />
         <AssociationConnector Association="Model.FK_Hotel_Package_Image_Hotel_Package" />
         <EntityTypeShape EntityType="Model.Tour_Pakcage_Image" Width="1.5" PointX="8.25" PointY="19.25" />
         <AssociationConnector Association="Model.FK_Tour_Pakcage_Image_Tour_Package" />
+        <EntityTypeShape EntityType="Model.Golf" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Model.Golf_Package" Width="1.5" PointX="3" PointY="0.75" />
+        <EntityTypeShape EntityType="Model.Golf_Price" Width="1.5" PointX="3" PointY="15.625" />
+        <EntityTypeShape EntityType="Model.Golf_Reservation" Width="1.5" PointX="3" PointY="7.625" />
+        <AssociationConnector Association="Model.FK_Golf_Package_Golf" />
+        <AssociationConnector Association="Model.FK_Golf_Price_Golf" />
+        <AssociationConnector Association="Model.FK_Golf_Reservation_Golf_Package" />
+        <AssociationConnector Association="Model.MemberGolfReservation" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

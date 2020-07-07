@@ -30,6 +30,7 @@
     <NavigationProperty Name="Vehicle_Reservation" Relationship="Model.MemberVehicleReservation" FromRole="Member" ToRole="Vehicle_Reservation" />
     <NavigationProperty Name="Hotel_Reservation" Relationship="Model.MembersHotelReservation" FromRole="Member" ToRole="Hotel_Reservation" />
     <NavigationProperty Name="Tour_Reservation" Relationship="Model.MemberTourReservation" FromRole="Member" ToRole="Tour_Reservation" />
+    <NavigationProperty Name="Golf_Reservation" Relationship="Model.MemberGolfReservation" FromRole="Member" ToRole="Golf_Reservation" />
   </EntityType>
   <Association Name="FK_Member_Guide1">
     <End Role="Guide" Type="Self.Guide" Multiplicity="0..1" />
@@ -130,6 +131,26 @@
     <AssociationSet Name="FK_Tour_Pakcage_Image_Tour_Package" Association="Model.FK_Tour_Pakcage_Image_Tour_Package">
       <End Role="Tour_Package" EntitySet="Tour_Package" />
       <End Role="Tour_Pakcage_Image" EntitySet="Tour_Pakcage_Image" />
+    </AssociationSet>
+    <EntitySet Name="Golves" EntityType="Model.Golf" />
+    <EntitySet Name="Golf_Package" EntityType="Model.Golf_Package" />
+    <EntitySet Name="Golf_Price" EntityType="Model.Golf_Price" />
+    <EntitySet Name="Golf_Reservation" EntityType="Model.Golf_Reservation" />
+    <AssociationSet Name="FK_Golf_Package_Golf" Association="Model.FK_Golf_Package_Golf">
+      <End Role="Golf" EntitySet="Golves" />
+      <End Role="Golf_Package" EntitySet="Golf_Package" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Golf_Price_Golf" Association="Model.FK_Golf_Price_Golf">
+      <End Role="Golf" EntitySet="Golves" />
+      <End Role="Golf_Price" EntitySet="Golf_Price" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Golf_Reservation_Golf_Package" Association="Model.FK_Golf_Reservation_Golf_Package">
+      <End Role="Golf_Package" EntitySet="Golf_Package" />
+      <End Role="Golf_Reservation" EntitySet="Golf_Reservation" />
+    </AssociationSet>
+    <AssociationSet Name="MemberGolfReservation" Association="Model.MemberGolfReservation">
+      <End Role="Golf_Reservation" EntitySet="Golf_Reservation" />
+      <End Role="Member" EntitySet="Members" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="Guide_Package">
@@ -505,5 +526,91 @@
         <PropertyRef Name="TourPackage_Id" />
       </Dependent>
     </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Golf">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Golf_Package" Relationship="Model.FK_Golf_Package_Golf" FromRole="Golf" ToRole="Golf_Package" />
+    <NavigationProperty Name="Golf_Price" Relationship="Model.FK_Golf_Price_Golf" FromRole="Golf" ToRole="Golf_Price" />
+  </EntityType>
+  <EntityType Name="Golf_Package">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Golf_Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Photo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Golf" Relationship="Model.FK_Golf_Package_Golf" FromRole="Golf_Package" ToRole="Golf" />
+    <NavigationProperty Name="Golf_Reservation" Relationship="Model.FK_Golf_Reservation_Golf_Package" FromRole="Golf_Package" ToRole="Golf_Reservation" />
+  </EntityType>
+  <EntityType Name="Golf_Price">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Golf_Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Price" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="Date" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Golf" Relationship="Model.FK_Golf_Price_Golf" FromRole="Golf_Price" ToRole="Golf" />
+  </EntityType>
+  <EntityType Name="Golf_Reservation">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="StartTime" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="TotalPrice" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+    <Property Name="PeopleNumber" Type="Int32" Nullable="false" />
+    <Property Name="IsPaid" Type="Int32" Nullable="false" />
+    <Property Name="Golf_Package_Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Golf_Package" Relationship="Model.FK_Golf_Reservation_Golf_Package" FromRole="Golf_Reservation" ToRole="Golf_Package" />
+    <NavigationProperty Name="Members" Relationship="Model.MemberGolfReservation" FromRole="Golf_Reservation" ToRole="Member" />
+  </EntityType>
+  <Association Name="FK_Golf_Package_Golf">
+    <End Type="Model.Golf" Role="Golf" Multiplicity="1" />
+    <End Type="Model.Golf_Package" Role="Golf_Package" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Golf">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Golf_Package">
+        <PropertyRef Name="Golf_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Golf_Price_Golf">
+    <End Type="Model.Golf" Role="Golf" Multiplicity="1" />
+    <End Type="Model.Golf_Price" Role="Golf_Price" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Golf">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Golf_Price">
+        <PropertyRef Name="Golf_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Golf_Reservation_Golf_Package">
+    <End Type="Model.Golf_Package" Role="Golf_Package" Multiplicity="1" />
+    <End Type="Model.Golf_Reservation" Role="Golf_Reservation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Golf_Package">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Golf_Reservation">
+        <PropertyRef Name="Golf_Package_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="MemberGolfReservation">
+    <End Type="Model.Golf_Reservation" Role="Golf_Reservation" Multiplicity="*" />
+    <End Type="Model.Member" Role="Member" Multiplicity="*" />
   </Association>
 </Schema>
