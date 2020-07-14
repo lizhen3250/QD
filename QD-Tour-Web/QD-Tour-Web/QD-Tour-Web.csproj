@@ -535,6 +535,7 @@
     <Content Include="Views\Order\HotelOrderDetails.cshtml" />
     <Content Include="Views\CustomTour\Index.cshtml" />
     <Content Include="Views\Golf\Index.cshtml" />
+    <Content Include="Views\Golf\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

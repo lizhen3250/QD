@@ -16,5 +16,11 @@ namespace QD_Tour_Web.Controllers
             var golfPackages = db.Golf_Package.ToList();
             return View(golfPackages);
         }
+
+        public ActionResult Details(string Id)
+        {
+            var golfPackage = db.Golf_Package.FirstOrDefault(p => p.Id == Id);
+            return View(golfPackage);
+        }
     }
 }

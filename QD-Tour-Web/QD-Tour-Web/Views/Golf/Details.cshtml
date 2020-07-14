@@ -1,0 +1,84 @@
+﻿@model QD_Tour_Web.Models.Golf_Package
+
+@{
+
+    ViewBag.Title = "华康旅游 - 酒店预约 - " + Model.Golf.Name;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes" />
+<script src="~/Scripts/datetimepicker/js/jquery.timepicker.min.js"></script>
+<link href="~/Scripts/datetimepicker/css/jquery.timepicker.css" rel="stylesheet" />
+
+<hr />
+<div class="section-paddings incredible-places">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                <img src="http://localhost:59442/@Model.Photo" style="width:100%; height:551px;" />
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <p style="display:none" id="package-id">@Model.Id</p>
+                <p><h2 id="input-name">@Model.Golf.Name</h2></p>
+                <p style="font-size:20px; font:bold">城市: <span id="price">@Model.Golf.City </span></p>
+                <p style="font-size:20px; font:bold">地址: <span id="price">@Model.Golf.Address </span></p>
+                <p><a href="#" class="travel-booking-btn hvr-shutter-out-horizontal" data-toggle="collapse" data-target="#collapseRserve">预约</a>                </p>
+                <div class="collapse" role="document" id="collapseRserve">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">高尔夫预约</h5>
+                        </div>
+                        <div class="modal-body">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">预约人数</span>
+                                </div>
+                                <input type="number" min="1" id="input-guide-number-of-people" class="form-control" aria-label="NumberOfPeople" aria-describedby="inputGroup-sizing-default">
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">开球时间</span>
+                                </div>
+                                <input type="text" id="input-start-date" class="form-control" aria-label="StartDate" aria-describedby="inputGroup-sizing-default">
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">球洞数</span>
+                                </div>
+                                <select class="custom-select" id="input-edit-name">
+                                    <option>请选择。。。</option>
+                                    <option>18洞</option>
+                                    <option>27洞</option>
+                                    <option>36洞</option>
+                                </select>
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">总价格</span>
+                                </div>
+                                <input type="text" id="input-total-price" class="form-control" aria-label="Amount (to the nearest dollar)" disabled>
+                                <div class="input-group-append">
+                                    <span class="input-group-text">.00</span>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" onclick="guideReserve()">预约</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<hr />
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-md-12 col-sm-12 col-xs-12">
+            <h3>详细内容</h3>
+            <p>@Model.Description</p>
+        </div>
+    </div>
+</div>
+
