@@ -118,5 +118,32 @@ namespace QD_Tour_Admin.Controllers
 
             return "更新失败";
         }
+
+        [HttpPost]
+        public string Delete(string Id)
+        {
+            Golf golf = db.Golves.FirstOrDefault(v => v.Id == Id);
+            var golfPrices = db.Golf_Price.Where(h => h.Golf_Id == Id).ToList();
+
+            if (golfPrices != null)
+            {
+                foreach (var golfPrice in golfPrices)
+                {
+                    db.Golf_Price.Remove(golfPrice);
+                }
+
+                if (golf != null)
+                {
+                    db.Golves.Remove(golf);
+                    if (db.SaveChanges() > 0)
+                    {
+                        return "删除成功";
+                    }
+
+                }
+            }
+
+            return "删除失败";
+        }
     }
 }

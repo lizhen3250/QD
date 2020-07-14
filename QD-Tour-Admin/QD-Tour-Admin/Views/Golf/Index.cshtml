@@ -212,4 +212,24 @@
             }
         });
     }
+
+    function deleteGolf(Id) {
+        console.log(Id);
+        $.ajax({
+            url: '/Golf/Delete',
+            type: 'POST',
+            data: JSON.stringify({ Id: Id }),
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                console.log(data);
+                if (data == "删除成功") {
+                    window.location.reload();
+                }
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+    }
+
 </script>
