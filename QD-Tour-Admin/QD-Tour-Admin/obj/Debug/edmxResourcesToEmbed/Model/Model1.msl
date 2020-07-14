@@ -283,17 +283,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Golf_Price">
-      <EntityTypeMapping TypeName="Model.Golf_Price">
-        <MappingFragment StoreEntitySet="Golf_Price">
-          <ScalarProperty Name="Date" ColumnName="Date" />
-          <ScalarProperty Name="Price" ColumnName="Price" />
-          <ScalarProperty Name="Type" ColumnName="Type" />
-          <ScalarProperty Name="Golf_Id" ColumnName="Golf_Id" />
-          <ScalarProperty Name="Id" ColumnName="Id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Golf_Reservation">
       <EntityTypeMapping TypeName="Model.Golf_Reservation">
         <MappingFragment StoreEntitySet="Golf_Reservation">
@@ -314,5 +303,17 @@
         <ScalarProperty Name="Id" ColumnName="ID_Golf_Reservation" />
       </EndProperty>
     </AssociationSetMapping>
+    <EntitySetMapping Name="Golf_Price">
+      <EntityTypeMapping TypeName="Model.Golf_Price">
+        <MappingFragment StoreEntitySet="Golf_Price">
+          <ScalarProperty Name="ThirySix_Hole_Price" ColumnName="ThirySix_Hole_Price" />
+          <ScalarProperty Name="TwentySeven_Hole_Price" ColumnName="TwentySeven_Hole_Price" />
+          <ScalarProperty Name="Eighteen_Hole_Price" ColumnName="Eighteen_Hole_Price" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="Golf_Id" ColumnName="Golf_Id" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

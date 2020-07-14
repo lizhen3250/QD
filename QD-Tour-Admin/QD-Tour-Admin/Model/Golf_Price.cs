@@ -16,9 +16,10 @@ namespace QD_Tour_Admin.Model
     {
         public string Id { get; set; }
         public string Golf_Id { get; set; }
-        public string Type { get; set; }
-        public Nullable<decimal> Price { get; set; }
-        public Nullable<System.DateTime> Date { get; set; }
+        public System.DateTime Date { get; set; }
+        public Nullable<decimal> Eighteen_Hole_Price { get; set; }
+        public Nullable<decimal> TwentySeven_Hole_Price { get; set; }
+        public Nullable<decimal> ThirySix_Hole_Price { get; set; }
     
         public virtual Golf Golf { get; set; }
     }

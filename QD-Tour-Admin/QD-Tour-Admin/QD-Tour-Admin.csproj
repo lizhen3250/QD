@@ -3020,6 +3020,7 @@
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Golf\Index.cshtml" />
+    <Content Include="Views\Golf\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="vendors\popper.js\packages\popper\index.d.ts" />

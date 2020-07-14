@@ -46,7 +46,7 @@ namespace QD_Tour_Admin.Model
         public virtual DbSet<Tour_Pakcage_Image> Tour_Pakcage_Image { get; set; }
         public virtual DbSet<Golf> Golves { get; set; }
         public virtual DbSet<Golf_Package> Golf_Package { get; set; }
-        public virtual DbSet<Golf_Price> Golf_Price { get; set; }
         public virtual DbSet<Golf_Reservation> Golf_Reservation { get; set; }
+        public virtual DbSet<Golf_Price> Golf_Price { get; set; }
     }
 }

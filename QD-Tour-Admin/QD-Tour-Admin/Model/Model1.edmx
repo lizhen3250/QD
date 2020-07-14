@@ -36,9 +36,10 @@
           </Key>
           <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Golf_Id" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Type" Type="nvarchar" MaxLength="50" />
-          <Property Name="Price" Type="decimal" Precision="18" Scale="0" />
           <Property Name="Date" Type="datetime" />
+          <Property Name="Eighteen_Hole_Price" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="TwentySeven_Hole_Price" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="ThirySix_Hole_Price" Type="decimal" Precision="18" Scale="0" />
         </EntityType>
         <EntityType Name="Golf_Reservation">
           <Key>
@@ -295,6 +296,18 @@
           <Property Name="TotalPrice" Type="decimal" Precision="18" Scale="0" />
           <Property Name="Type" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <Association Name="FK_Gole_Price_Golf">
+          <End Role="Golf" Type="Self.Golf" Multiplicity="1" />
+          <End Role="Golf_Price" Type="Self.Golf_Price" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Golf">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Golf_Price">
+              <PropertyRef Name="Golf_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Golf_Package_Golf">
           <End Role="Golf" Type="Self.Golf" Multiplicity="1" />
           <End Role="Golf_Package" Type="Self.Golf_Package" Multiplicity="*" />
@@ -303,18 +316,6 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Golf_Package">
-              <PropertyRef Name="Golf_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Golf_Price_Golf">
-          <End Role="Golf" Type="Self.Golf" Multiplicity="1" />
-          <End Role="Golf_Price" Type="Self.Golf_Price" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Golf">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Golf_Price">
               <PropertyRef Name="Golf_Id" />
             </Dependent>
           </ReferentialConstraint>
@@ -624,13 +625,13 @@
           <EntitySet Name="Vehicle" EntityType="Self.Vehicle" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Vehicle_Package" EntityType="Self.Vehicle_Package" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Vehicle_Reservation" EntityType="Self.Vehicle_Reservation" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Gole_Price_Golf" Association="Self.FK_Gole_Price_Golf">
+            <End Role="Golf" EntitySet="Golf" />
+            <End Role="Golf_Price" EntitySet="Golf_Price" />
+          </AssociationSet>
           <AssociationSet Name="FK_Golf_Package_Golf" Association="Self.FK_Golf_Package_Golf">
             <End Role="Golf" EntitySet="Golf" />
             <End Role="Golf_Package" EntitySet="Golf_Package" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Golf_Price_Golf" Association="Self.FK_Golf_Price_Golf">
-            <End Role="Golf" EntitySet="Golf" />
-            <End Role="Golf_Price" EntitySet="Golf_Price" />
           </AssociationSet>
           <AssociationSet Name="FK_Golf_Reservation_Golf_Package" Association="Self.FK_Golf_Reservation_Golf_Package">
             <End Role="Golf_Package" EntitySet="Golf_Package" />
@@ -863,15 +864,10 @@
           </AssociationSet>
           <EntitySet Name="Golves" EntityType="Model.Golf" />
           <EntitySet Name="Golf_Package" EntityType="Model.Golf_Package" />
-          <EntitySet Name="Golf_Price" EntityType="Model.Golf_Price" />
           <EntitySet Name="Golf_Reservation" EntityType="Model.Golf_Reservation" />
           <AssociationSet Name="FK_Golf_Package_Golf" Association="Model.FK_Golf_Package_Golf">
             <End Role="Golf" EntitySet="Golves" />
             <End Role="Golf_Package" EntitySet="Golf_Package" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Golf_Price_Golf" Association="Model.FK_Golf_Price_Golf">
-            <End Role="Golf" EntitySet="Golves" />
-            <End Role="Golf_Price" EntitySet="Golf_Price" />
           </AssociationSet>
           <AssociationSet Name="FK_Golf_Reservation_Golf_Package" Association="Model.FK_Golf_Reservation_Golf_Package">
             <End Role="Golf_Package" EntitySet="Golf_Package" />
@@ -880,6 +876,11 @@
           <AssociationSet Name="MemberGolfReservation" Association="Model.MemberGolfReservation">
             <End Role="Golf_Reservation" EntitySet="Golf_Reservation" />
             <End Role="Member" EntitySet="Members" />
+          </AssociationSet>
+          <EntitySet Name="Golf_Price" EntityType="Model.Golf_Price" />
+          <AssociationSet Name="FK_Gole_Price_Golf1" Association="Model.FK_Gole_Price_Golf1">
+            <End Role="Golf" EntitySet="Golves" />
+            <End Role="Golf_Price" EntitySet="Golf_Price" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Guide_Package">
@@ -1265,7 +1266,7 @@
           <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Golf_Package" Relationship="Model.FK_Golf_Package_Golf" FromRole="Golf" ToRole="Golf_Package" />
-          <NavigationProperty Name="Golf_Price" Relationship="Model.FK_Golf_Price_Golf" FromRole="Golf" ToRole="Golf_Price" />
+          <NavigationProperty Name="Golf_Price" Relationship="Model.FK_Gole_Price_Golf1" FromRole="Golf" ToRole="Golf_Price" />
         </EntityType>
         <EntityType Name="Golf_Package">
           <Key>
@@ -1277,17 +1278,6 @@
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Golf" Relationship="Model.FK_Golf_Package_Golf" FromRole="Golf_Package" ToRole="Golf" />
           <NavigationProperty Name="Golf_Reservation" Relationship="Model.FK_Golf_Reservation_Golf_Package" FromRole="Golf_Package" ToRole="Golf_Reservation" />
-        </EntityType>
-        <EntityType Name="Golf_Price">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Golf_Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Price" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="Date" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Golf" Relationship="Model.FK_Golf_Price_Golf" FromRole="Golf_Price" ToRole="Golf" />
         </EntityType>
         <EntityType Name="Golf_Reservation">
           <Key>
@@ -1314,18 +1304,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Golf_Price_Golf">
-          <End Type="Model.Golf" Role="Golf" Multiplicity="1" />
-          <End Type="Model.Golf_Price" Role="Golf_Price" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Golf">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Golf_Price">
-              <PropertyRef Name="Golf_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Golf_Reservation_Golf_Package">
           <End Type="Model.Golf_Package" Role="Golf_Package" Multiplicity="1" />
           <End Type="Model.Golf_Reservation" Role="Golf_Reservation" Multiplicity="*" />
@@ -1341,6 +1319,30 @@
         <Association Name="MemberGolfReservation">
           <End Type="Model.Golf_Reservation" Role="Golf_Reservation" Multiplicity="*" />
           <End Type="Model.Member" Role="Member" Multiplicity="*" />
+        </Association>
+        <EntityType Name="Golf_Price">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Golf_Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Date" Type="DateTime" Precision="3" />
+          <Property Name="Eighteen_Hole_Price" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="TwentySeven_Hole_Price" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="ThirySix_Hole_Price" Type="Decimal" Precision="18" Scale="0" />
+          <NavigationProperty Name="Golf" Relationship="Model.FK_Gole_Price_Golf1" FromRole="Golf_Price" ToRole="Golf" />
+        </EntityType>
+        <Association Name="FK_Gole_Price_Golf1">
+          <End Type="Model.Golf" Role="Golf" Multiplicity="1" />
+          <End Type="Model.Golf_Price" Role="Golf_Price" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Golf">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Golf_Price">
+              <PropertyRef Name="Golf_Id" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
         </Schema>
     </edmx:ConceptualModels>
@@ -1630,17 +1632,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Golf_Price">
-            <EntityTypeMapping TypeName="Model.Golf_Price">
-              <MappingFragment StoreEntitySet="Golf_Price">
-                <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="Golf_Id" ColumnName="Golf_Id" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Golf_Reservation">
             <EntityTypeMapping TypeName="Model.Golf_Reservation">
               <MappingFragment StoreEntitySet="Golf_Reservation">
@@ -1661,6 +1652,18 @@
               <ScalarProperty Name="Id" ColumnName="ID_Golf_Reservation" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="Golf_Price">
+            <EntityTypeMapping TypeName="Model.Golf_Price">
+              <MappingFragment StoreEntitySet="Golf_Price">
+                <ScalarProperty Name="ThirySix_Hole_Price" ColumnName="ThirySix_Hole_Price" />
+                <ScalarProperty Name="TwentySeven_Hole_Price" ColumnName="TwentySeven_Hole_Price" />
+                <ScalarProperty Name="Eighteen_Hole_Price" ColumnName="Eighteen_Hole_Price" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Golf_Id" ColumnName="Golf_Id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
