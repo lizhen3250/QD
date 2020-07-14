@@ -59,22 +59,6 @@
                 reader.readAsDataURL(input.files[0]);
             }
         });
-        //$('#input-edit-single-photo').on('change', function () {
-        //    ////get the file name
-        //    var fileName = $(this).val().split('\\').pop();
-        //    ////replace the "Choose a file" label
-        //    $(this).next('.custom-file-label').html(fileName);
-
-        //    var input = $(this)[0];
-        //    //console.log(input.files[0]);
-        //    if (input.files && input.files[0]) {
-        //        var reader = new FileReader();
-        //        reader.onload = function (e) {
-        //            $('#edit-preview-single').attr('src', e.target.result).fadeIn('slow');
-        //        }
-        //        reader.readAsDataURL(input.files[0]);
-        //    }
-        //});
 
         $.ajax({
             url: '/Hotel/GetAllHotels',
@@ -632,14 +616,6 @@
                 $('#edit-other-label').html(data[0].OtherRoomPhoto.split("/").pop());
                 $('#edit-photo-label').html(data[0].Photo.split("/").pop());
                 $('#input-edit-description').val(data[0].Description);
-                //$('#input-edit-id').val(data[0].Id);
-                //$('#input-edit-destination').val(data[0].Destination);
-                //$('#input-edit-start-date').val(new Date(getDateFromAspNetFormat(data[0].StartDate)).format("yyyy/MM/dd"));
-                //$('#input-edit-end-date').val(new Date(getDateFromAspNetFormat(data[0].EndDate)).format("yyyy/MM/dd"));
-                //$('#input-edit-price').val(data[0].Price);
-                //$('#edit-label').html(data[0].Photo.split("/").pop());
-                //$('#input-edit-description').val(data[0].Description);
-                //$('#edit-preview').attr('src', "http://localhost:59442" + data[0].Photo).fadeIn('slow');
             },
             error: function (err) {
                 console.log(err);

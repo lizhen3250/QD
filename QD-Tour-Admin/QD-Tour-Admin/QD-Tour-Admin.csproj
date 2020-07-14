@@ -182,6 +182,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\GolfController.cs" />
+    <Compile Include="Controllers\GolfPageController.cs" />
     <Compile Include="Controllers\GuideController.cs" />
     <Compile Include="Controllers\GuidePageController.cs" />
     <Compile Include="Controllers\GuideReservationController.cs" />
@@ -3021,6 +3022,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Golf\Index.cshtml" />
     <Content Include="Views\Golf\Details.cshtml" />
+    <Content Include="Views\GolfPage\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="vendors\popper.js\packages\popper\index.d.ts" />

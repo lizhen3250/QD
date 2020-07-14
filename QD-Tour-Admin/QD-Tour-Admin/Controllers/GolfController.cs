@@ -145,5 +145,21 @@ namespace QD_Tour_Admin.Controllers
 
             return "删除失败";
         }
+
+        [HttpGet]
+        public JsonResult GetAllGolves()
+        {
+            db.Configuration.ProxyCreationEnabled = false;
+            var golves = db.Golves.ToList();
+            return Json(golves, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult GetGolfByCountryAndName(string Country, string Name)
+        {
+            db.Configuration.ProxyCreationEnabled = false;
+            var golf = db.Golves.Where(h => h.City == Country).Where(h => h.Name == Name).FirstOrDefault();
+            return Json(golf, JsonRequestBehavior.AllowGet);
+        }
     }
 }

@@ -1,0 +1,262 @@
+﻿@model IEnumerable<QD_Tour_Admin.Model.Golf_Package>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="/vendors/jquery/dist/jquery.min.js"></script>
+<script src="~/vendors/datetimepicker/js/jquery.timepicker.min.js"></script>
+<link href="~/vendors/datetimepicker/css/jquery.timepicker.css" rel="stylesheet" />
+
+<script>
+    $(document).ready(function () {
+
+        $('#input-photo').on('change', function () {
+            ////get the file name
+            var fileName = $(this).val().split('\\').pop();
+            ////replace the "Choose a file" label
+            $(this).next('.custom-file-label').html(fileName);
+
+            var input = $(this)[0];
+            //console.log(input.files[0]);
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#preview').attr('src', e.target.result).fadeIn('slow');
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        });
+
+        $.ajax({
+            url: '/Golf/GetAllGolves',
+            type: 'GET',
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                console.log(data);
+                for (var i = 0; i < data.length; i++) {
+                    $("#input-country").append("<option value=" + data[i].City + ">" + data[i].City + "</option>");
+                    $("#input-edit-country").append("<option value=" + data[i].City + ">" + data[i].City + "</option>");
+                    $("#input-name").append("<option value=" + data[i].Name + ">" + data[i].Name + "</option>");
+                    $("#input-edit-name").append("<option value=" + data[i].Area + ">" + data[i].Area + "</option>");
+                }
+            },
+            error: function (data) {
+                console.log(data);
+                if (data.responseText == "添加成功") {
+                    window.location.reload();
+                }
+            }
+        });
+
+        $('#input-name').on('change', function (e) {
+            var country = $('#input-country').val();
+            var name = $('#input-name').val();
+            console.log(country);
+            console.log(name);
+            $.ajax({
+                url: '/Golf/GetGolfByCountryAndName',
+                type: 'GET',
+                data: { Country: country, Name: name },
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    console.log(data);
+                    $('#input-address').val(data.Address);
+                    $('#input-golf-id').html(data.Id);
+                },
+                error: function (err) {
+                    console.log(err);
+                    $('#input-name').val('');
+                    $('#input-address').val('');
+                }
+            });
+        });
+
+        $('#input-edit-name').on('change', function (e) {
+            var country = $('#input-edit-country').val();
+            var name = $('#input-edit-name').val();
+            $.ajax({
+                url: '/Golf/GetGolfByCountryAndName',
+                type: 'GET',
+                data: { Country: country, Area: area },
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    console.log(data);
+                    $('#input-edit-address').val(data.Address);
+                    $('#input-edit-hotel-id').html(data.Id);
+                },
+                error: function (err) {
+                    console.log(err);
+                    $('#input-edit-name').val('');
+                    $('#input-edit-address').val('');
+                }
+            });
+        });
+    })
+</script>
+
+<div class="content mt-3">
+    <div class="animated fadeIn">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <strong class="card-title">高尔夫页面管理 <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModel" style="float:right">添 加 页 面</button></strong>
+                    </div>
+                    <div class="card-body">
+                        <table id="bootstrap-data-table-export" class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="display:none">Id</th>
+                                    <th>照片</th>
+                                    <th>城市</th>
+                                    <th>名字</th>
+                                    <th>地址</th>
+                                    <th>编辑 / 删除</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var golfPackage in Model)
+                                {
+                                    <tr>
+                                        <td style="display:none">@golfPackage.Id</td>
+                                        <td style="width:15%"><img src="@golfPackage.Photo" style="width:100%; height:100px" /></td>
+                                        <td>@golfPackage.Golf.City</td>
+                                        <td>@golfPackage.Golf.Name</td>
+                                        <td>@golfPackage.Golf.Address</td>                                      
+                                        <td>
+                                            <button type="button" class="btn btn-primary btn-default" onclick="editHotelPackage('@golfPackage.Id')" data-toggle="modal" data-target="#editModel">编辑</button>
+                                            <button type="button" class="btn btn-danger btn-default" onclick="deleteHotelPackage('@golfPackage.Id')">删除</button>
+                                        </td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div><!-- .animated -->
+</div><!-- .content -->
+
+<div class="modal fade" id="addModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">添加酒店页面</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">城市</span>
+                    </div>
+                    <select class="custom-select" id="input-country">
+                        <option>请选择...</option>
+                    </select>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">名字</span>
+                    </div>
+                    <select class="custom-select" id="input-name">
+                        <option>请选择...</option>
+                    </select>
+                    <span id="input-golf-id" style="display:none"></span>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">地址</span>
+                    </div>
+                    <input type="text" id="input-address" class="form-control" aria-label="Address" aria-describedby="inputGroup-sizing-default" disabled>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">图片 </span>
+                    </div>
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="input-photo">
+                        <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                    </div>
+
+                    <div class="border rounded-lg text-center p-3">
+                        <img src="" class="img-fluid" id="preview" />
+                    </div>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">描述</span>
+                    </div>
+                    <textarea class="form-control" id="input-description" aria-label="With textarea"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="addHotelPackage()">添加</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function addHotelPackage() {
+        var p = $('#input-photo')[0];
+        var golfId = $("#input-golf-id").html();
+        var country = $("#input-country").find("option:selected").val();
+        var name = $("#input-name").find("option:selected").val();
+        var address = $('#input-address').val();
+        var photoLabel = $('#input-photo-label').find("option:selected").val();
+        var photo = p.files[0];
+        var description = $('#input-description').val();
+
+        if (window.FormData !== undefined) {
+
+            var fileUpload = $("#input-photo").get(0);
+            var files = fileUpload.files;
+
+            // Create FormData object
+            var fileData = new FormData();
+
+            // Looping over all files and add it to FormData object
+            for (var i = 0; i < files.length; i++) {
+                fileData.append(files[i].name, files[i]);
+            }
+
+            // Adding one more key to FormData object
+            fileData.append('golfId', golfId);
+            fileData.append('country', country)
+            fileData.append('name', name)
+            fileData.append('address', address)
+            fileData.append('description', description);
+            fileData.append('photoLabel', photoLabel);
+
+            $.ajax({
+                url: '/GolfPage/Add',
+                type: "POST",
+                contentType: false, // Not to set any content header
+                processData: false, // Not to process data
+                data: fileData,
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data);
+                    if (data.responseText == "添加成功") {
+                        window.location.reload();
+                    }
+
+                },
+                error: function (data) {
+                    console.log(data);
+                    if (data.responseText == "添加成功") {
+                        window.location.reload();
+                    }
+                }
+            });
+        } else {
+            alert("FormData is not supported.");
+        }
+    };
+</script>
