@@ -67,6 +67,16 @@ namespace QD_Tour_Admin.Controllers
             return View(golfPrices);
         }
 
+        [HttpGet]
+        public JsonResult Edit(string Id)
+        {
+            db.Configuration.ProxyCreationEnabled = false;
+
+            var golf = db.Golves.Where(v => v.Id == Id).FirstOrDefault();
+
+            return Json(golf, JsonRequestBehavior.AllowGet);
+        }
+
         [HttpPost]
         public string AddGolfPrice(GolfPriceModel golfPriceModel)
         {
@@ -88,6 +98,25 @@ namespace QD_Tour_Admin.Controllers
             }
 
             return "添加失败";
+        }
+
+        [HttpPost]
+        public string Update(Golf golf)
+        {
+            Golf newGolf = db.Golves.FirstOrDefault(h => h.Id == golf.Id);
+
+            newGolf.Address = golf.Address;
+            newGolf.Name = golf.Name;
+            newGolf.City = golf.City;
+
+            db.Entry(newGolf).State = System.Data.Entity.EntityState.Modified;
+
+            if (db.SaveChanges() > 0)
+            {
+                return "更新成功";
+            }
+
+            return "更新失败";
         }
     }
 }
