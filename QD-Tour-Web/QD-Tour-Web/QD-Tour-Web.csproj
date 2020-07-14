@@ -179,6 +179,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\CustomTourController.cs" />
+    <Compile Include="Controllers\GolfController.cs" />
     <Compile Include="Controllers\GuideController.cs" />
     <Compile Include="Controllers\GuideReservationController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -533,6 +534,7 @@
     <Content Include="Views\Order\TourOrderDetails.cshtml" />
     <Content Include="Views\Order\HotelOrderDetails.cshtml" />
     <Content Include="Views\CustomTour\Index.cshtml" />
+    <Content Include="Views\Golf\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
