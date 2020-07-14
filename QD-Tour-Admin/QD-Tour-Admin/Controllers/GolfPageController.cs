@@ -225,5 +225,29 @@ namespace QD_Tour_Admin.Controllers
             return "更新失败";
         }
 
+        [HttpPost]
+        public string Delete(string Id)
+        {
+            Golf_Package golfPackage = db.Golf_Package.FirstOrDefault(g => g.Id == Id);
+            List<Golf_Reservation> golfReservation = db.Golf_Reservation.Where(r => r.Golf_Package_Id == Id).ToList();
+
+            if (golfReservation.Count != 0)
+            {
+                return "已有预约";
+            }
+
+            if (golfPackage != null)
+            {
+                db.Golf_Package.Remove(golfPackage);
+
+                if (db.SaveChanges() > 0)
+                {
+                    return "删除成功";
+                }
+
+            }
+
+            return "删除失败";
+        }
     }
 }
