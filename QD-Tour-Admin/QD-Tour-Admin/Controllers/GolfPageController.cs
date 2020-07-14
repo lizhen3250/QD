@@ -112,5 +112,118 @@ namespace QD_Tour_Admin.Controllers
 
             return "添加失败";
         }
+
+        [HttpGet]
+        public JsonResult Edit(string Id)
+        {
+            db.Configuration.ProxyCreationEnabled = false;
+            var result = from golfPackage in db.Golf_Package
+                         where golfPackage.Id == Id
+                         select new
+                         {
+                             Id = golfPackage.Id,
+                             Description = golfPackage.Description,
+                             Photo = golfPackage.Photo,
+                             Golf = golfPackage.Golf
+                         };
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public string Update(FormCollection formCollection)
+        {
+            string id = "", photoUrl = "", photo = "", description = "";
+
+            foreach (var key in formCollection.AllKeys)
+            {
+                id = formCollection["id"];
+                description = formCollection["description"];
+                photo = formCollection["photo"];
+            }
+
+            if (Request.Files.Count > 0)
+            {
+                try
+                {
+                    //  Get all files from Request object  
+                    HttpFileCollectionBase files = Request.Files;
+                    for (int i = 0; i < files.Count; i++)
+                    {
+                        //string path = AppDomain.CurrentDomain.BaseDirectory + "Uploads/";  
+                        //string filename = Path.GetFileName(Request.Files[i].FileName);  
+
+                        HttpPostedFileBase file = files[i];
+
+                        // Checking for Internet Explorer  
+                        if (Request.Browser.Browser.ToUpper() == "IE" || Request.Browser.Browser.ToUpper() == "INTERNETEXPLORER")
+                        {
+                            string[] testfiles = file.FileName.Split(new char[] { '\\' });
+                            photoUrl = testfiles[testfiles.Length - 1];
+                        }
+                        else
+                        {
+                            photoUrl = file.FileName;
+                        }
+
+                        if (!System.IO.Directory.Exists(Server.MapPath("~/Uploads/")))
+                        {
+
+                            System.IO.Directory.CreateDirectory(Server.MapPath("~/Uploads/"));
+
+                        }
+
+                        // Get the complete folder path and store the file inside it.  
+                        string fullPathUrl = Path.Combine(Server.MapPath("~/Uploads/"), photoUrl);
+
+                        Golf_Package newGolfPackage = db.Golf_Package.FirstOrDefault(g => g.Id == id);
+
+                        newGolfPackage.Photo = "/Uploads/" + photoUrl; ;
+                        newGolfPackage.Description = description;
+
+                        db.Entry(newGolfPackage).State = System.Data.Entity.EntityState.Modified;
+
+                        if (db.SaveChanges() > 0)
+                        {
+                            file.SaveAs(fullPathUrl);
+                            return "更新成功";
+                        }
+                    }
+                    // Returns message that successfully uploaded  
+                    //return "File Uploaded Successfully!";
+                }
+                catch (DbEntityValidationException dbEx)
+                {
+                    StringBuilder sb = new StringBuilder();
+                    foreach (var validationErrors in dbEx.EntityValidationErrors)
+                    {
+                        foreach (var validationError in validationErrors.ValidationErrors)
+                        {
+                            sb.Append("Property:" + validationError.PropertyName + "  Error: " + validationError.ErrorMessage);
+                        }
+                    }
+
+                    return sb.ToString();
+                }
+            }
+            else
+            {
+                Golf_Package newGolfPackage = db.Golf_Package.FirstOrDefault(g => g.Id == id);
+
+                newGolfPackage.Photo = "/Uploads/" + photo;
+                newGolfPackage.Description = description;
+
+                db.Entry(newGolfPackage).State = System.Data.Entity.EntityState.Modified;
+
+                if (db.SaveChanges() > 0)
+                {
+
+                    return "更新成功";
+                }
+            }
+
+            return "更新失败";
+        }
+
     }
 }

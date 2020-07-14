@@ -28,6 +28,23 @@
             }
         });
 
+        $('#input-edit-photo').on('change', function () {
+            ////get the file name
+            var fileName = $(this).val().split('\\').pop();
+            ////replace the "Choose a file" label
+            $(this).next('.custom-file-label').html(fileName);
+
+            var input = $(this)[0];
+            //console.log(input.files[0]);
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#edit-preview').attr('src', e.target.result).fadeIn('slow');
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        });
+
         $.ajax({
             url: '/Golf/GetAllGolves',
             type: 'GET',
@@ -38,7 +55,7 @@
                     $("#input-country").append("<option value=" + data[i].City + ">" + data[i].City + "</option>");
                     $("#input-edit-country").append("<option value=" + data[i].City + ">" + data[i].City + "</option>");
                     $("#input-name").append("<option value=" + data[i].Name + ">" + data[i].Name + "</option>");
-                    $("#input-edit-name").append("<option value=" + data[i].Area + ">" + data[i].Area + "</option>");
+                    $("#input-edit-name").append("<option value=" + data[i].Name + ">" + data[i].Name + "</option>");
                 }
             },
             error: function (data) {
@@ -78,7 +95,7 @@
             $.ajax({
                 url: '/Golf/GetGolfByCountryAndName',
                 type: 'GET',
-                data: { Country: country, Area: area },
+                data: { Country: country, Name: name },
                 contentType: 'application/json; charset=utf-8',
                 success: function (data) {
                     console.log(data);
@@ -125,7 +142,7 @@
                                         <td>@golfPackage.Golf.Name</td>
                                         <td>@golfPackage.Golf.Address</td>                                      
                                         <td>
-                                            <button type="button" class="btn btn-primary btn-default" onclick="editHotelPackage('@golfPackage.Id')" data-toggle="modal" data-target="#editModel">编辑</button>
+                                            <button type="button" class="btn btn-primary btn-default" onclick="editGolfPackage('@golfPackage.Id')" data-toggle="modal" data-target="#editModel">编辑</button>
                                             <button type="button" class="btn btn-danger btn-default" onclick="deleteHotelPackage('@golfPackage.Id')">删除</button>
                                         </td>
                                     </tr>
@@ -145,7 +162,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">添加酒店页面</h5>
+                <h5 class="modal-title" id="exampleModalLabel">添加高尔夫页面</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -197,6 +214,70 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
                 <button type="button" class="btn btn-primary" onclick="addHotelPackage()">添加</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">编辑高尔夫页面</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-body">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">城市</span>
+                        </div>
+                        <select class="custom-select" id="input-edit-country">
+                            <option>请选择...</option>
+                        </select>
+                        <span style="display:none" id="input-edit-id"></span>
+                        <span id="input-edit-golf-id" style="display:none"></span>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">名字</span>
+                        </div>
+                        <select class="custom-select" id="input-edit-name">
+                            <option>请选择...</option>
+                        </select>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">地址</span>
+                        </div>
+                        <input type="text" id="input-edit-address" class="form-control" aria-label="Address" aria-describedby="inputGroup-sizing-default" disabled>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">图片 </span>
+                        </div>
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="input-edit-photo">
+                            <label class="custom-file-label" for="inputGroupFile01" id="edit-photo-label">Choose file</label>
+                        </div>
+
+                        <div class="border rounded-lg text-center p-3">
+                            <img src="" class="img-fluid" id="edit-preview" />
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">描述</span>
+                        </div>
+                        <textarea class="form-control" id="input-edit-description" aria-label="With textarea"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" onclick="updateHotelPackage()">更新</button>
+                </div>
             </div>
         </div>
     </div>
@@ -259,4 +340,85 @@
             alert("FormData is not supported.");
         }
     };
+
+    function editGolfPackage(id) {
+        console.log(id);
+        $.ajax({
+            url: '/GolfPage/Edit',
+            type: "GET",
+            data: { Id: id },
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                console.log(data);
+                $('#input-edit-id').html(data[0].Id);
+                $('#input-edit-country').val(data[0].Golf.City);
+                $('#input-edit-name').val(data[0].Golf.Name);
+                $('#input-edit-address').val(data[0].Golf.Address);
+                $('#edit-preview').attr('src', "http://localhost:59442" + data[0].Photo).fadeIn('slow');
+                $('#edit-photo-label').html(data[0].Photo.split("/").pop());
+                $('#input-edit-description').val(data[0].Description);
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+    }
+
+    function updateHotelPackage() {
+        var p = $('#input-edit-photo')[0];
+        var id = $('#input-edit-id').html();
+        var country = $('#input-edit-country').val();
+        var name = $('#input-edit-name').val();
+        var address = $('#input-edit-address').val();
+        var photo = $('#edit-photo-label').html();
+        var description = $('#input-edit-description').val();
+        var hotelId = $('#input-edit-golf-id').html();
+
+
+        if (window.FormData !== undefined) {
+
+            var fileUpload = $("#input-edit-photo").get(0);
+            var files = fileUpload.files;
+
+            // Create FormData object
+            var fileData = new FormData();
+
+            if (files.length == 0) {
+                fileData.append('photo', photo);
+            } else {
+                // Looping over all files and add it to FormData object
+                for (var i = 0; i < files.length; i++) {
+                    fileData.append(files[i].name, files[i]);
+                }
+            }           
+
+            // Adding one more key to FormData object
+            fileData.append('id', id);
+            fileData.append('description', description);
+
+            $.ajax({
+                url: '/GolfPage/Update',
+                type: "POST",
+                contentType: false, // Not to set any content header
+                processData: false, // Not to process data
+                data: fileData,
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data);
+                    if (data.responseText == "更新成功" && data.statusText == "OK") {
+                        window.location.reload();
+                    }
+
+                },
+                error: function (data) {
+                    console.log(data);
+                    if (data.responseText == "更新成功" && data.statusText == "OK") {
+                        window.location.reload();
+                    }
+                }
+            });
+        } else {
+            alert("FormData is not supported.");
+        }
+    }
 </script>
