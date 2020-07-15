@@ -43,7 +43,7 @@
                                     <td>@golfReservation.GolfPackage.Golf.Name</td>
                                     <td>@golfReservation.GolfPackage.Golf.City</td>
                                     <td>@golfReservation.GolfPackage.Golf.Address</td>
-                                    <td>@golfReservation.GolfReservation.StartTime.ToString("yyyy-MM-dd")</td>
+                                    <td>@golfReservation.GolfReservation.StartTime.ToString("yyyy-MM-dd HH:mm")</td>
                                     <td>@golfReservation.GolfReservation.GolfHole</td>
                                     <td>@golfReservation.Member.Email</td>
                                     <td>@golfReservation.Member.Name</td>
@@ -58,7 +58,7 @@
                                         <td>是 </td>
                                     }
                                     <td>
-                                        <button type="submit" class="btn btn-primary btn-default" data-target="#editModel" data-toggle="modal" onclick="getHotelReservation('@golfReservation.GolfReservation.Id')">编辑</button>
+                                        <button type="submit" class="btn btn-primary btn-default" data-target="#editModel" data-toggle="modal" onclick="getGolfReservation('@golfReservation.GolfReservation.Id')">编辑</button>
                                         <button type="submit" class="btn btn-danger btn-default" onclick="deleteGolfReservation('@golfReservation.GolfReservation.Id', '@golfReservation.Member.Id')">删除</button>
                                     </td>
                                 </tr>
@@ -73,6 +73,101 @@
         </div>
     </div><!-- .animated -->
 </div><!-- .content -->
+
+<div class="modal fade" id="editModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">编辑高尔夫预约</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" onclick="close()">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">名字</span>
+                    </div>
+                    <input type="text" id="input-edit-name" class="form-control" aria-label="Destination" aria-describedby="inputGroup-sizing-default" disabled>
+                    <span style="display:none" id="input-edit-id"></span>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">城市</span>
+                    </div>
+                    <input type="text" id="input-edit-country" class="form-control" aria-label="Destination" aria-describedby="inputGroup-sizing-default" disabled>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">地址</span>
+                    </div>
+                    <input type="text" id="input-edit-address" class="form-control" aria-label="Destination" aria-describedby="inputGroup-sizing-default" disabled>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">邮箱</span>
+                    </div>
+                    <input type="text" id="input-edit-email" class="form-control" aria-label="Destination" aria-describedby="inputGroup-sizing-default" disabled>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">会员名</span>
+                    </div>
+                    <input type="text" id="input-edit-member-name" class="form-control" aria-label="Destination" aria-describedby="inputGroup-sizing-default" disabled>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">预约人数</span>
+                    </div>
+                    <input type="text" id="input-edit-numberOfPeople" class="form-control" aria-label="Destination" aria-describedby="inputGroup-sizing-default" disabled>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">开球时间</span>
+                    </div>
+                    <input type="text" id="input-edit-start-date" class="form-control" aria-label="StartDate" aria-describedby="inputGroup-sizing-default" disabled>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">球洞数</span>
+                    </div>
+                    <input type="text" id="input-edit-golfHole" class="form-control" aria-label="EndDate" aria-describedby="inputGroup-sizing-default" disabled>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">总价</span>
+                    </div>
+                    <input type="text" id="input-edit-total-price" class="form-control" aria-label="Amount (to the nearest dollar)" disabled>
+                    <div class="input-group-append">
+                        <span class="input-group-text">.00</span>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">是否付费</span>
+                    </div>
+                    <select class="form-control" id="input-edit-paid">
+                        <option value="1">是</option>
+                        <option value="0">否</option>
+                    </select>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">图片 </span>
+                    </div>
+
+                    <div class="border rounded-lg text-center p-3">
+                        <img src="" class="img-fluid" id="edit-preview" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="updateGolfReservation()">更新</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
     function deleteGolfReservation(golfReservationId, memberId) {
@@ -94,5 +189,92 @@
                 console.log(data);
             }
         });
+    };
+
+    function getGolfReservation(id) {
+        $("#input-edit-guide option").attr("selected", false);
+        $.ajax({
+            url: '/GolfReservation/Details',
+            type: "GET",
+            data: { Id: id },
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                console.log(data);
+                $('#input-edit-id').val(data[0].golfReservationId);
+                $('#input-edit-name').val(data[0].name);
+                $('#input-edit-country').val(data[0].country);
+                $('#input-edit-address').val(data[0].address);
+                $('#input-edit-email').val(data[0].email);
+                $('#input-edit-member-name').val(data[0].memberName);
+                $('#input-edit-numberOfPeople').val(data[0].numberOfPeople);
+                $('#input-edit-start-date').val(new Date(getDateFromAspNetFormat(data[0].startTime)).format("yyyy-MM-dd"));
+                $('#input-edit-golfHole').val(data[0].golfHole);
+                $('#input-edit-total-price').val(data[0].totalPrice);
+                $('#edit-preview').attr('src', "http://localhost:59442" + data[0].photo).fadeIn('slow');
+                $('#input-edit-paid').val(data[0].isPaid);
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+    };
+
+    function updateGolfReservation() {
+        var Id = $('#input-edit-id').val();
+        var isPaid = $("#input-edit-paid").find("option:selected").val();
+
+        var data = {
+            Id: Id,
+            IsPaid: isPaid
+        };
+
+        console.log(data);
+
+        $.ajax({
+            url: '/GolfReservation/Update',
+            type: 'POST',
+            data: JSON.stringify(data),
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                console.log(data);
+                if (data == "更新成功") {
+                    window.location.reload();
+                }
+
+            },
+            error: function (data) {
+                console.log(data);
+                if (data.responseText == "添加成功") {
+                    window.location.reload();
+                }
+            }
+        });
+    };
+
+    function getDateFromAspNetFormat(date) {
+        const re = /-?\d+/;
+        const m = re.exec(date);
+        return parseInt(m[0], 10);
     }
+
+    Date.prototype.format = function (format) {
+        var date = {
+            "M+": this.getMonth() + 1,
+            "d+": this.getDate(),
+            "h+": this.getHours(),
+            "m+": this.getMinutes(),
+            "s+": this.getSeconds(),
+            "q+": Math.floor((this.getMonth() + 3) / 3),
+            "S": this.getMilliseconds()
+        };
+        if (/(y+)/i.test(format)) {
+            format = format.replace(RegExp.$1, (this.getFullYear() + '').substr(4 - RegExp.$1.length));
+        }
+        for (var k in date) {
+            if (new RegExp("(" + k + ")").test(format)) {
+                format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? date[k] : ("00" + date[k]).substr(("" + date[k]).length));
+            }
+        }
+        return format;
+    };
 </script>

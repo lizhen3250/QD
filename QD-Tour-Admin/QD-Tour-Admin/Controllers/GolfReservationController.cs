@@ -59,5 +59,49 @@ namespace QD_Tour_Admin.Controllers
 
             return "删除失败";
         }
+
+        [HttpGet]
+        public JsonResult Details(string Id)
+        {
+            var result = from golfReservation in db.Golf_Reservation
+                         from member in golfReservation.Members
+                         join golfPackage in db.Golf_Package on golfReservation.Golf_Package_Id equals golfPackage.Id
+                         where golfReservation.Id == Id
+                         select new
+                         {
+                             golfReservationId = golfReservation.Id,
+                             memberName = member.Name,
+                             email = member.Email,
+                             startTime = golfReservation.StartTime,
+                             isPaid = golfReservation.IsPaid,
+                             photo = golfReservation.Golf_Package.Photo,
+                             totalPrice = golfReservation.TotalPrice,
+                             address = golfReservation.Golf_Package.Golf.Address,
+                             country = golfReservation.Golf_Package.Golf.City,
+                             name = golfReservation.Golf_Package.Golf.Name,
+                             numberOfPeople = golfReservation.PeopleNumber,
+                             golfHole = golfReservation.GolfHole
+                         };
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public string Update(Golf_Reservation golfReservation)
+        {
+            Golf_Reservation newGolfReservation = db.Golf_Reservation.Where(r => r.Id == golfReservation.Id).FirstOrDefault();
+
+
+            newGolfReservation.IsPaid = golfReservation.IsPaid;
+
+            db.Entry(newGolfReservation).State = System.Data.Entity.EntityState.Modified;
+
+            if (db.SaveChanges() > 0)
+            {
+                return "更新成功";
+            }
+
+            return "更新失败";
+        }
     }
 }
