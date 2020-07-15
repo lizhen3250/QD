@@ -1,4 +1,5 @@
 ﻿using QD_Tour_Admin.Model;
+using QD_Tour_Admin.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,8 @@ namespace QD_Tour_Admin.Controllers
 
         public Member Member { get; set; }
     }
+
+    [CustomAuthorize]
     public class GolfReservationController : Controller
     {
         private QDTourAdminEntities db = new QDTourAdminEntities();
