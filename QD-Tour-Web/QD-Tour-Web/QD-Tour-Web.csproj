@@ -180,6 +180,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\CustomTourController.cs" />
     <Compile Include="Controllers\GolfController.cs" />
+    <Compile Include="Controllers\GolfReservationController.cs" />
     <Compile Include="Controllers\GuideController.cs" />
     <Compile Include="Controllers\GuideReservationController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -536,11 +537,13 @@
     <Content Include="Views\CustomTour\Index.cshtml" />
     <Content Include="Views\Golf\Index.cshtml" />
     <Content Include="Views\Golf\Details.cshtml" />
+    <Content Include="Views\Order\GolfOrderDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Scripts\js\assets\" />
     <Folder Include="Scripts\js\vendor\" />
+    <Folder Include="Views\GolfReservation\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

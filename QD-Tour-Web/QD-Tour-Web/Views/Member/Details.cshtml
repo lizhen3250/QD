@@ -33,6 +33,7 @@
                     <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false" onclick="getGuideReservation();">导游预约</a>
                     <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false" onclick="getVehicleReservation();">车辆预约</a>
                     <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false" onclick="getHotelReservation();">酒店预约</a>
+                    <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false" onclick="getGolfReservation();">高尔夫预约</a>
                 </div>
             </div>
             <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10" style="display:none" id="member-info">
@@ -135,6 +136,25 @@
                     <tbody></tbody>
                 </table>
             </div>
+
+            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10" style="display:none" id="golf-info">
+                <h3>高尔夫预约</h3>
+                <table class="table" id="golf-table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">名字</th>
+                            <th scope="col">城市</th>
+                            <th scope="col">地址</th>
+                            <th scope="col">球洞数</th>
+                            <th scope="col">开球时间</th>
+                            <th scope="col">预约人数</th>
+                            <th scope="col">总价</th>
+                            <th scope="col">是否已支付？</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
@@ -151,6 +171,7 @@
         $('#guide-info').hide();
         $('#vehicle-info').hide();
         $('#hotel-info').hide();
+        $('#golf-info').hide();
         $.ajax({
             url: '/Member/GetMemberInfo',
             type: "GET",
@@ -176,6 +197,7 @@
         $('#guide-info').hide();
         $('#vehicle-info').hide();
         $('#hotel-info').hide();
+        $('#golf-info').hide();
         if (packageCount == 0) {
             $.ajax({
                 url: '/Member/GetTourReservation',
@@ -208,6 +230,7 @@
         $('#guide-info').show();
         $('#vehicle-info').hide();
         $('#hotel-info').hide();
+        $('#golf-info').hide();
         if (guideCount == 0) {
             $.ajax({
                 url: '/Member/GetGuideReservation',
@@ -240,6 +263,7 @@
         $('#guide-info').hide();
         $('#vehicle-info').show();
         $('#hotel-info').hide();
+        $('#golf-info').hide();
         if (vehicleCount == 0) {
             $.ajax({
                 url: '/Member/GetVehicleReservation',
@@ -272,6 +296,7 @@
         $('#guide-info').hide();
         $('#vehicle-info').hide();
         $('#hotel-info').show();
+        $('#golf-info').hide();
         if (hotelCount == 0) {
             $.ajax({
                 url: '/Member/GetHotelReservation',
@@ -291,6 +316,41 @@
                             $('#hotel-table').append('<tr><td>' + data[i].country + '</td><td>' + data[i].area + '</td><td>' + data[i].name + '</td><td>' + data[i].type + '</td><td>' + new Date(getDateFromAspNetFormat(data[i].startTime)).format("yyyy-MM-dd") + '</td><td>' + new Date(getDateFromAspNetFormat(data[i].endTime)).format("yyyy-MM-dd") + '</td><td>' + data[i].totalPrice + '</td><td>' + str + '</td></tr>');
                         }
                     }                  
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        }
+        hotelCount++;
+    }
+
+    function getGolfReservation() {
+        $('#member-info').hide();
+        $('#package-info').hide();
+        $('#guide-info').hide();
+        $('#vehicle-info').hide();
+        $('#hotel-info').hide();
+        $('#golf-info').show();
+        if (hotelCount == 0) {
+            $.ajax({
+                url: '/Member/GetGolfReservation',
+                type: "GET",
+                data: { Id: Id },
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    console.log(data);
+                    if (data.length > 0) {
+                        var str = '';
+                        for (var i = 0; i < data.length; i++) {
+                            if (data[i].isPaid == 0) {
+                                str = '否';
+                            } else {
+                                str = "是";
+                            }
+                            $('#golf-table').append('<tr><td>' + data[i].name + '</td><td>' + data[i].country + '</td><td>' + data[i].address + '</td><td>' + data[i].golfHole + '</td><td>' + new Date(getDateFromAspNetFormat(data[i].startTime)).format("yyyy-MM-dd") + '</td><td>' + data[i].numberOfPeople + '</td><td>' + data[i].totalPrice + '</td><td>' + str + '</td></tr>');
+                        }
+                    }
                 },
                 error: function (err) {
                     console.log(err);

@@ -561,6 +561,7 @@
     <Property Name="Golf_Package_Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="Golf_Package" Relationship="Model.FK_Golf_Reservation_Golf_Package" FromRole="Golf_Reservation" ToRole="Golf_Package" />
     <NavigationProperty Name="Members" Relationship="Model.MemberGolfReservation" FromRole="Golf_Reservation" ToRole="Member" />
+    <Property Name="GolfHole" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <Association Name="FK_Golf_Package_Golf">
     <End Type="Model.Golf" Role="Golf" Multiplicity="1" />

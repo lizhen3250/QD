@@ -26,6 +26,7 @@ namespace QD_Tour_Web.Models
         public int PeopleNumber { get; set; }
         public int IsPaid { get; set; }
         public string Golf_Package_Id { get; set; }
+        public string GolfHole { get; set; }
     
         public virtual Golf_Package Golf_Package { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

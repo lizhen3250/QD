@@ -51,6 +51,7 @@
           <Property Name="PeopleNumber" Type="int" Nullable="false" />
           <Property Name="IsPaid" Type="int" Nullable="false" />
           <Property Name="Golf_Package_Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="GolfHole" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Guide">
           <Key>
@@ -1291,6 +1292,7 @@
           <Property Name="Golf_Package_Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Golf_Package" Relationship="Model.FK_Golf_Reservation_Golf_Package" FromRole="Golf_Reservation" ToRole="Golf_Package" />
           <NavigationProperty Name="Members" Relationship="Model.MemberGolfReservation" FromRole="Golf_Reservation" ToRole="Member" />
+          <Property Name="GolfHole" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_Golf_Package_Golf">
           <End Type="Model.Golf" Role="Golf" Multiplicity="1" />
@@ -1635,6 +1637,7 @@
           <EntitySetMapping Name="Golf_Reservation">
             <EntityTypeMapping TypeName="Model.Golf_Reservation">
               <MappingFragment StoreEntitySet="Golf_Reservation">
+                <ScalarProperty Name="GolfHole" ColumnName="GolfHole" />
                 <ScalarProperty Name="Golf_Package_Id" ColumnName="Golf_Package_Id" />
                 <ScalarProperty Name="IsPaid" ColumnName="IsPaid" />
                 <ScalarProperty Name="PeopleNumber" ColumnName="PeopleNumber" />

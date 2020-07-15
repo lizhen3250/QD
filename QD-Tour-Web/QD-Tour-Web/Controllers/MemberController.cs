@@ -137,5 +137,25 @@ namespace QD_Tour_Web.Controllers
                                     };
             return Json(hotelReservations.ToList(), JsonRequestBehavior.AllowGet);
         }
+
+        [HttpGet]
+        public JsonResult GetGolfReservation(string Id)
+        {
+            var guideReservations = from golfReservation in db.Golf_Reservation
+                                    where golfReservation.Members.Any(c => c.Id == Id)
+                                    join golfPackage in db.Golf_Package on golfReservation.Golf_Package_Id equals golfPackage.Id
+                                    select new
+                                    {
+                                        name = golfPackage.Golf.Name,
+                                        address = golfPackage.Golf.Address,
+                                        country = golfPackage.Golf.City,
+                                        startTime = golfReservation.StartTime,
+                                        numberOfPeople = golfReservation.PeopleNumber,
+                                        totalPrice = golfReservation.TotalPrice,
+                                        isPaid = golfReservation.IsPaid,
+                                        golfHole = golfReservation.GolfHole
+                                    };
+            return Json(guideReservations.ToList(), JsonRequestBehavior.AllowGet);
+        }
     }
 }

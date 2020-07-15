@@ -286,6 +286,7 @@
     <EntitySetMapping Name="Golf_Reservation">
       <EntityTypeMapping TypeName="Model.Golf_Reservation">
         <MappingFragment StoreEntitySet="Golf_Reservation">
+          <ScalarProperty Name="GolfHole" ColumnName="GolfHole" />
           <ScalarProperty Name="Golf_Package_Id" ColumnName="Golf_Package_Id" />
           <ScalarProperty Name="IsPaid" ColumnName="IsPaid" />
           <ScalarProperty Name="PeopleNumber" ColumnName="PeopleNumber" />

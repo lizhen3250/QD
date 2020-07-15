@@ -2,7 +2,7 @@
 
 @{
 
-    ViewBag.Title = "华康旅游 - 酒店预约 - " + Model.Golf.Name;
+    ViewBag.Title = "华康旅游 - 高尔夫预约 - " + Model.Golf.Name;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes" />
@@ -10,6 +10,124 @@
 <link href="~/Scripts/datetimepicker/css/jquery.timepicker.css" rel="stylesheet" />
 
 <hr />
+<script>
+    $(document).ready(function () {
+        $('#input-start-date').datetimepicker({
+            timepicker: true,
+        });
+
+        $('#input-golf-number-of-people').change(function () {
+            if ($('#input-golf-number-of-people').val() != null || $('#input-golf-number-of-people').val() != "") {
+                $('#input-start-date').val('');
+                $('#input-golf-hole').val("请选择。。。");
+                $('#input-total-price').val("");
+            }
+        });
+
+        $('#input-start-date').change(function () {
+
+            var numberOfPeople = $('#input-golf-number-of-people').val();
+            var startDate = $('#input-start-date').val();
+            var convertedStartDate = convert(startDate);
+
+            var golfHole = $('#input-golf-hole').find("option:selected").val();
+
+            console.log(golfHole);
+
+            $.ajax({
+                url: '/Golf/GetAllPrices',
+                type: 'GET',
+                data: { Id: $('#package-id').text() },
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    for (var i = 0; i < data.length; i++) {
+                        var date = ChangeDateFormat(data[i].Date);
+                        if (date == convertedStartDate) {
+                            console.log(data[i]);
+                            var price = data[i][golfHole];
+                            console.log(price);
+                            var totoalPrice = numberOfPeople * price;
+                            $('#input-total-price').val(totoalPrice);
+                        }
+                    }
+
+                },
+                error: function (data) {
+                    console.log(data);
+                    if (data.responseText == "添加成功") {
+                        window.location.reload();
+                    }
+                }
+            });
+        });
+
+        $('#input-golf-hole').change(function () {
+            var numberOfPeople = $('#input-golf-number-of-people').val();
+            var startDate = $('#input-start-date').val();
+            if (numberOfPeople == null || numberOfPeople == "") {
+                alert("请选择预约人数!");
+                $('#input-golf-hole').val("请选择。。。");
+                return;
+            }
+
+            if (startDate == null || startDate == "") {
+                alert("请选择开球时间!");
+                $('#input-golf-hole').val("请选择。。。");
+                return;
+            }
+
+            var convertedStartDate = convert(startDate);
+
+            var golfHole = $('#input-golf-hole').find("option:selected").val();
+
+            console.log(golfHole);
+
+            //get total price
+            $.ajax({
+                url: '/Golf/GetAllPrices',
+                type: 'GET',
+                data: { Id: $('#package-id').text()},
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    for (var i = 0; i < data.length; i++) {
+                        var date = ChangeDateFormat(data[i].Date);
+                        if (date == convertedStartDate) {
+                            console.log(data[i]);
+                            var price = data[i][golfHole];
+                            console.log(price);
+                            var totoalPrice = numberOfPeople * price;
+                            $('#input-total-price').val(totoalPrice);
+                        }
+                    }
+
+                },
+                error: function (data) {
+                    console.log(data);
+                    if (data.responseText == "添加成功") {
+                        window.location.reload();
+                    }
+                }
+            });
+
+        })
+    });
+
+    function convert(str) {
+        var date = new Date(str),
+            mnth = ("0" + (date.getMonth() + 1)).slice(-2),
+            day = ("0" + date.getDate()).slice(-2);
+        return [date.getFullYear(), mnth, day].join("-");
+    };
+
+    function ChangeDateFormat(cellval) {
+        var date = new Date(parseInt(cellval.replace("/Date(", "").replace(")/", ""), 10));
+        //getMonth()从0开始算
+        var month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+        var currentDate = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+        return date.getFullYear() + "-" + month + "-" + currentDate;
+    }
+
+</script>
 <div class="section-paddings incredible-places">
     <div class="container">
         <div class="row">
@@ -18,10 +136,10 @@
             </div>
             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                 <p style="display:none" id="package-id">@Model.Id</p>
-                <p><h2 id="input-name">@Model.Golf.Name</h2></p>
-                <p style="font-size:20px; font:bold">城市: <span id="price">@Model.Golf.City </span></p>
-                <p style="font-size:20px; font:bold">地址: <span id="price">@Model.Golf.Address </span></p>
-                <p><a href="#" class="travel-booking-btn hvr-shutter-out-horizontal" data-toggle="collapse" data-target="#collapseRserve">预约</a>                </p>
+                <p><h2 id="span-name">@Model.Golf.Name</h2></p>
+                <p style="font-size:20px; font:bold">城市: <span id="span-city">@Model.Golf.City </span></p>
+                <p style="font-size:20px; font:bold">地址: <span id="span-address">@Model.Golf.Address </span></p>
+                <p><a href="#" class="travel-booking-btn hvr-shutter-out-horizontal" data-toggle="collapse" data-target="#collapseRserve">预约</a></p>
                 <div class="collapse" role="document" id="collapseRserve">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -32,7 +150,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">预约人数</span>
                                 </div>
-                                <input type="number" min="1" id="input-guide-number-of-people" class="form-control" aria-label="NumberOfPeople" aria-describedby="inputGroup-sizing-default">
+                                <input type="number" min="1" id="input-golf-number-of-people" class="form-control" aria-label="NumberOfPeople" aria-describedby="inputGroup-sizing-default">
                             </div>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
@@ -44,11 +162,11 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">球洞数</span>
                                 </div>
-                                <select class="custom-select" id="input-edit-name">
+                                <select class="custom-select" id="input-golf-hole">
                                     <option>请选择。。。</option>
-                                    <option>18洞</option>
-                                    <option>27洞</option>
-                                    <option>36洞</option>
+                                    <option value="EighteenHolePrice">18洞</option>
+                                    <option value="TwentySevenHolePrice">27洞</option>
+                                    <option value="ThirtySixHolePrice">36洞</option>
                                 </select>
                             </div>
                             <div class="input-group mb-3">
@@ -61,7 +179,7 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-primary" onclick="guideReserve()">预约</button>
+                                <button type="button" class="btn btn-primary" onclick="golfReserve()">预约</button>
                             </div>
                         </div>
                     </div>
@@ -81,4 +199,49 @@
         </div>
     </div>
 </div>
+
+<script>
+    function golfReserve() {
+
+        if ($('#member-id').text() == null || $('#member-id').text() == '') {
+            alert("请先登录！");
+            window.location.href = "/Login/Index";
+        }
+
+        $.ajax({
+            url: '/Member/GetMemberInfo',
+            type: 'GET',
+            data: { Id: $('#member-id').text() },
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                console.log(data);
+                var numberOfPeople = $('#input-golf-number-of-people').val();
+                var startTime = $('#input-start-date').val();
+                var totalPrice = $('#input-total-price').val();
+                var golfPackageId = $('#package-id').text();
+                var reservationModel = {
+                    numberOfPeople: numberOfPeople,
+                    startTime: startTime,
+                    golfPackageId: golfPackageId,
+                    totalPrice: totalPrice,
+                    member: data,
+                    city: $('#span-city').text(),
+                    name: $('#span-name').text(),
+                    address: $('#span-address').text(),
+                    golfHole: $('#input-golf-hole').find("option:selected").text()
+                };
+
+                sessionStorage.setItem("info", JSON.stringify(reservationModel));
+                window.location.href = "/Order/GolfOrderDetails"
+
+            },
+            error: function (data) {
+                console.log(data);
+                if (data.responseText == "添加成功") {
+                    window.location.reload();
+                }
+            }
+        });
+    };
+</script>
 

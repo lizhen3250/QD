@@ -46,6 +46,7 @@
     <Property Name="PeopleNumber" Type="int" Nullable="false" />
     <Property Name="IsPaid" Type="int" Nullable="false" />
     <Property Name="Golf_Package_Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="GolfHole" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="Guide">
     <Key>

@@ -38,6 +38,11 @@ namespace QD_Tour_Web.Controllers
             return View();
         }
 
+        public ActionResult GolfOrderDetails()
+        {
+            return View();
+        }
+
         public ActionResult OrderComplete()
         {
             return View();
