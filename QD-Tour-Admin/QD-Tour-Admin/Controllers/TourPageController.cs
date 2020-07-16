@@ -343,5 +343,33 @@ namespace QD_Tour_Admin.Controllers
 
             return "删除失败";
         }
+
+        [HttpPost]
+        public string DeleteImageById(string Id)
+        {
+            Tour_Pakcage_Image tourPackageImage = db.Tour_Pakcage_Image.FirstOrDefault(g => g.Id == Id);
+
+            if (tourPackageImage != null)
+            {
+                db.Tour_Pakcage_Image.Remove(tourPackageImage);
+                if (db.SaveChanges() > 0)
+                {
+                    return "删除成功";
+                }
+
+            }
+
+            return "删除失败";
+        }
+
+        [HttpGet]
+        public JsonResult getAllImages(string Id)
+        {
+            db.Configuration.ProxyCreationEnabled = false;
+
+            var tourImages = db.Tour_Pakcage_Image.Where(t => t.TourPackage_Id == Id).ToList();
+
+            return Json(tourImages, JsonRequestBehavior.AllowGet);
+        }
     }
 }
