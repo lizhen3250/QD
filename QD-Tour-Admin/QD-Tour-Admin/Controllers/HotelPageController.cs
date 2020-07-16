@@ -391,5 +391,33 @@ namespace QD_Tour_Admin.Controllers
 
             return "删除失败";
         }
+
+        [HttpGet]
+        public JsonResult getAllImages(string Id)
+        {
+            db.Configuration.ProxyCreationEnabled = false;
+
+            var hotelImages = db.Hotel_Package_Image.Where(t => t.HotelPackage_Id == Id).ToList();
+
+            return Json(hotelImages, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public string DeleteImageById(string Id)
+        {
+            Hotel_Package_Image hotelPackageImage = db.Hotel_Package_Image.FirstOrDefault(g => g.Id == Id);
+
+            if (hotelPackageImage != null)
+            {
+                db.Hotel_Package_Image.Remove(hotelPackageImage);
+                if (db.SaveChanges() > 0)
+                {
+                    return "删除成功";
+                }
+
+            }
+
+            return "删除失败";
+        }
     }
 }
