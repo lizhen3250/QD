@@ -18,15 +18,16 @@ namespace QD_Tour_Admin.Controllers
 
         public string Login(string name, string password)
         {
-            //var passwords = MD5Service.Encrypt(password);
+            var passwords = MD5Service.Encrypt(password);
 
-            var admin = db.Admins.FirstOrDefault(a => a.Name == name && a.Password == password);
+            var admin = db.Admins.FirstOrDefault(a => a.Name == name && a.Password == passwords);
 
             if (admin != null)
             {
                 //Session.
                 Session["adminLogedIn"] = true;
                 Session["adminId"] = admin.Name;
+                Session.Timeout = 60;
 
                 return "Login Success";
             }

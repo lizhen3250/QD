@@ -165,6 +165,7 @@
     var guideCount = 0;
     var vehicleCount = 0;
     var hotelCount = 0;
+    var golfCount = 0;
     function getMember() {
         $('#member-info').show();
         $('#package-info').hide();
@@ -332,7 +333,7 @@
         $('#vehicle-info').hide();
         $('#hotel-info').hide();
         $('#golf-info').show();
-        if (hotelCount == 0) {
+        if (golfCount == 0) {
             $.ajax({
                 url: '/Member/GetGolfReservation',
                 type: "GET",
@@ -357,7 +358,7 @@
                 }
             });
         }
-        hotelCount++;
+        golfCount++;
     }
 
     function getDateFromAspNetFormat(date) {

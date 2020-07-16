@@ -35,6 +35,7 @@ namespace QD_Tour_Web.Controllers
                 //Session.
                 Session["logedIn"] = true;
                 Session["memberId"] = member.Id;
+                Session.Timeout = 60;
 
                 return "Login Success";
             }
