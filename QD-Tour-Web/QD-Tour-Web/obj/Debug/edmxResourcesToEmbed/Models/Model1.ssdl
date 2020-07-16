@@ -7,6 +7,17 @@
     <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
   </EntityType>
+  <EntityType Name="CustomTour">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Message" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="MemberId" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="IsPaid" Type="int" />
+    <Property Name="MessageSentTime" Type="datetime" />
+    <Property Name="TotalPrice" Type="decimal" Precision="18" Scale="0" />
+  </EntityType>
   <EntityType Name="Golf">
     <Key>
       <PropertyRef Name="Id" />
@@ -292,6 +303,18 @@
     <Property Name="TotalPrice" Type="decimal" Precision="18" Scale="0" />
     <Property Name="Type" Type="nvarchar" MaxLength="50" />
   </EntityType>
+  <Association Name="FK_CustomTour_Member">
+    <End Role="Member" Type="Self.Member" Multiplicity="1" />
+    <End Role="CustomTour" Type="Self.CustomTour" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Member">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CustomTour">
+        <PropertyRef Name="MemberId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Gole_Price_Golf">
     <End Role="Golf" Type="Self.Golf" Multiplicity="1" />
     <End Role="Golf_Price" Type="Self.Golf_Price" Multiplicity="*" />
@@ -594,6 +617,7 @@
   </Association>
   <EntityContainer Name="ModelStoreContainer">
     <EntitySet Name="Admin" EntityType="Self.Admin" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CustomTour" EntityType="Self.CustomTour" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Golf" EntityType="Self.Golf" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Golf_Package" EntityType="Self.Golf_Package" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Golf_Price" EntityType="Self.Golf_Price" Schema="dbo" store:Type="Tables" />
@@ -621,6 +645,10 @@
     <EntitySet Name="Vehicle" EntityType="Self.Vehicle" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Vehicle_Package" EntityType="Self.Vehicle_Package" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Vehicle_Reservation" EntityType="Self.Vehicle_Reservation" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_CustomTour_Member" Association="Self.FK_CustomTour_Member">
+      <End Role="Member" EntitySet="Member" />
+      <End Role="CustomTour" EntitySet="CustomTour" />
+    </AssociationSet>
     <AssociationSet Name="FK_Gole_Price_Golf" Association="Self.FK_Gole_Price_Golf">
       <End Role="Golf" EntitySet="Golf" />
       <End Role="Golf_Price" EntitySet="Golf_Price" />

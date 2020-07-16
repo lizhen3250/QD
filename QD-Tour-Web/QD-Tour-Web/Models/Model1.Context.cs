@@ -48,5 +48,6 @@ namespace QD_Tour_Web.Models
         public virtual DbSet<Golf_Package> Golf_Package { get; set; }
         public virtual DbSet<Golf_Reservation> Golf_Reservation { get; set; }
         public virtual DbSet<Golf_Price> Golf_Price { get; set; }
+        public virtual DbSet<CustomTour> CustomTours { get; set; }
     }
 }

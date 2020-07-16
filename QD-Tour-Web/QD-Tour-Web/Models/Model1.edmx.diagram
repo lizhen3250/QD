@@ -49,6 +49,8 @@
         <AssociationConnector Association="Model.MemberGolfReservation" />
         <EntityTypeShape EntityType="Model.Golf_Price" Width="1.5" PointX="12.625" PointY="8.5" />
         <AssociationConnector Association="Model.FK_Gole_Price_Golf" />
+        <EntityTypeShape EntityType="Model.CustomTour" Width="1.5" PointX="5.25" PointY="25" />
+        <AssociationConnector Association="Model.FK_CustomTour_Member" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

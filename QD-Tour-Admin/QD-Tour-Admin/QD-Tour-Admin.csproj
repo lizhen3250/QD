@@ -181,6 +181,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\CustomTourReservationController.cs" />
     <Compile Include="Controllers\GolfController.cs" />
     <Compile Include="Controllers\GolfPageController.cs" />
     <Compile Include="Controllers\GolfReservationController.cs" />
@@ -203,6 +204,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Model\Admin.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CustomTour.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Golf.cs">
@@ -3025,6 +3029,7 @@
     <Content Include="Views\Golf\Details.cshtml" />
     <Content Include="Views\GolfPage\Index.cshtml" />
     <Content Include="Views\GolfReservation\Index.cshtml" />
+    <Content Include="Views\CustomTourReservation\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="vendors\popper.js\packages\popper\index.d.ts" />

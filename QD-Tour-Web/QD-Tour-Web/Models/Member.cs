@@ -22,6 +22,7 @@ namespace QD_Tour_Web.Models
             this.Hotel_Reservation = new HashSet<Hotel_Reservation>();
             this.Tour_Reservation = new HashSet<Tour_Reservation>();
             this.Golf_Reservation = new HashSet<Golf_Reservation>();
+            this.CustomTours = new HashSet<CustomTour>();
         }
     
         public string Id { get; set; }
@@ -45,5 +46,7 @@ namespace QD_Tour_Web.Models
         public virtual ICollection<Tour_Reservation> Tour_Reservation { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Golf_Reservation> Golf_Reservation { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CustomTour> CustomTours { get; set; }
     }
 }
