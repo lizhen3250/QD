@@ -39,5 +39,63 @@ namespace QD_Tour_Admin.Controllers
 
             return View(customTourReservationModel);
         }
+
+        [HttpGet]
+        public JsonResult Details(string Id)
+        {
+            db.Configuration.ProxyCreationEnabled = false;
+
+            var result = from customTourReservation in db.CustomTours
+                         join member in db.Members on customTourReservation.MemberId equals member.Id
+                         where customTourReservation.Id == Id
+                         select new
+                         {
+                             Id = customTourReservation.Id,
+                             IsPaid = customTourReservation.IsPaid,
+                             Member = customTourReservation.Member,
+                             MemberId = customTourReservation.Member.Id,
+                             Message = customTourReservation.Message,
+                             MessageSentTime = customTourReservation.MessageSentTime,
+                             TotalPrice = customTourReservation.TotalPrice
+                         };
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public string Update(CustomTour customTourReservation)
+        {
+            CustomTour newCustomTourReservation = db.CustomTours.Where(r => r.Id == customTourReservation.Id).FirstOrDefault();
+
+            newCustomTourReservation.IsPaid = customTourReservation.IsPaid;
+            newCustomTourReservation.TotalPrice = customTourReservation.TotalPrice;
+
+            db.Entry(newCustomTourReservation).State = System.Data.Entity.EntityState.Modified;
+
+            if (db.SaveChanges() > 0)
+            {
+                return "更新成功";
+            }
+
+            return "更新失败";
+        }
+
+        [HttpPost]
+        public string Delete(string customTourReservationId, string memberId)
+        {
+            CustomTour customTourReservation = db.CustomTours.FirstOrDefault(v => v.Id == customTourReservationId);
+
+            if (customTourReservation != null)
+            {
+                db.CustomTours.Remove(customTourReservation);
+                if (db.SaveChanges() > 0)
+                {
+                    return "删除成功";
+                }
+
+            }
+
+            return "删除失败";
+        }
     }
 }
