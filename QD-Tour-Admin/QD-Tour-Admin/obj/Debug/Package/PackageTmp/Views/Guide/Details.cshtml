@@ -1,0 +1,52 @@
+﻿@model IEnumerable<QD_Tour_Admin.Model.Guide_Reservation>
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content mt-3">
+    <div class="animated fadeIn">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <strong class="card-title">Data Table</strong>
+                    </div>
+                    <div class="card-body">
+                        <table id="bootstrap-data-table-export" class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="display:none">Id</th>
+                                    <th>姓名</th>
+                                    <th>入职时间</th>
+                                    <th>薪资</th>
+                                    <th>预约详情</th>
+                                    <th>编辑 / 删除</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var reservation in Model)
+                                {
+                                    <tr>
+                                        <td style="display:none">@reservation.Id</td>
+                                        <td>@reservation.Start_Time</td>
+                                            <td>@reservation.End_Time</td>
+                                            @*<td>@guide.TotalEarnPrice</td>
+                                            <td><a href="/Guide/Details/@guide.Id" class="btn btn-primary">预约详情</a></td>*@
+                                            <td>
+                                                <button type="submit" class="btn btn-primary btn-default">编辑</button>
+                                                <button type="submit" class="btn btn-danger btn-default">删除</button>
+                                            </td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div><!-- .animated -->
+</div><!-- .content -->

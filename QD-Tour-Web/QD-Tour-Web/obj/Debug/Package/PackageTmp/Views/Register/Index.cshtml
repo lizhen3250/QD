@@ -1,0 +1,205 @@
+﻿
+@{
+    ViewBag.Title = "华康旅游 - 会员注册";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+<link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+<script>
+    $(function () {
+        $('#register-birth').datepicker();
+    });
+
+    function validationEmail() {
+        var email = $('#register-email').val();
+        if (!email || /^\s*$/.test(email)) {
+            $('#email-validation').css('color', 'red');
+            $('#email-validation').html('이메일 주소 입력바랍니다');
+            return false;
+        }
+        var pattern = /^([\w-\.]+@@([\w-]+\.)+[\w-]{2,4})?$/;
+        if (!pattern.test(email)) {
+            $('#email-validation').css('color', 'red');
+            $('#email-validation').html('존재하지 않은 이메일입니다');
+            return false;
+        };
+        $.ajax({
+            url: '/Register/MemberExist',
+            type: 'POST',
+            data: JSON.stringify({email:email}),
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                if (data == "already exist") {
+                    $('#email-validation').css('color', 'red');
+                    $('#email-validation').html('이미 존재한 이메일입니다');
+                } else {
+                    $('#email-validation').css('color', 'blue');
+                    $('#email-validation').html('사용가능한 이메일입니다');
+                }
+            },
+            error: function () {
+                alert("error");
+            }
+        });
+
+        return true;
+    }
+
+    function validationPassword() {
+        var password = $('#register-password').val();
+        if (!password || !/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,}$/.test(password)) {
+            $('#password-validation').css('color', 'red');
+            $('#password-validation').html('长度要大于6位，由数字和字母组成');
+            return false;
+        } else {
+            $('#password-validation').html('');
+        }
+
+        return true;
+    }
+
+    function validationConfirmPassword() {
+        var confirmPassword = $('#register-confirm-password').val();
+        var password = $('#register-password').val();
+
+        if (password != confirmPassword) {
+            $('#confirmPassword-validation').css('color', 'red');
+            $('#confirmPassword-validation').html('密码不一致');
+            return false;
+        } else {
+            $('#confirmPassword-validation').html('');
+        }
+
+        return true;
+    }
+
+    function validationName() {
+        var name = $('#register-name').val();
+        if (!name) {
+            $('#name-validation').css('color', 'red');
+            $('#name-validation').html('성명 입력바랍니다');
+            return false;
+        }
+
+        return true;
+    }
+
+    function validationPhone() {
+        var phone = $('#register-phone').val();
+        if (!phone) {
+            $('#phone-validation').css('color', 'red');
+            $('#phone-validation').html('전화번호 입력바랍니다');
+            return false;
+        }
+
+        return true;
+    }
+
+    function formValidate() {
+        var email = $('#register-email').val();
+        var password = $('#register-password').val();
+        var confirmPassword = $('#register-confirm-password').val();
+        var name = $('#register-name').val();
+        var phone = $('#register-phone').val();
+        var sex = $("input[name='gender']:checked").val();
+        var birth = $('#register-birth').val();
+
+        if (validationEmail() == false || validationPassword() == false || validationConfirmPassword() == false || validationName() == false || validationPhone() == false) {
+            console.log("validation failed");
+            return;
+        }
+
+        var memberData = {
+            email: email,
+            password: password,
+            name: name,
+            phone: phone,
+            sex: sex,
+            birth: birth,
+            varification: 0
+        };
+
+        console.log(memberData);
+
+        $.ajax({
+            url: '/Register/ValidationSuccess',
+            type: 'POST',
+            data: JSON.stringify(memberData),
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                console.log(data);
+                if (data == "회원가입 완료") {
+                    window.location.href = "/Register/EmailValidation?email=" + email;
+                }
+            },
+            error: function () {
+                alert("error");
+            }
+        });
+    };
+</script>
+<div class="section-paddings incredible-places">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12" style="background:#f15b5c">
+                <span style="color: #ffffff;font-size: 18px;text-transform: capitalize;font-weight: 500;">会员注册 REGISTER</span>
+            </div>
+        </div>
+        <br />
+        <br />
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <form>
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                        <input id="register-email" type="text" onfocusout="validationEmail();" class="form-control input-lg" name="email" placeholder="邮箱">
+                    </div>
+                    <span id="email-validation"></span>
+                    <br />
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                        <input id="register-password" type="password" onfocusout ="validationPassword();" class="form-control input-lg" name="password" placeholder="密码">
+                    </div>
+                    <span id="password-validation"></span>
+                    <br />
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                        <input id="register-confirm-password" type="password" onfocusout="validationConfirmPassword();" class="form-control input-lg" name="confirm password" placeholder="确认密码">
+                    </div>
+                    <span id="confirmPassword-validation"></span>
+                    <br />
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                        <input id="register-name" type="text" onfocusout="validationName()" class="form-control input-lg" name="name" placeholder="姓名">
+                    </div>
+                    <span id="name-validation"></span>
+                    <br />
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+                        <input id="register-phone" type="text" onfocusout="validationPhone();" class="form-control input-lg" name="phone" placeholder="手机号码">
+                    </div>
+                    <span id="phone-validation"></span>
+                    <br />
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                        <label class="radio-inline input-lg" style="margin-left:20px;"><input type="radio" name="gender" value="男" checked>男</label>
+                        <label class="radio-inline input-lg"><input type="radio" name="gender" value="女">女</label>
+                    </div>
+                    <br />
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                        <input id="register-birth" type="text" class="form-control input-lg" name="birth" placeholder="出生年月日">
+                    </div>
+                    <br />
+                    <div class="input-group">
+                        <input type="button" onclick="formValidate();" class="form-control input-lg" style="background-color:#f15b5c; border-color:#f15b5c;width:130px;height:40px; color:white;" value="会员注册">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

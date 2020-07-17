@@ -1,0 +1,51 @@
+﻿
+@{
+    ViewBag.Title = "华康旅游 - 邮箱验证";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+    function getUrlParameter(name) {
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        var results = regex.exec(window.location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    };
+
+    $(function () {
+        var email = getUrlParameter('email');
+        console.log(email);
+        if (!email) {
+            window.location.href = '/Register/Index';
+            return;
+        } else {
+            $('#email').html(email);
+        }
+
+        $.ajax({
+            url: '/Member/Check',
+            type: 'POST',
+            data: JSON.stringify({ email: email }),
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                console.log(data);
+                if (data == null) {
+                    window.location.href = "/Register/Index";
+                } else if (data.varification == 1) {
+                    window.location.href = "/Login/Index";
+                }
+            },
+            error: function () {
+                alert("error");
+            }
+        });
+        
+    })
+</script>
+
+
+    <div class="section-paddings incredible-places">
+        <div class="container">
+            <span id="email"></span> 이메일 인증 바랍니다.
+        </div>
+    </div>

@@ -1,0 +1,315 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="Scripts/images/favicon.ico">
+    <!-- bootstrap css -->
+    <link rel="stylesheet" href="~/Scripts/css/assets/bootstrap.min.css">
+    <!-- animate css -->
+    <link rel="stylesheet" href="~/Scripts/css/assets/animate.css">
+    <!-- Button Hover animate css -->
+    <link rel="stylesheet" href="~/Scripts/css/assets/hover-min.css">
+    <!-- jquery-ui.min css -->
+    <link rel="stylesheet" href="~/Scripts/css/assets/jquery-ui.min.css">
+    <!-- meanmenu css -->
+    <link rel="stylesheet" href="~/Scripts/css/assets/meanmenu.min.css">
+    <!-- owl.carousel css -->
+    <link rel="stylesheet" href="~/Scripts/css/assets/owl.carousel.min.css">
+    <!-- slick css -->
+    <link rel="stylesheet" href="~/Scripts/css/assets/slick.css">
+    <!-- chosen.min-->
+    <link rel="stylesheet" href="~/Scripts/css/assets/jquery-customselect.css">
+    <!-- font-awesome css -->
+    <link rel="stylesheet" href="~/Scripts/css/assets/font-awesome.min.css">
+    <!-- magnific Css -->
+    <link rel="stylesheet" href="~/Scripts/css/assets/magnific-popup.css">
+    <!-- Revolution Slider -->
+    <link rel="stylesheet" href="~/Scripts/css/assets/revolution/layers.css">
+    <link rel="stylesheet" href="~/Scripts/css/assets/revolution/navigation.css">
+    <link rel="stylesheet" href="~/Scripts/css/assets/revolution/settings.css">
+    <!-- Preloader css -->
+    <link rel="stylesheet" href="~/Scripts/css/assets/preloader.css">
+    <!-- custome css -->
+    <link rel="stylesheet" href="~/Scripts/css/style.css">
+    <!-- responsive css -->
+    <link rel="stylesheet" href="~/Scripts/css/responsive.css">
+    <link rel="stylesheet" href="~/Scripts/css/master.css">
+    <!-- modernizr css -->
+    <script src="~/Scripts/js/vendor/modernizr-2.8.3.min.js"></script>
+
+    <script src="~/Scripts/js/vendor/jquery-3.2.0.min.js"></script>
+    <!-- bootstrap js -->
+    <script src="~/Scripts/js/bootstrap.min.js"></script>
+    <script src="~/Scripts/js/popper.min.js"></script>
+    <!-- owl.carousel js -->
+    <script src="~/Scripts/js/owl.carousel.min.js"></script>
+    <!-- slick js -->
+    <script src="~/Scripts/js/slick.min.js"></script>
+    <!-- meanmenu js -->
+    <script src="~/Scripts/js/jquery.meanmenu.min.js"></script>
+    <!-- jquery-ui js -->
+    <script src="~/Scripts/js/jquery-ui.min.js"></script>
+    <!-- wow js -->
+    <script src="~/Scripts/js/wow.min.js"></script>
+    <!-- counter js -->
+    <script src="~/Scripts/js/jquery.counterup.min.js"></script>
+    <!-- Countdown js -->
+    <script src="~/Scripts/js/jquery.countdown.min.js"></script>
+    <!-- waypoints js -->
+    <script src="~/Scripts/js/jquery.waypoints.min.js"></script>
+    <!-- Isotope js -->
+    <script src="~/Scripts/js/isotope.pkgd.min.js"></script>
+    <!-- magnific js -->
+    <script src="~/Scripts/js/jquery.magnific-popup.min.js"></script>
+    <!-- Image loaded js -->
+    <script src="~/Scripts/js/imagesloaded.pkgd.min.js"></script>
+    <!-- chossen js -->
+    <script src="~/Scripts/js/chosen.jquery.min.js"></script>
+    <!-- Revolution JS -->
+    <script src="~/Scripts/js/assets/revolution/jquery.themepunch.revolution.min.js"></script>
+    <script src="~/Scripts/js/assets/revolution/jquery.themepunch.tools.min.js"></script>
+    <script src="~/Scripts/js/assets/revolution/extensions/revolution.extension.actions.min.js"></script>
+    <script src="~/Scripts/js/assets/revolution/extensions/revolution.extension.carousel.min.js"></script>
+    <script src="~/Scripts/js/assets/revolution/extensions/revolution.extension.kenburn.min.js"></script>
+    <script src="~/Scripts/js/assets/revolution/extensions/revolution.extension.layeranimation.min.js"></script>
+    <script src="~/Scripts/js/assets/revolution/extensions/revolution.extension.migration.min.js"></script>
+    <script src="~/Scripts/js/assets/revolution/extensions/revolution.extension.navigation.min.js"></script>
+    <script src="~/Scripts/js/assets/revolution/extensions/revolution.extension.parallax.min.js"></script>
+    <script src="~/Scripts/js/assets/revolution/extensions/revolution.extension.slideanims.min.js"></script>
+    <script src="~/Scripts/js/assets/revolution/extensions/revolution.extension.video.min.js"></script>
+    <script src="~/Scripts/js/assets/revolution/revolution.js"></script>
+    <!-- plugin js -->
+    <script src="~/Scripts/js/plugins.js"></script>
+    <!-- select2 js -->
+    <script src="~/Scripts/js/select2.min.js"></script>
+    <script src="~/Scripts/js/colors.js"></script>
+    <!-- customSelect Js -->
+    <script src="~/Scripts/js/jquery-customselect.js"></script>
+    <!-- custom js -->
+    <script src="~/Scripts/js/custom.js"></script>
+    <script>
+        $(function () {
+            var path = window.location.pathname;
+            console.log(path);
+            if (path == '/Login/Index') {
+                console.log("register");
+                $('#main-nav').hide();
+                $('#login_or_register').html('会员注册');
+                $("#login_or_register").attr("href", "/Register/Index");
+            } else if (path == '/Register/Index') {
+                console.log(path);
+                $('#main-nav').hide();
+                $('#login_or_register').html('登录');
+                $("#login_or_register").attr("href", "/Login/Index");
+            } else {
+                console.log("hi")
+                $('#main-nav').show();
+            };
+            
+            var header = document.getElementById("main-nav");
+            var btns = header.getElementsByClassName("navigation");
+            for (var i = 0; i < btns.length; i++) {
+                if ($(btns[i]).find('a').attr('href') == path) {
+                    $(btns[i]).attr("class", "navigation active");
+                }
+            }
+        })
+    </script>
+</head>
+<body>
+    <div id="loader-wrapper">
+        <div id="loader"></div>
+        <div class="loader-section section-left"></div>
+        <div class="loader-section section-right"></div>
+    </div>
+    <header>
+        <div class="header_top_area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="contact_wrapper_top">
+                            <ul class="header_top_contact">
+                                <li><a href="~/Home/Index"><img src="~/Scripts/images/logo.jpg" alt=""></a></li>
+                                <li><i class="fa fa-phone" aria-hidden="true"></i>+123-456-7890</li>
+                                <li><i class="fa fa-envelope-o" aria-hidden="true"></i>info@yourcompany.com</li>
+                            </ul>
+                            @if (Session["memberId"] == null)
+                            {
+                                <div class="book-btn">
+                                    <a href="~/Login/Index" id="login_or_register">登录</a>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="book-btn">
+                                    <a href="~/Member/Details/@Session["memberId"]" id="login_or_register">会员信息</a>
+                                </div>
+                                <span id="member-id" style="display:none">@Session["memberId"]</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> <!--header top end-->
+        <div class="main_nav" id="main-nav" style="background-color:black">
+            <div class="container">
+                <div class="row">
+                </div>
+                <div class="col-md-10">
+                    <nav>
+                        <ul class="main-menu text-right">
+                            <li class="navigation">
+                                <a href="~/Home/Index">首页</a>
+                            </li>
+                            <li class="navigation">
+                                <a href="~/Tour/Index">国内旅游预约</a>
+                            </li>
+                            <li class="navigation">
+                                <a href="~/Guide/Index">导游预约</a>
+                            </li>
+                            <li class="navigation"><a href="~/Vehicle/Index">车辆预约</a></li>
+                            <li class="navigation">
+                                <a href="~/Hotel/Index">酒店预约</a>
+                            </li>
+                            <li class="navigation">
+                                <a href="~/Golf/Index">高尔夫预约</a>
+                            </li>
+                            <li class="navigation">
+                                <a href="~/CustomTour/Index">定制游</a>
+                            </li>
+                            <li class="navigation"><a href="#footer">联系我们</a></li>
+                        </ul>
+                    </nav>
+                </div> <!-- main menu end here -->
+            </div>
+        </div>
+    </header> <!-- header area end here -->
+
+    @RenderBody()
+    <footer class="footer-area" id="footer">
+        <div class="container">
+            <div class="row">
+                <!-- footer left -->
+                <div class="col-12 col-sm-6 col-md-6 col-lg-3">
+                    <div class="single-footer">
+                        <div class="footer-title">
+                            <h3><a href="~/Home/Index"><img src="~/Scripts/images/logo2.jpg" alt=""></a></h3>
+                        </div>
+                        <div class="footer-left">
+                            <div class="footer-logo">
+                                <p>旅行社介绍</p>
+                            </div>
+                            <ul class="footer-contact">
+                                <li><img class="map" src="~/Scripts/images/icon/map.png" alt="">青岛市城阳区春城路169-34</li>
+                                <li><img class="map" src="~/Scripts/images/icon/phone.png" alt="">0532-677607517</li>
+                                <li><img class="map" src="~/Scripts/images/icon/gmail.png" alt="">huakangtour@163.com</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div> <!-- footer left -->
+                <!-- footer destination -->
+                <div class="col-12 col-sm-6 col-md-6 col-lg-2">
+                    <div class="single-footer">
+                        <div class="footer-title">
+                            <h3>快速链接</h3>
+                        </div>
+                        <ul class="list-unstyled">
+                            <li><a href="~/Home/Index" title="">首页</a></li>
+                            <li><a href="~/Tour/Index" title="">国内旅游预约</a></li>
+                            <li><a href="~/Guide/Index" title="">导游预约</a></li>
+                            <li><a href="~/Vehicle/Index" title="">车辆预约</a></li>
+                            <li><a href="~/Hotel/Index" title="">酒店预约</a></li>
+                            <li><a href="~/Golf/Index" title="">高尔夫预约</a></li>
+                            <li><a href="~/CustomTour/Index" title="">定制游</a></li>
+                            <li><a href="" title="">联系我们</a></li>
+                        </ul>
+                    </div>
+                </div>	<!-- footer destination -->
+
+                <div class="col-12 col-sm-6 col-md-6 col-lg-4">
+                    <div class="single-footer">
+                        <div class="single-recent-post">
+                            <div class="footer-title">
+                                <h3>最近新闻</h3>
+                            </div>
+                            <ul class="recent-post">
+                                <li>
+                                    <a href="~/Golf/Index">
+                                        <div class="post-thum">
+                                            <img src="~/Scripts/images/blog/f4.jpg" alt="" class="img-rounded">
+                                        </div>
+                                        <div class="post-content">
+                                            <p>
+                                                华康旅行社： 新出高尔夫预约项目 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </p>
+                                            <span>5月, 2020</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="~/CustomTour/Index">
+                                        <div class="post-thum">
+                                            <img src="~/Scripts/images/blog/f5.jpg" alt="" class="img-rounded">
+                                        </div>
+                                        <div class="post-content">
+                                            <p>
+                                                华康旅行社： 新出定制游项目 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </p>
+                                            <span>1月, 2020</span>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>	<!-- footer latest news -->
+                <!-- footer contact -->
+                <div class="col-12 col-sm-6 col-md-6 col-lg-3 f-phone-responsive">
+                    <div class="single-footer">
+                        <div class="footer-title">
+                            <h3>微信 Wechat</h3>
+                        </div>
+                        <div class="footer-contact-form">
+                            <form action="#">
+                                <ul class="footer-form-element">
+
+                                    <li><img src="~/Scripts/images/Wechat.jpg"/></li>
+                                </ul>
+                            </form>
+                        </div>
+                    </div>
+                </div>	<!-- footer contact -->
+            </div>
+        </div>
+        <div class="footer_bottom_wrapper">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-md-12">
+                        <div class="copy_right_wrapper">
+                            <div class="copyright">
+                                <p>Copyright &copy; 2020.QingDaoHuaKang All rights reserved.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer> <!-- end footer -->
+
+    <div class="to-top pos-rtive">
+        <a href="#"><i class="fa fa-angle-up"></i></a>
+    </div><!-- Scroll to top-->
+</body>
+</html>

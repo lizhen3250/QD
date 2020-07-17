@@ -1,0 +1,69 @@
+﻿
+@{
+    ViewBag.Title = "定制游";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="section-paddings incredible-places">
+    <div class="container">
+        <section class="popular-packages">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="section-title">
+                            <h3>定制游预约</h3>
+                            <p>根据客户的需求，贵司提供定制旅游服务。请您在下方描述下您的需求，我们会尽力满足您的需求，第一时间与您联系。</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12" align="center">
+                        <textarea name="message" id="message" cols="50" rows="10" placeholder="定制游"></textarea>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12" align="center">
+                        <button type="submit" class="travel-booking-btn hvr-shutter-out-horizontal" style="cursor:pointer" onclick="reserveCustomTour()">发送</button>
+                    </div>
+                </div>
+            </div>
+        </section> <!--end  popular packajge -->
+    </div>
+</div>
+
+<script>
+    
+    function reserveCustomTour() {
+        if ($('#member-id').text() == null || $('#member-id').text() == '') {
+            alert("请先登录！");
+            window.location.href = "/Login/Index";
+        }
+
+        if ($('#message').val() == null || $('#message').val() == '') {
+            alert("请描述您的需求!");
+            return;
+        }
+
+        var reservationModel = {
+            memberId: $('#member-id').text(),
+            message: $('#message').val(),
+        };
+
+        $.ajax({
+            url: '/CustomReservation/Add',
+            type: 'POST',
+            data: JSON.stringify(reservationModel),
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                if (data == "添加成功") {
+                    window.location.href = "/Order/OrderComplete";
+                }
+            },
+            error: function (data) {
+                console.log(data);
+                if (data.responseText == "添加成功") {
+                    window.location.reload();
+                }
+            }
+        });
+    }
+</script>
+

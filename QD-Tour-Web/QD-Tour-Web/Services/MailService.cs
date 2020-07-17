@@ -31,7 +31,7 @@ namespace QD_Tour_Web.Services
 
                 client.Host = "smtp.163.com";
 
-                client.Port = 25;
+                client.Port = 465;
 
                 client.DeliveryMethod = System.Net.Mail.SmtpDeliveryMethod.Network;
 

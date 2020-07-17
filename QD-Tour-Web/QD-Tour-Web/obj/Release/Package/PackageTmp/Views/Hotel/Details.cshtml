@@ -1,0 +1,452 @@
+﻿@model QD_Tour_Web.Models.Hotel_Package
+
+@{
+
+    ViewBag.Title = "华康旅游 - 酒店预约 - " + Model.Hotel.Name;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes" />
+<script src="~/Scripts/datetimepicker/js/jquery.timepicker.min.js"></script>
+<link href="~/Scripts/datetimepicker/css/jquery.timepicker.css" rel="stylesheet" />
+<link href="~/Scripts/css/calendar-pro.css" rel="stylesheet" />
+<link href="~/Scripts/css/photo.css" rel="stylesheet" />
+<script src="~/Scripts/calendar-pro.js"></script>
+<script>
+    
+</script>
+<hr />
+<script>
+    $(document).ready(function () {
+        $('.nav .nav-link').on("click", function () {
+            $('.nav').find(".active").removeClass("active");
+            $(this).parent().addClass("active");
+        });
+
+        $('#room-select').change(function () {
+            var roomSelected = $('#room-select').find("option:selected").val();
+            if (roomSelected == "单人间") {
+                $('#calendar-check-in').calendar({
+                    ele: '.check-in', //依附
+                    title: '预约时间',
+                    beginDate: currentDate,
+                    endDate: endDate,
+                    data: calendarPrice.singleRoom.data
+                });
+
+            } else if (roomSelected == "双人间") {
+                $('#check-in').calendar({
+                    ele: '.check-in', //依附
+                    title: '预约时间',
+                    beginDate: currentDate,
+                    endDate: endDate,
+                    data: calendarPrice.doubleRoom.data
+                });
+            } else {
+                $('#check-in').calendar({
+                    ele: '.check-in', //依附
+                    title: '预约时间',
+                    beginDate: currentDate,
+                    endDate: endDate,
+                    data: calendarPrice.otherRoom.data
+                });
+            }
+
+        });
+
+        var currentUrl = window.location.href;
+        var Id = currentUrl.split("/").pop();
+
+        var myDate = new Date;
+        var year = myDate.getFullYear(); //获取当前年
+        var mon = myDate.getMonth() + 1; //获取当前月
+        if (mon < 10) {
+            mon = "0" + mon;
+        }
+        var date = myDate.getDate();
+
+        var currentDate = year + "-" + mon + "-" + date;
+        var endDate = year + "-12-31";
+
+        var calendarPrice = {
+            singleRoom: { data: [] },
+            doubleRoom: { data: [] },
+            otherRoom: { data: [] }
+        };
+
+        $.ajax({
+            url: '/Hotel/GetAllPrices',
+            type: "GET",
+            data: { Id: Id },
+            contentType: 'application/json; charset=utf-8',
+            success: function (ss) {
+                console.log(ss);
+                for (var i = 0; i < ss.length; i++) {
+                    calendarPrice.singleRoom.data.push({ "data": ss[i].SingleRoomPrice, "date": ChangeDateFormat(ss[i].Date) });
+                    calendarPrice.doubleRoom.data.push({ "data": ss[i].DoulbeRoomPrice, "date": ChangeDateFormat(ss[i].Date) });
+                    calendarPrice.otherRoom.data.push({ "data": ss[i].OtherRoomPrice, "date": ChangeDateFormat(ss[i].Date) });
+                }
+                console.log(calendarPrice);
+                $('#calendar-check-in').calendar({
+                    ele: '.check-in', //依附
+                    title: '预约时间',
+                    beginDate: currentDate,
+                    endDate: endDate,
+                    data: calendarPrice.singleRoom.data
+                });
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+
+
+        function daysBetween(sDate1, sDate2) {
+            var time1 = Date.parse(new Date(sDate1));
+            var time2 = Date.parse(new Date(sDate2));
+            var nDays = Math.abs(parseInt((time2 - time1) / 1000 / 3600 / 24));
+            return nDays;
+        };
+
+        function convert(str) {
+            var date = new Date(str),
+                mnth = ("0" + (date.getMonth() + 1)).slice(-2),
+                day = ("0" + date.getDate()).slice(-2);
+            return [date.getFullYear(), mnth, day].join("-");
+        }
+
+        function ChangeDateFormat(cellval) {
+            var date = new Date(parseInt(cellval.replace("/Date(", "").replace(")/", ""), 10));
+            //getMonth()从0开始算
+            var month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+            var currentDate = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+            return date.getFullYear() + "-" + month + "-" + currentDate;
+        }
+    });
+</script>
+<div class="section-paddings incredible-places">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" data-target="#searchModel" data-toggle="modal">
+                <img src="http://localhost:59442/@Model.Photo" style="width:100%; border:1px solid #e8e8e8" />
+            </div>
+            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                <p style="display:none" id="package-id">@Model.Id</p>
+                <p><h2 id="input-country">@Model.Country &nbsp; @Model.Area</h2></p>
+                <p style="font-size:20px; font:bold">酒店名: <span id="price">@Model.Hotel.Name </span></p>
+                <p style="font-size:20px; font:bold">地址: <span id="price">@Model.Hotel.Address </span></p>
+                <p style="font-size:20px; font:bold">联系电话: <span id="price">@Model.Hotel.ContactNumber </span></p>
+                <p><button type="button" class="travel-booking-btn hvr-shutter-out-horizontal" data-toggle="modal" data-target="#addModel">预约</button></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addModel" tabindex="100" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">房间类型</span>
+                    </div>
+                    <select class="form-control" id="room-select">
+                        <option>单人间</option>
+                        <option>双人间</option>
+                        <option>其他房间</option>
+                    </select>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">入住时间</span>
+                    </div>
+                    <input type="text" id="input-start-date" class="form-control" aria-label="StartDate" aria-describedby="inputGroup-sizing-default" disabled >
+                </div>
+                <div class="input-group mb-3">
+                    <div class="calendar-check-in check-in"></div>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">退房时间</span>
+                    </div>
+                    <input type="text" id="input-end-date" class="form-control" aria-label="EndDate" aria-describedby="inputGroup-sizing-default" disabled>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="calendar-check-in check-in"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" onclick="hotelReservation('@Model.Id')">预约</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="searchModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="height:100%;">
+        <div class="modal-content" style="height:80%;">
+            <div class="modal-header">
+                <span style="color:#007bff">酒店官方</span> <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <img id="modal-image" src="http://localhost:59442/@Model.Photo" style="width:100%; height:100%; border:1px solid #e8e8e8" />
+                    <br />
+                    <p id="modal-image-text" style="text-align:center; color:#007bff">外观</p>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#" onclick="clickAppearance()">外观</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " href="#" onclick="clickLobby()">大厅</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " href="#" onclick="clickRestaurant()">早餐厅</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " href="#" onclick="clickSingleRoom()">单人间</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " href="#" onclick="clickDoubleRoom()">双人间</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " href="#" onclick="clickOtherRoom()">其他</a>
+                        </li>
+                    </ul>
+                    <div class="row no-gutters" id="appearance">
+                        @foreach (var i in Model.Hotel_Package_Image)
+                        {
+                            if (i.Type == "外观")
+                            {
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <img src="http://localhost:59442/@i.ImageUrl" alt="@i.ImageName" class="img-thumbnail" style="width:100%; height:100%" onclick="showModalImage(this)" />
+                                </div>
+                            }
+                        }
+                    </div>
+                    <div class="row no-gutters" id="lobby" style="display:none">
+                        @foreach (var i in Model.Hotel_Package_Image)
+                        {
+                            if (i.Type == "大厅")
+                            {
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <img src="http://localhost:59442/@i.ImageUrl" alt="@i.ImageName" class="img-thumbnail" style="width:100%; height:100%" onclick="showModalImage(this)" />
+                                </div>
+                            }
+                        }
+                    </div>
+                    <div class="row no-gutters" id="restaurant" style="display:none">
+                        @foreach (var i in Model.Hotel_Package_Image)
+                        {
+                            if (i.Type == "早餐厅")
+                            {
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <img src="http://localhost:59442/@i.ImageUrl" alt="@i.ImageName" class="img-thumbnail" style="width:100%; height:100%" onclick="showModalImage(this)" />
+                                </div>
+                            }
+                        }
+                    </div>
+                    <div class="row no-gutters" id="single-room" style="display:none">
+                        @foreach (var i in Model.Hotel_Package_Image)
+                        {
+                            if (i.Type == "单人间")
+                            {
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <img src="http://localhost:59442/@i.ImageUrl" alt="@i.ImageName" class="img-thumbnail" style="width:100%; height:100%" onclick="showModalImage(this)" />
+                                </div>
+                            }
+                        }
+                    </div>
+                    <div class="row no-gutters" id="double-room" style="display:none">
+                        @foreach (var i in Model.Hotel_Package_Image)
+                        {
+                            if (i.Type == "双人间")
+                            {
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <img src="http://localhost:59442/@i.ImageUrl" alt="@i.ImageName" class="img-thumbnail" style="width:100%; height:100%" onclick="showModalImage(this)" />
+                                </div>
+                            }
+                        }
+                    </div>
+                    <div class="row no-gutters" id="other-room" style="display:none">
+                        @foreach (var i in Model.Hotel_Package_Image)
+                        {
+                            if (i.Type == "其他")
+                            {
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <img src="http://localhost:59442/@i.ImageUrl" alt="@i.ImageName" class="img-thumbnail" style="width:100%; height:100%" onclick="showModalImage(this)" />
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr />
+
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-md-12 col-sm-12 col-xs-12">
+            <h3>详细内容</h3>
+            <p>@Model.Description</p>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function clickAppearance() {
+        $('#appearance').show();
+        $('#lobby').hide();
+        $('#restaurant').hide();
+        $('#single-room').hide();
+        $('#double-room').hide();
+        $('#other-room').hide();
+    }
+
+    function clickLobby() {
+        $('#appearance').hide();
+        $('#lobby').show();
+        $('#restaurant').hide();
+        $('#single-room').hide();
+        $('#double-room').hide();
+        $('#other-room').hide();
+    }
+
+    function clickRestaurant() {
+        $('#appearance').hide();
+        $('#lobby').hide();
+        $('#restaurant').show();
+        $('#single-room').hide();
+        $('#double-room').hide();
+        $('#other-room').hide();
+    }
+
+    function clickSingleRoom() {
+        $('#appearance').hide();
+        $('#lobby').hide();
+        $('#restaurant').hide();
+        $('#single-room').show();
+        $('#double-room').hide();
+        $('#other-room').hide();
+    }
+
+    function clickDoubleRoom() {
+        $('#appearance').hide();
+        $('#lobby').hide();
+        $('#restaurant').hide();
+        $('#single-room').hide();
+        $('#double-room').show();
+        $('#other-room').hide();
+    }
+
+    function clickOtherRoom() {
+        $('#appearance').hide();
+        $('#lobby').hide();
+        $('#restaurant').hide();
+        $('#single-room').hide();
+        $('#double-room').hide();
+        $('#other-room').show();
+    }
+
+    function hotelReservation(id) {
+
+        var date = $('.calendar-check-in').calendarGetActive();
+        if (date.length < 2) {
+            alert("请选择日期");
+            return;
+        }
+
+        if (new Date(date[0].date) >= new Date(date[1].date)) {
+            alert("离开酒店时间必须大于入住时间！");
+            return;
+        }
+
+        if ($('#member-id').text() == null || $('#member-id').text() == '') {
+            alert("请先登录！");
+            window.location.href = "/Login/Index";
+        }
+
+        $.ajax({
+            url: '/Member/GetMemberInfo',
+            type: 'GET',
+            data: { Id: $('#member-id').text() },
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                var datas = $('.calendar-check-in').calendarGetActive();
+
+                var startTime = datas[0].date;
+                var endTime = datas[1].date;
+                var hotelPackageId = id;
+                var roomType = $('#room-select').find("option:selected").val();
+
+                var country = $('#input-country').text();
+                var startTime = startTime;
+                var endTime = endTime;
+
+                var reservationModel = {
+                    country: country,
+                    startTime: startTime,
+                    endTime: endTime,
+                    hotelPackageId: hotelPackageId,
+                    member: data,
+                    roomType: roomType
+                };
+
+                sessionStorage.setItem("info", JSON.stringify(reservationModel));
+                window.location.href = "/Order/HotelOrderDetails"
+
+            },
+            error: function (data) {
+                console.log(data);
+                if (data.responseText == "添加成功") {
+                    window.location.reload();
+                }
+            }
+        });
+    }
+
+    function popupPhoto(Id) {
+        var modal = document.getElementById("myModal");
+
+        // Get the image and insert it inside the modal - use its "alt" text as a caption
+        //var img = document.getElementById(Id);
+        var modalImg = document.getElementById("img01");
+        var captionText = document.getElementById("caption");
+
+        modal.style.display = "block";
+        modalImg.src = document.getElementById(Id).src;
+        captionText.innerHTML = document.getElementById(Id).alt;
+
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+    }
+
+    function getActive() {
+        var data = $('.calendar-box').calendarGetActive();
+        console.log(data);
+        alert(data.date + "--¥" + data.money);
+    }
+
+    function showModalImage(o) {
+        $('#modal-image-text').text(o.alt);
+        $('#modal-image').attr("src", o.src);
+    }
+</script>

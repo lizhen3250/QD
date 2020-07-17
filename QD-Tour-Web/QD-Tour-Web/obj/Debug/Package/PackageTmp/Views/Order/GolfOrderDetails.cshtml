@@ -1,0 +1,117 @@
+﻿@{
+    ViewBag.Title = "华康旅游 - 高尔夫预约详情";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+    $(function () {
+        var data = JSON.parse(sessionStorage.getItem("info"));
+        console.log(data);
+        $('#member-id').text(data.member.Id);
+        $('#member-name').text(data.member.Name);
+        $('#member-email').text(data.member.Email);
+        $('#member-phone').text(data.member.Phone);
+        $('#golf-start-time').text(data.startTime);
+        $('#golf-people').text(data.numberOfPeople);
+        $('#golf-price').text(data.totalPrice);
+        $('#golf-name').text(data.name);
+        $('#golf-country').text(data.city);
+        $('#golf-address').text(data.address);
+        $('#package-id').text(data.golfPackageId);
+        $('#golf-hole').text(data.golfHole);
+    })
+</script>
+
+<div class="section-paddings incredible-places" style="margin-top:30px;">
+    <div class="container">
+        <form>
+            <div class="form-group row">
+                <label for="inputEmail3" class="col-sm-1 col-form-label">姓 名:</label>
+                <div class="col-sm-11">
+                    <span class="form-control" id="member-name"></span>
+                    <span id="member-id" style="display:none"></span>
+                    <span id="package-id" style="display:none"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="inputPassword3" class="col-sm-1 col-form-label">邮 箱:</label>
+                <div class="col-sm-11">
+                    <span class="form-control" id="member-email"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="inputPassword3" class="col-sm-1 col-form-label">电 话:</label>
+                <div class="col-sm-11">
+                    <span class="form-control" id="member-phone"></span>
+                </div>
+            </div>
+        </form>
+
+        <div class="row">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">城市</th>
+                        <th scope="col">名字</th>
+                        <th scope="col">地址</th>
+                        <th scope="col">球洞数</th>
+                        <th scope="col">开球时间</th>
+                        <th scope="col">总人数</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td id="golf-country"></td>
+                        <td id="golf-name"></td>
+                        <td id="golf-address"></td>
+                        <td id="golf-hole"></td>
+                        <td id="golf-start-time"></td>
+                        <td id="golf-people"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="row" style="float:right">
+            <span>总价格: ￥<strong style="color:#f15b5c; font-size:20px;" id="golf-price"></strong></span>
+        </div>
+        <br />
+        <br />
+        <div class="row book" style="float:right;">
+            <button type="button" class="btn btn-primary btn-lg" style="background:#f15b5c; border:1px solid #f15b5c;" onclick="golfReservation()">预约</button>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function golfReservation() {
+        var reservationModel = {
+            memberId: $('#member-id').text(),
+            numberOfPeople: $('#golf-people').text(),
+            startTime: new Date($('#golf-start-time').text()),
+            totalPrice: $('#golf-price').text(),
+            golfPackageId: $('#package-id').text(),
+            golfHole: $('#golf-hole').text()
+        };
+
+        $.ajax({
+            url: '/GolfReservation/Add',
+            type: 'POST',
+            data: JSON.stringify(reservationModel),
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                if (data == "添加成功") {
+                    window.location.href = "/Order/OrderComplete";
+                } else if (data == "need login") {
+                    window.location.href = "/Login/Index";
+                }
+            },
+            error: function (data) {
+                console.log(data);
+                if (data.responseText == "添加成功") {
+                    window.location.reload();
+                }
+            }
+        });
+    }
+</script>

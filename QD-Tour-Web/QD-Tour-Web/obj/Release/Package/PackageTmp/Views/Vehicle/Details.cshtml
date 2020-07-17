@@ -1,0 +1,186 @@
+﻿@model QD_Tour_Web.Models.Vehicle_Package
+
+@{
+
+    ViewBag.Title = "华康旅游 - 车辆预约 - "+Model.Type;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes" />
+<script src="~/Scripts/datetimepicker/js/jquery.timepicker.min.js"></script>
+<link href="~/Scripts/datetimepicker/css/jquery.timepicker.css" rel="stylesheet" />
+<hr />
+<script>
+    $(document).ready(function () {
+        $('#input-start-date').datetimepicker({
+            timepicker: false,
+        });
+        $('#input-end-date').datetimepicker({
+            timepicker: false,
+        });
+
+        $('#input-start-date').change(function () {
+            $(this).val(convert(new Date($(this).val())));
+        });
+
+        $('#input-end-date').change(function () {
+            $(this).val(convert(new Date($(this).val())));
+            var dateDiff = daysBetween($('#input-start-date').val(), $(this).val());
+            console.log($('#price').html());
+            var price = $('#price').html() * (dateDiff + 1);
+            $('#input-total-price').val(price);
+        });
+    });
+
+    function daysBetween(sDate1,sDate2){
+        var time1 = Date.parse(new Date(sDate1));
+        var time2 = Date.parse(new Date(sDate2));
+        var nDays = Math.abs(parseInt((time2 - time1)/1000/3600/24));
+        return  nDays;
+    };
+
+    function convert(str) {
+        var date = new Date(str),
+          mnth = ("0" + (date.getMonth() + 1)).slice(-2),
+          day = ("0" + date.getDate()).slice(-2);
+        return [date.getFullYear(), mnth, day].join("-");
+    }
+
+</script>
+<div class="section-paddings incredible-places">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                <img src="http://localhost:59442/@Model.Photo" style="height:551px; width:100%" />
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <p style="display:none" id="package-id">@Model.Id</p>
+                <p><h2 id="input-type">@Model.Type</h2></p>
+                <p style="font-size:20px; font:bold">每天租车费用: ￥<span id="price">@Model.Price </span></p>
+                <p><a href="#" class="travel-booking-btn hvr-shutter-out-horizontal" data-toggle="collapse" data-target="#collapseRserve">预约</a>                </p>
+                <div class="collapse" role="document" id="collapseRserve">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">车辆预约</h5>
+                        </div>
+                        <div class="modal-body">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">人数</span>
+                                </div>
+                                <input type="number" min="1" id="input-number-of-people" class="form-control" aria-label="NumberOfPeople" aria-describedby="inputGroup-sizing-default">
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">开始租车时间</span>
+                                </div>
+                                <input type="text" id="input-start-date" class="form-control" aria-label="StartDate" aria-describedby="inputGroup-sizing-default">
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">结束租车时间</span>
+                                </div>
+                                <input type="text" id="input-end-date" class="form-control" aria-label="EndDate" aria-describedby="inputGroup-sizing-default">
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">总价格</span>
+                                </div>
+                                <input type="text" id="input-total-price" class="form-control" aria-label="Amount (to the nearest dollar)" disabled>
+                                <div class="input-group-append">
+                                    <span class="input-group-text">.00</span>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" onclick="vehicleReserve()">预约</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<hr />
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-md-12 col-sm-12 col-xs-12">
+            <h3>상세내용</h3>
+            <p>@Model.Description</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    function vehicleReserve() {
+
+        if ($('#input-number-of-people').val() == null || $('#input-number-of-people').val() == '') {
+            alert("请选择人数！");
+            return;
+        }
+
+        if ($('#input-start-date').val() == null || $('#input-start-date').val() == '') {
+            alert("请选择旅游开始时间！");
+            return;
+        }
+
+        if ($('#input-end-date').val() == null || $('#input-end-date').val() == '') {
+            alert("请选择旅游结束时间！");
+            return;
+        }
+
+        var now = new Date();
+        var selectedStartTime = new Date($('#input-start-date').val());
+        var selectedEndTime = new Date($('#input-end-date').val());
+
+        if (selectedEndTime < now || selectedStartTime < now) {
+            alert("选择的时间必须大于今天！");
+            return;
+        }
+
+        if (selectedStartTime > selectedEndTime) {
+            alert("选择的时间不符合！");
+            return;
+        }
+        
+        if ($('#member-id').text() == null || $('#member-id').text() == '') {
+            alert("请先登录！");
+            window.location.href = "/Login/Index";
+        }
+
+        $.ajax({
+            url: '/Member/GetMemberInfo',
+            type: 'GET',
+            data: { Id: $('#member-id').text() },
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                console.log(data);
+                var numberOfPeople = $('#input-number-of-people').val();
+                var startTime = $('#input-start-date').val();
+                var endTime = $('#input-end-date').val();
+                var totalPrice = $('#input-total-price').val();
+                var vehiclePackageId = $('#package-id').text();
+                var type = $('#input-type').html();
+                var reservationModel = {
+                    numberOfPeople: numberOfPeople,
+                    startTime: startTime,
+                    endTime: endTime,
+                    vehiclePackageId: vehiclePackageId,
+                    totalPrice: totalPrice,
+                    member: data,
+                    type: type
+                };
+
+                sessionStorage.setItem("info", JSON.stringify(reservationModel));
+                window.location.href = "/Order/VehicleOrderDetails"
+
+            },
+            error: function (data) {
+                console.log(data);
+                if (data.responseText == "添加成功") {
+                    window.location.reload();
+                }
+            }
+        });        
+    };
+</script>

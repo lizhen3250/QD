@@ -59,7 +59,7 @@ namespace QD_Tour_Web.Controllers
                 sb.Append("<br/>");
                 sb.Append("아래에 link를 클릭후 메일 인증 바랍니다");
                 sb.Append("<br/>");
-                sb.Append("http://localhost:53749/Register/Success?email=" + memberData.Email);
+                sb.Append("http://58.87.108.189:80/Register/Success?email=" + memberData.Email);
                 sb.Append("<br/>");
                 sb.Append("<br/>");
                 sb.Append("감사합니다");

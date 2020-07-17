@@ -26,6 +26,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <Use64BitIISExpress />
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -35,6 +36,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -43,6 +45,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -52,16 +55,16 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
@@ -113,6 +116,7 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
@@ -437,6 +441,7 @@
     <Content Include="Scripts\images\loader.gif" />
     <Content Include="Scripts\images\logo.jpg" />
     <Content Include="Scripts\images\logo.png" />
+    <Content Include="Scripts\images\logo2.jpg" />
     <Content Include="Scripts\images\logo2.png" />
     <Content Include="Scripts\images\mapp.png" />
     <Content Include="Scripts\images\offer\1.jpg" />
@@ -483,6 +488,18 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\js\assets\assets\revolution\extensions\revolution.extension.actions.min.js" />
+    <Content Include="Scripts\js\assets\assets\revolution\extensions\revolution.extension.carousel.min.js" />
+    <Content Include="Scripts\js\assets\assets\revolution\extensions\revolution.extension.kenburn.min.js" />
+    <Content Include="Scripts\js\assets\assets\revolution\extensions\revolution.extension.layeranimation.min.js" />
+    <Content Include="Scripts\js\assets\assets\revolution\extensions\revolution.extension.migration.min.js" />
+    <Content Include="Scripts\js\assets\assets\revolution\extensions\revolution.extension.navigation.min.js" />
+    <Content Include="Scripts\js\assets\assets\revolution\extensions\revolution.extension.parallax.min.js" />
+    <Content Include="Scripts\js\assets\assets\revolution\extensions\revolution.extension.slideanims.min.js" />
+    <Content Include="Scripts\js\assets\assets\revolution\extensions\revolution.extension.video.min.js" />
+    <Content Include="Scripts\js\assets\assets\revolution\jquery.themepunch.revolution.min.js" />
+    <Content Include="Scripts\js\assets\assets\revolution\jquery.themepunch.tools.min.js" />
+    <Content Include="Scripts\js\assets\assets\revolution\revolution.js" />
     <Content Include="Scripts\js\bootstrap.min.js" />
     <Content Include="Scripts\js\chosen.jquery.min.js" />
     <Content Include="Scripts\js\colors.js" />
@@ -502,6 +519,8 @@
     <Content Include="Scripts\js\popper.min.js" />
     <Content Include="Scripts\js\select2.min.js" />
     <Content Include="Scripts\js\slick.min.js" />
+    <Content Include="Scripts\js\vendor\jquery-3.2.0.min.js" />
+    <Content Include="Scripts\js\vendor\modernizr-2.8.3.min.js" />
     <Content Include="Scripts\js\wow.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
@@ -545,8 +564,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Scripts\js\assets\" />
-    <Folder Include="Scripts\js\vendor\" />
     <Folder Include="Views\CustomReservation\" />
     <Folder Include="Views\GolfReservation\" />
   </ItemGroup>
@@ -564,6 +581,24 @@
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />

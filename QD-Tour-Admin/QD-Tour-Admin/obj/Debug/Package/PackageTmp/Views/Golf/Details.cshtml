@@ -1,0 +1,198 @@
+﻿@model IEnumerable<QD_Tour_Admin.Model.Golf_Price>
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="/vendors/jquery/dist/jquery.min.js"></script>
+<script src="~/vendors/datetimepicker/js/jquery.timepicker.min.js"></script>
+<link href="~/vendors/datetimepicker/css/jquery.timepicker.css" rel="stylesheet" />
+<script>
+    $(document).ready(function () {
+        $('#input-golf-date').datetimepicker({
+            timepicker: false,
+        });
+
+        $('#input-golf-date').change(function () {
+            $(this).val(convert(new Date($(this).val())));
+        });
+
+        $('#input-edit-date').datetimepicker({
+            timepicker: false,
+        });
+
+        $('#input-edit-date').change(function () {
+            $(this).val(convert(new Date($(this).val())));
+        });
+
+    });
+
+    function convert(str) {
+        var date = new Date(str),
+          mnth = ("0" + (date.getMonth() + 1)).slice(-2),
+          day = ("0" + date.getDate()).slice(-2);
+        return [date.getFullYear(), mnth, day].join("-");
+    }
+</script>
+
+<div class="content mt-3">
+    <div class="animated fadeIn">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <strong class="card-title">高尔夫价格设置 <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModel" style="float:right">添 加 高 尔 夫 价 格</button></strong>
+                    </div>
+                    <div class="card-body">
+                        <table id="bootstrap-data-table-export" class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="display:none">Id</th>
+                                    <th style="display:none">Golf Id</th>
+                                    <th>时间</th>
+                                    <th>18洞/天</th>
+                                    <th>27洞/天</th>
+                                    <th>36洞/天</th>
+                                    <th>编辑</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var golfPrice in Model)
+                                {
+                                    <tr>
+                                        <td style="display:none">@golfPrice.Id</td>
+                                        <td style="display:none">@golfPrice.Golf_Id</td>
+                                        <td>@golfPrice.Date.ToString("yyyy-MM-dd")</td>
+                                        <td>@golfPrice.Eighteen_Hole_Price</td>
+                                        <td>@golfPrice.TwentySeven_Hole_Price</td>
+                                        <td>@golfPrice.ThirySix_Hole_Price</td>
+                                        <td>
+                                            <button type="submit" class="btn btn-primary btn-default" data-toggle="modal" data-target="#editModel" onclick="getHotelPrice('@golfPrice.Id')">编辑</button>
+                                            @*<button type="submit" class="btn btn-danger btn-default" id="member-delete" onclick="deleteMember('@member.Id')">删除</button>*@
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div><!-- .animated -->
+</div><!-- .content -->
+
+<div class="modal fade" id="addModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">添加高尔夫价格</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">日期</span>
+                    </div>
+                    <input type="text" id="input-golf-date" class="form-control" aria-label="Date" aria-describedby="inputGroup-sizing-default">
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">18洞价格</span>
+                    </div>
+                    <input type="text" id="input-eighteen-price" class="form-control" aria-label="SingleRoomPrice" aria-describedby="inputGroup-sizing-default">
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">27洞价格</span>
+                    </div>
+                    <input type="text" id="input-twentyseven-price" class="form-control" aria-label="DoulbeRoomPrice" aria-describedby="inputGroup-sizing-default">
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">36洞价格</span>
+                    </div>
+                    <input type="text" id="input-thirtysix-price" class="form-control" aria-label="OtherRoomPrice" aria-describedby="inputGroup-sizing-default">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="addGolfPrice()">添加</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function addGolfPrice() {
+        var currentUrl = window.location.href;
+        var golfId = currentUrl.split("/").pop();
+        console.log(golfId);
+        $('#golf-id').val(golfId);
+        var date = $('#input-golf-date').val();
+        var eighteenHolePrice = $('#input-eighteen-price').val();
+        var twentySevenHolePrice = $('#input-twentyseven-price').val();
+        var thirtySixHolePrice = $('#input-thirtysix-price').val();
+
+        var golfPrice = {
+            Date: date,
+            EighteenHolePrice: eighteenHolePrice,
+            TwentySevenHolePrice: twentySevenHolePrice,
+            ThirtySixHolePrice: thirtySixHolePrice,
+            GolfId: golfId
+        };
+
+        console.log(golfPrice);
+
+        $.ajax({
+            url: '/Golf/AddGolfPrice',
+            type: "POST",
+            data: JSON.stringify(golfPrice),
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                console.log(data);
+                if (data == "添加成功") {
+                    window.location.reload();
+                }
+            },
+            error: function (data) {
+                console.log(data);
+                if (data.responseText == "添加成功") {
+                    window.location.reload();
+                }
+            }
+        });
+    }
+
+    function getDateFromAspNetFormat(date) {
+        const re = /-?\d+/;
+        const m = re.exec(date);
+        return parseInt(m[0], 10);
+    }
+
+    Date.prototype.format = function (format) {
+        var date = {
+            "M+": this.getMonth() + 1,
+            "d+": this.getDate(),
+            "h+": this.getHours(),
+            "m+": this.getMinutes(),
+            "s+": this.getSeconds(),
+            "q+": Math.floor((this.getMonth() + 3) / 3),
+            "S": this.getMilliseconds()
+        };
+        if (/(y+)/i.test(format)) {
+            format = format.replace(RegExp.$1, (this.getFullYear() + '').substr(4 - RegExp.$1.length));
+        }
+        for (var k in date) {
+            if (new RegExp("(" + k + ")").test(format)) {
+                format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? date[k] : ("00" + date[k]).substr(("" + date[k]).length));
+            }
+        }
+        return format;
+    };
+
+</script>
+

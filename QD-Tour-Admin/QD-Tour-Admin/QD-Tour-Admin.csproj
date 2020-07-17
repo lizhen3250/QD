@@ -345,6 +345,20 @@
       <DependentUpon>Model1.edmx</DependentUpon>
       <LastGenOutput>Model1.cs</LastGenOutput>
     </Content>
+    <Content Include="Uploads\1.JPG" />
+    <Content Include="Uploads\2001034557.jpg" />
+    <Content Include="Uploads\Capture.JPG" />
+    <Content Include="Uploads\Sample.JPG" />
+    <Content Include="Uploads\timg.jfif" />
+    <Content Include="Uploads\u=3980528116,1172953412&amp;fm=26&amp;gp=0.jpg" />
+    <Content Include="Uploads\其他.jpg" />
+    <Content Include="Uploads\单人间.jpg" />
+    <Content Include="Uploads\双人间.jpg" />
+    <Content Include="Uploads\外观.jpg" />
+    <Content Include="Uploads\大厅.jpg" />
+    <Content Include="Uploads\身份证1.jpg" />
+    <Content Include="Uploads\身份证2.jpg" />
+    <Content Include="Uploads\餐厅.jpg" />
     <Content Include="vendors\animate.css\animate.css" />
     <Content Include="vendors\animate.css\animate.min.css" />
     <Content Include="vendors\animate.css\gulpfile.js" />

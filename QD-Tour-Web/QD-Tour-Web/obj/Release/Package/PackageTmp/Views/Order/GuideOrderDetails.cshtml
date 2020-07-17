@@ -1,0 +1,112 @@
+﻿
+@{
+    ViewBag.Title = "华康旅游 - 导游预约详情";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+    $(function () {
+        var data = JSON.parse(sessionStorage.getItem("info"));
+        $('#member-id').text(data.member.Id);
+        $('#member-name').text(data.member.Name);
+        $('#member-email').text(data.member.Email);
+        $('#member-phone').text(data.member.Phone);
+        $('#guide-country').text(data.country);
+        $('#guide-start-time').text(data.startTime);
+        $('#guide-end-time').text(data.endTime);
+        $('#guide-people').text(data.numberOfPeople);
+        $('#guide-price').text(data.totalPrice);
+        $('#package-id').text(data.guidePackageId);
+    })
+</script>
+
+<div class="section-paddings incredible-places" style="margin-top:30px;">
+    <div class="container">
+        <form>
+            <div class="form-group row">
+                <label for="inputEmail3" class="col-sm-1 col-form-label">姓 名:</label>
+                <div class="col-sm-11">
+                    <span class="form-control" id="member-name"></span>
+                    <span id="member-id" style="display:none"></span>
+                    <span id="package-id" style="display:none"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="inputPassword3" class="col-sm-1 col-form-label">邮 箱:</label>
+                <div class="col-sm-11">
+                    <span class="form-control" id="member-email"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="inputPassword3" class="col-sm-1 col-form-label">电 话:</label>
+                <div class="col-sm-11">
+                    <span class="form-control" id="member-phone"></span>
+                </div>
+            </div>
+        </form>
+
+        <div class="row">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">城市</th>
+                        <th scope="col">开始时间</th>
+                        <th scope="col">结束时间</th>
+                        <th scope="col">总人数</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td id="guide-country"></td>
+                        <td id="guide-start-time"></td>
+                        <td id="guide-end-time"></td>
+                        <td id="guide-people"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="row" style="float:right">
+            <span>总价格: ￥<strong style="color:#f15b5c; font-size:20px;" id="guide-price"></strong></span>
+        </div>
+        <br />
+        <br />
+        <div class="row book" style="float:right;">
+            <button type="button" class="btn btn-primary btn-lg" style="background:#f15b5c; border:1px solid #f15b5c;" onclick="guideReservation()">预约</button>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function guideReservation() {
+        var reservationModel = {
+            memberId: $('#member-id').text(),
+            numberOfPeople: $('#guide-people').text(),
+            startTime: $('#guide-start-time').text(),
+            endTime: $('#guide-end-time').text(),
+            totalPrice: $('#guide-price').text(),
+            guidePackageId: $('#package-id').text()
+        };
+
+        $.ajax({
+            url: '/GuideReservation/Add',
+            type: 'POST',
+            data: JSON.stringify(reservationModel),
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                if (data == "添加成功") {
+                    window.location.href = "/Order/OrderComplete";
+                } else if (data == "need login") {
+                    window.location.href = "/Login/Index";
+                }
+            },
+            error: function (data) {
+                console.log(data);
+                if (data.responseText == "添加成功") {
+                    window.location.reload();
+                }
+            }
+        });
+    }
+</script>
+

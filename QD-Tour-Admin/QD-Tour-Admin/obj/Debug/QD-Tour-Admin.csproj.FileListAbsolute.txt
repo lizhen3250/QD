@@ -145,8 +145,8 @@ C:\Users\Dell\Desktop\青岛华康旅行社\QD\QD-Tour-Admin\QD-Tour-Admin\bin\M
 C:\Users\Dell\Desktop\青岛华康旅行社\QD\QD-Tour-Admin\QD-Tour-Admin\bin\Microsoft.Owin.Security.Google.xml
 C:\Users\Dell\Desktop\青岛华康旅行社\QD\QD-Tour-Admin\QD-Tour-Admin\bin\Microsoft.Owin.Security.Twitter.xml
 C:\Users\Dell\Desktop\青岛华康旅行社\QD\QD-Tour-Admin\QD-Tour-Admin\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
-C:\Users\Dell\Desktop\青岛华康旅行社\QD\QD-Tour-Admin\QD-Tour-Admin\obj\Debug\QD-Tour-Admin.csprojAssemblyReference.cache
 C:\Users\Dell\Desktop\青岛华康旅行社\QD\QD-Tour-Admin\QD-Tour-Admin\obj\Debug\QD-Tour-Admin.csproj.CoreCompileInputs.cache
 C:\Users\Dell\Desktop\青岛华康旅行社\QD\QD-Tour-Admin\QD-Tour-Admin\obj\Debug\QD-Tour-Admin.csproj.CopyComplete
 C:\Users\Dell\Desktop\青岛华康旅行社\QD\QD-Tour-Admin\QD-Tour-Admin\obj\Debug\QD-Tour-Admin.dll
 C:\Users\Dell\Desktop\青岛华康旅行社\QD\QD-Tour-Admin\QD-Tour-Admin\obj\Debug\QD-Tour-Admin.pdb
+C:\Users\Dell\Desktop\青岛华康旅行社\QD\QD-Tour-Admin\QD-Tour-Admin\obj\Debug\QD-Tour-Admin.csprojAssemblyReference.cache

@@ -1,0 +1,702 @@
+﻿@model IEnumerable<QD_Tour_Web.Controllers.TourPackageModel>
+
+<!DOCTYPE html>
+<html class="no-js" lang="en-us">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>华康旅游 - 首页</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="Scripts/images/favicon.ico">
+    <!-- bootstrap css -->
+    <link rel="stylesheet" href="~/Scripts/css/assets/bootstrap.min.css">
+    <!-- animate css -->
+    <link rel="stylesheet" href="~/Scripts/css/assets/animate.css">
+    <!-- Button Hover animate css -->
+    <link rel="stylesheet" href="~/Scripts/css/assets/hover-min.css">
+    <!-- jquery-ui.min css -->
+    <link rel="stylesheet" href="~/Scripts/css/assets/jquery-ui.min.css">
+    <!-- meanmenu css -->
+    <link rel="stylesheet" href="~/Scripts/css/assets/meanmenu.min.css">
+    <!-- owl.carousel css -->
+    <link rel="stylesheet" href="~/Scripts/css/assets/owl.carousel.min.css">
+    <!-- slick css -->
+    <link rel="stylesheet" href="~/Scripts/css/assets/slick.css">
+    <!-- chosen.min-->
+    <link rel="stylesheet" href="~/Scripts/css/assets/jquery-customselect.css">
+    <!-- font-awesome css -->
+    <link rel="stylesheet" href="~/Scripts/css/assets/font-awesome.min.css">
+    <!-- magnific Css -->
+    <link rel="stylesheet" href="~/Scripts/css/assets/magnific-popup.css">
+    <!-- Revolution Slider -->
+    <link rel="stylesheet" href="~/Scripts/css/assets/revolution/layers.css">
+    <link rel="stylesheet" href="~/Scripts/css/assets/revolution/navigation.css">
+    <link rel="stylesheet" href="~/Scripts/css/assets/revolution/settings.css">
+    <!-- Preloader css -->
+    <link rel="stylesheet" href="~/Scripts/css/assets/preloader.css">
+    <!-- custome css -->
+    <link rel="stylesheet" href="~/Scripts/css/style.css">
+    <!-- responsive css -->
+    <link rel="stylesheet" href="~/Scripts/css/responsive.css">
+    <link rel="stylesheet" href="~/Scripts/css/master.css">
+    <!-- modernizr css -->
+    <script src="~/Scripts/js/vendor/modernizr-2.8.3.min.js"></script>
+
+    <script src="~/Scripts/js/vendor/jquery-3.2.0.min.js"></script>
+</head>
+<body>
+    <div id="loader-wrapper">
+        <div id="loader"></div>
+        <div class="loader-section section-left"></div>
+        <div class="loader-section section-right"></div>
+    </div>
+    <!-- header area start here -->
+    <header>
+        <div class="header_top_area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="contact_wrapper_top">
+                            <ul class="header_top_contact">
+                                <li><a href="~/Home/Index"><img src="~/Scripts/images/logo.jpg" alt=""></a></li>
+                                <li><i class="fa fa-phone" aria-hidden="true"></i>0532-677607517</li>
+                                <li><i class="fa fa-envelope-o" aria-hidden="true"></i>huakangtour@163.com</li>
+                            </ul>
+                            @if (Session["memberId"] == null)
+                            {
+                                <div class="book-btn">
+                                    <a href="~/Login/Index" id="login_or_register">登录</a>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="book-btn">
+                                    <a href="~/Member/Details/@Session["memberId"]" id="login_or_register">会员信息</a>
+                                </div>
+                                <span id="member-id" style="display:none">@Session["memberId"]</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- header top end -->
+
+        <div class="main_nav">
+            <div class="container">
+                <div class="row">
+                    @*<div class="col-md-2 col-sm-2 col-xs-12 tap-v-responsive">
+                        <div class="logo-area">
+                            <a href="index.html">
+                                <img src="~/Scripts/images/logo.png" alt="">
+                            </a>
+                        </div>*@
+                    </div>
+                    <div class="col-md-10">
+                        <nav>
+                            <ul class="main-menu text-right">
+                                <li class="active">
+                                    <a href="~/Home/Index">首页</a>
+                                </li>
+                                <li>
+                                    <a href="~/Tour/Index">国内旅游预约</a>
+                                </li>
+                                <li>
+                                    <a href="~/Guide/Index">导游预约</a>
+                                </li>
+                                <li><a href="~/Vehicle/Index">车辆预约</a></li>
+                                <li>
+                                    <a href="~/Hotel/Index">酒店预约</a>
+                                </li>
+                                <li>
+                                    <a href="~/Golf/Index">高尔夫预约</a>
+                                </li>
+                                <li>
+                                    <a href="~/CustomTour/Index">定制游</a>
+                                </li>
+                                <li><a href="#footer">联系我们</a></li>
+                            </ul>
+                        </nav>
+                    </div> <!-- main menu end here -->
+                </div>
+            </div>
+        </div> <!-- header-bottom area end here -->
+    </header> <!-- header area end here -->
+    <!-- slider area start here -->
+    <section class="slider-area" id="slider_area_1">
+        <div class="rev_slider_wrapper">
+            <div id="rev_slider_1" class="rev_slider" style="display:none">
+                <ul>
+
+                    <li data-index="rs-3049" data-transition="zoomin" data-slotamount="7" data-hideafterloop="0" data-hideslideonmobile="off" data-easein="Power4.easeInOut" data-easeout="Power4.easeInOut" data-masterspeed="2000" data-thumb="images/slider/slider_1_1.jpg" data-rotate="0" data-saveperformance="off" data-title="Love it?" data-param1="" data-param2="" data-param3="" data-param4="" data-param5="" data-param6="" data-param7="" data-param8="" data-param9="" data-param10="" data-description="">
+                        <!-- MAIN IMAGE -->
+                        <img src="~/Scripts/images/slider/slider_1_1.jpg" alt="" data-bgposition="center center" data-kenburns="on" data-duration="10000" data-ease="Linear.easeNone" data-scalestart="100" data-scaleend="120" data-rotatestart="0" data-rotateend="0" data-offsetstart="0 -500" data-offsetend="0 500" data-bgparallax="10" class="rev-slidebg" data-no-retina>
+                        <!-- BEGIN BASIC TEXT LAYER -->
+                        <!-- LAYER NR. 1 -->
+                        <div class="tp-caption sfr font-extra-bold tp-resizeme letter-space-4 title-line-1"
+                             data-x="['center','center','center','center']" data-hoffset="['0','0','0','0']"
+                             data-y="['middle','middle','middle','middle']" data-voffset="['-120','-128','-250','-158']"
+                             data-fontsize="['30','30','25','30']"
+                             data-lineheight="['30','30','30','30']"
+                             data-width="none"
+                             data-height="none"
+                             data-whitespace="nowrap"
+                             data-type="text"
+                             data-responsive_offset="on"
+                             data-frames='[{"from":"y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;s:inherit;e:inherit;","speed":2000,"to":"o:1;","delay":1750,"ease":"Power2.easeInOut"},{"delay":"wait","speed":300,"to":"opacity:0;","ease":"nothing"}]'
+                             data-textAlign="['left','left','left','left']"
+                             data-paddingtop="[0,0,0,0]"
+                             data-paddingright="[0,0,0,0]"
+                             data-paddingbottom="[0,0,0,0]"
+                             data-paddingleft="[0,0,0,0]"
+                             data-frames='[{"delay":0,"speed":3000,"frame":"0","from":"x:[175%];y:0px;z:0;rX:0;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:1;","mask":"x:[-100%];y:0;s:inherit;e:inherit;","to":"o:1;","ease":"Power3.easeOut"},{"delay":"wait","speed":300,"frame":"999","to":"auto:auto;","ease":"Power3.easeInOut"}]'
+                             style="z-index: 6; color:#fff; text-transform:capitalize; font-family:'Poppins', sans-serif; white-space: nowrap; font-weight:500;">
+                            说走就走
+                        </div>
+
+                        <!-- LAYER NR. 2 -->
+                        <div class="tp-caption sfr font-extra-bold tp-resizeme letter-space-4 title-line-2"
+                             data-x="['center','center','center','center']" data-hoffset="['0','0','0','0']"
+                             data-y="['middle','middle','middle','middle']" data-voffset="['-40','-40','-150','-100']"
+                             data-fontsize="['90','80','60','50']"
+                             data-lineheight="['90','80','60','50']"
+                             data-width="none"
+                             data-height="none"
+                             data-whitespace="nowrap"
+                             data-type="text"
+                             data-responsive_offset="on"
+                             data-frames='[{"from":"y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;s:inherit;e:inherit;","speed":2000,"to":"o:1;","delay":1750,"ease":"Power2.easeInOut"},{"delay":"wait","speed":300,"to":"opacity:0;","ease":"nothing"}]'
+                             data-textAlign="['left','left','left','left']"
+                             data-paddingtop="[0,0,0,0]"
+                             data-paddingright="[0,0,0,0]"
+                             data-paddingbottom="[0,0,0,0]"
+                             data-paddingleft="[0,0,0,0]"
+                             data-frames='[{"from":"y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;","mask":"x:0px;y:[100%];s:inherit;e:inherit;","speed":2000,"to":"o:1;","delay":750,"ease":"Power4.easeInOut"},{"delay":"wait","speed":1000,"to":"y:[100%];","mask":"x:inherit;y:inherit;s:inherit;e:inherit;","ease":"Power2.easeInOut"}]'
+                             style="z-index: 6; font-weight: 600; color:#fff; text-transform:capitalize; font-family:'Poppins', sans-serif; white-space: nowrap;">
+                            华康旅游
+                        </div>
+
+                        <!-- LAYER NR. 3 -->
+                        <div class="tp-caption font-lora sfb tp-resizeme letter-space-5  header-p1"
+                             id="slide-3015-layer-5"
+                             data-x="['center','center','center','center']" data-hoffset="['0','0','0','0']"
+                             data-y="['middle','middle','middle','middle']" data-voffset="['80','80','0','0']"
+                             data-fontsize="['18','18','180','180']"
+                             data-lineheight="['28','28','30','30']"
+                             data-width="['none','none','480','360']"
+                             data-height="none"
+                             data-whitespace="['nowrap','nowrap','normal','normal']"
+                             data-type="text"
+                             data-responsive_offset="on"
+                             data-frames='[{"from":"y:50px;opacity:0;","speed":2000,"to":"o:1;","delay":2000,"ease":"Power2.easeInOut"},{"delay":"wait","speed":300,"to":"opacity:0;","ease":"nothing"}]'
+                             data-textAlign="['center','center','center','center']"
+                             data-paddingtop="[0,0,0,0]"
+                             data-paddingright="[0,0,0,0]"
+                             data-paddingbottom="[0,0,0,0]"
+                             data-paddingleft="[0,0,0,0]"
+                             data-frames='[{"from":"y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;","mask":"x:0px;y:[100%];s:inherit;e:inherit;","speed":2000,"to":"o:1;","delay":750,"ease":"Power4.easeInOut"},{"delay":"wait","speed":1000,"to":"y:[100%];","mask":"x:inherit;y:inherit;s:inherit;e:inherit;","ease":"Power2.easeInOut"}]'
+                             style="z-index: 7; color:#fff; font-family:'Poppins', sans-serif; white-space: nowrap; font-weight:400;">
+                            带您去旅行
+                        </div>
+
+                    </li>
+                    <!-- first slider end -->
+
+                    <li data-index="rs-3007" data-transition="zoomout" data-slotamount="default" data-hideafterloop="0" data-hideslideonmobile="off" data-easein="Power4.easeInOut" data-easeout="Power4.easeInOut" data-masterspeed="2000" data-thumb="images/slider/slider_1_2.jpg" data-rotate="0" data-saveperformance="off" data-title="Iceberg" data-param1="" data-param2="" data-param3="" data-param4="" data-param5="" data-param6="" data-param7="" data-param8="" data-param9="" data-param10="" data-description="">
+                        <!-- SLIDE'S MAIN BACKGROUND IMAGE -->
+                        <img src="~/Scripts/images/slider/slider_1_2.jpg" alt="" data-bgposition="center center" data-kenburns="on" data-duration="10000" data-ease="Linear.easeNone" data-scalestart="100" data-scaleend="120" data-rotatestart="0" data-rotateend="0" data-offsetstart="0 -500" data-offsetend="0 500" data-bgparallax="10" class="rev-slidebg" data-no-retina>
+                        <!-- BEGIN BASIC TEXT LAYER -->
+                        <!-- LAYER NR. 1 -->
+                        <div class="tp-caption sfr font-extra-bold tp-resizeme letter-space-4 title-line-1"
+                             data-x="['center','center','center','center']" data-hoffset="['0','0','0','0']"
+                             data-y="['middle','middle','middle','middle']" data-voffset="['-120','-128','-250','-158']"
+                             data-fontsize="['30','30','25','30']"
+                             data-lineheight="['30','30','30','30']"
+                             data-width="none"
+                             data-height="none"
+                             data-whitespace="nowrap"
+                             data-type="text"
+                             data-responsive_offset="on"
+                             data-frames='[{"from":"y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;s:inherit;e:inherit;","speed":2000,"to":"o:1;","delay":1750,"ease":"Power2.easeInOut"},{"delay":"wait","speed":300,"to":"opacity:0;","ease":"nothing"}]'
+                             data-textAlign="['left','left','left','left']"
+                             data-paddingtop="[0,0,0,0]"
+                             data-paddingright="[0,0,0,0]"
+                             data-paddingbottom="[0,0,0,0]"
+                             data-paddingleft="[0,0,0,0]"
+                             data-frames='[{"delay":0,"speed":3000,"frame":"0","from":"x:[175%];y:0px;z:0;rX:0;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:1;","mask":"x:[-100%];y:0;s:inherit;e:inherit;","to":"o:1;","ease":"Power3.easeOut"},{"delay":"wait","speed":300,"frame":"999","to":"auto:auto;","ease":"Power3.easeInOut"}]'
+                             style="z-index: 6; color:#fff; text-transform:capitalize; font-family:'Poppins', sans-serif; white-space: nowrap; font-weight:500;">
+                            说走就走
+                        </div>
+
+                        <!-- LAYER NR. 2 -->
+                        <div class="tp-caption sfr font-extra-bold tp-resizeme letter-space-4 title-line-2"
+                             data-x="['center','center','center','center']" data-hoffset="['0','0','0','0']"
+                             data-y="['middle','middle','middle','middle']" data-voffset="['-40','-40','-150','-100']"
+                             data-fontsize="['90','80','60','50']"
+                             data-lineheight="['90','80','60','50']"
+                             data-width="none"
+                             data-height="none"
+                             data-whitespace="nowrap"
+                             data-type="text"
+                             data-responsive_offset="on"
+                             data-frames='[{"from":"y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;s:inherit;e:inherit;","speed":2000,"to":"o:1;","delay":1750,"ease":"Power2.easeInOut"},{"delay":"wait","speed":300,"to":"opacity:0;","ease":"nothing"}]'
+                             data-textAlign="['left','left','left','left']"
+                             data-paddingtop="[0,0,0,0]"
+                             data-paddingright="[0,0,0,0]"
+                             data-paddingbottom="[0,0,0,0]"
+                             data-paddingleft="[0,0,0,0]"
+                             data-frames='[{"from":"y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;","mask":"x:0px;y:[100%];s:inherit;e:inherit;","speed":2000,"to":"o:1;","delay":750,"ease":"Power4.easeInOut"},{"delay":"wait","speed":1000,"to":"y:[100%];","mask":"x:inherit;y:inherit;s:inherit;e:inherit;","ease":"Power2.easeInOut"}]'
+                             style="z-index: 6; font-weight: 600; color:#fff; text-transform:capitalize; font-family:'Poppins', sans-serif; white-space: nowrap;">
+                            华康旅游
+                        </div>
+
+                        <!-- LAYER NR. 3 -->
+                        <div class="tp-caption font-lora sfb tp-resizeme letter-space-5  header-p1"
+                             id="slide-3015-layer-5"
+                             data-x="['center','center','center','center']" data-hoffset="['0','0','0','0']"
+                             data-y="['middle','middle','middle','middle']" data-voffset="['80','80','0','0']"
+                             data-fontsize="['18','18','180','180']"
+                             data-lineheight="['28','28','30','30']"
+                             data-width="['none','none','480','360']"
+                             data-height="none"
+                             data-whitespace="['nowrap','nowrap','normal','normal']"
+                             data-type="text"
+                             data-responsive_offset="on"
+                             data-frames='[{"from":"y:50px;opacity:0;","speed":2000,"to":"o:1;","delay":2000,"ease":"Power2.easeInOut"},{"delay":"wait","speed":300,"to":"opacity:0;","ease":"nothing"}]'
+                             data-textAlign="['center','center','center','center']"
+                             data-paddingtop="[0,0,0,0]"
+                             data-paddingright="[0,0,0,0]"
+                             data-paddingbottom="[0,0,0,0]"
+                             data-paddingleft="[0,0,0,0]"
+                             data-frames='[{"from":"y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;","mask":"x:0px;y:[100%];s:inherit;e:inherit;","speed":2000,"to":"o:1;","delay":750,"ease":"Power4.easeInOut"},{"delay":"wait","speed":1000,"to":"y:[100%];","mask":"x:inherit;y:inherit;s:inherit;e:inherit;","ease":"Power2.easeInOut"}]'
+                             style="z-index: 7; color:#fff; font-family:'Poppins', sans-serif; white-space: nowrap; font-weight:400;">
+                            带您去旅行
+                        </div>
+                    </li>
+                    <!-- first slider end -->
+                </ul>
+            </div> <!-- end slider container -->
+        </div> <!-- END end slider container wrapper -->
+    </section> <!-- slider area end here -->
+
+    @*<section class="search_area">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-12">
+                    <div class="search_form">
+                        <form action="#" method="post">
+                            <div class="form-group keywork_type">
+                                <label><i class="fa fa-map-marker"></i></label>
+                                <input type="search" name="s" id="keyword2" class="hotel-input-first" placeholder="Type Keyword">
+                            </div>
+                            <div class="form-group">
+                                <label><i class="fa fa-calendar"></i></label>
+                                <input type="button" name="s" value="Date" id="datepicker2" class="hotel-input-first">
+                            </div>
+                            <div class="form-group">
+                                <label><i class="fa fa-user"></i></label>
+                                <input type="number" name="s" id="number1" class="hotel-input-first" placeholder="Person">
+                            </div>
+                            <div class="form-group searc-btn-7">
+                                <button type="submit">Search</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>*@ <!-- header tab based search area end-->
+
+
+
+    <section class="popular-packages">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="section-title">
+                        <h2>最受欢迎的旅游景点</h2>
+                        <p>说走就走, 是人生最华美的奢侈, 也是最灿烂的自由</p>
+                        <p>去看日月星辰, 山川湖海, 去看世间万象, 人生百态</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                @foreach (var package in Model)
+                {
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-4">
+                        <div class="single-package">
+                            <div class="package-image">
+                                <a href="#"><img src="http://localhost:59442/@package.Photo" alt=""></a>
+                            </div>
+                            <div class="package-content">
+                                <h3><a href="" title="">@package.Tour.Course - @package.Tour.Name</a></h3>
+                                <p>
+                                    @(package.Tour.TourDate-1) 夜, @package.Tour.TourDate 天
+                                </p>
+                            </div>
+                            <div class="package-calto-action">
+                                <ul class="ct-action">
+                                    <li><a href="~/Tour/Details/@package.Id" class="travel-booking-btn hvr-shutter-out-horizontal">查看详情</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div> <!-- single package end -->
+                }
+                
+            </div>
+        </div>
+    </section> <!--end  popular packajge -->
+
+    <section class="travelsers-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="section-title-white text-center">
+                        <h2>为什么选择华康旅游</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <!-- single travel start -->
+                <div class="col-12 col-sm-6 col-md-6 col-lg-4">
+                    <div class="single-travel">
+                        <div class="media">
+                            <div class="media-body travel-content">
+                                <h4>出行安排</h4>
+                                <p>从业旅游行业十年以上的旅游专家，根据每位客户的需求以最快的速度给客户量身定制出行安排</p>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- single travel end -->
+
+                <div class="col-12 col-sm-6 col-md-6 col-lg-4">
+                    <div class="single-travel">
+                        <div class="media">
+                            <div class="media-body travel-content">
+                                <h4>特价机票</h4>
+                                <p>精选热门航班，放心的价格，特殊原因机票退订保障，一站式售后服务体验，出行更省心。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- single travel end -->
+
+                <div class="col-12 col-sm-6 col-md-6 col-lg-4">
+                    <div class="single-travel">
+                        <div class="media">
+                            <div class="media-body travel-content">
+                                <h4>精选行程</h4>
+                                <p>最受网友欢迎的行程；多家星级酒店供选择，特惠价格和超值便捷的双重享受，亲手打造属于您自己的悠闲假期。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- single travel end -->
+
+                <div class="col-12 col-sm-6 col-md-6 col-lg-4">
+                    <div class="single-travel">
+                        <div class="media">
+                            <div class="media-body travel-content">
+                                <h4>专业导游</h4>
+                                <p>Lorem ipsum dolor sit amet consect adiu piscing elit sed diam nonum euismo tincidunt ut.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- single travel end -->
+
+                <div class="col-12 col-sm-6 col-md-6 col-lg-4">
+                    <div class="single-travel">
+                        <div class="media">
+                            <div class="media-body travel-content">
+                                <h4>特别活动</h4>
+                                <p>Lorem ipsum dolor sit amet consect adiu piscing elit sed diam nonum euismo tincidunt ut.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- single travel end -->
+
+                <div class="col-12 col-sm-6 col-md-6 col-lg-4">
+                    <div class="single-travel">
+                        <div class="media">
+                            <div class="media-body travel-content">
+                                <h4>最优惠的价格保证</h4>
+                                <p>Lorem ipsum dolor sit amet consect adiu piscing elit sed diam nonum euismo tincidunt ut.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- single travel end -->
+            </div>
+        </div>
+    </section> <!-- choose travelsers end here -->
+    <!-- guide and Expert Advice strat -->
+
+    <!-- testimonial area start here -->
+    <section class="section-paddings testimonial-two" id="testimonial_one">
+        <div class="testimonial-wrapper">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="section-title">
+                            <h2>我们快乐的旅行者怎么说</h2>
+                            <p>Lorem ipsum dolor sit amet consectetur adipiscing elit Etiam at ipsum at ligula .</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 col-sm-12">
+                        <!-- start top media -->
+                        <div class="top-testimonial-image slick-pagination">
+                            <div class="carousel-images slider-nav-two">
+                                <div class="images_single"><img src="~/Scripts/images/client/3.jpg" alt="1" class="img-responsive img-circle"></div>
+                                <div class="images_single"><img src="~/Scripts/images/client/9.jpg" alt="3" class="img-responsive img-circle"></div>
+                                <div class="images_single"><img src="~/Scripts/images/client/6.jpg" alt="2" class="img-responsive img-circle"></div>
+                                <div class="images_single"><img src="~/Scripts/images/client/9.jpg" alt="3" class="img-responsive img-circle"></div>
+                            </div>
+                        </div><!-- end top media images -->
+                        <!-- bottom testimonial message -->
+                        <div class="block-text">
+                            <div class="carousel-text slider-for-two">
+                                <div class="single-box">
+                                    <p>
+                                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt utrinyi dolore magna aliqimbf adiminim veniamp nostrud exer tatjhion ullamc orperea commodo consequ euismod laoreet dolore magna.
+                                    </p>
+                                    <div class="client-bio">
+                                        <h3>Jhonthan Smith</h3>
+                                        <span>London Trip Traveler</span>
+                                    </div>
+                                    <ul class="rating d-flex justify-content-center">
+                                        <li><i class="fa fa-star"></i></li>
+                                        <li><i class="fa fa-star"></i></li>
+                                        <li><i class="fa fa-star"></i></li>
+                                        <li><i class="fa fa-star"></i></li>
+                                        <li><i class="fa fa-star"></i></li>
+                                    </ul>
+                                </div>
+                                <div class="single-box">
+                                    <p>
+                                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit,  utrinyi dolore magna aliquam erat volutpat Upt wisi enimbf adiminim veniamp nostrud exer tatjhion ullamc orperea commodo consequ euismod laoreetore magna.
+                                    </p>
+                                    <div class="client-bio">
+                                        <h3>Blake Lively</h3>
+                                        <span>Martin, Parent</span>
+                                    </div>
+                                    <ul class="rating d-flex justify-content-center">
+                                        <li><i class="fa fa-star"></i></li>
+                                        <li><i class="fa fa-star"></i></li>
+                                        <li><i class="fa fa-star"></i></li>
+                                        <li><i class="fa fa-star"></i></li>
+                                        <li><i class="fa fa-star"></i></li>
+                                    </ul>
+                                </div>
+                                <div class="single-box">
+                                    <p>
+                                        Lorem ipsum dolor sit amet, consected diam nonummy nibh euismod tincidunt utrinyi dolore magna aliquam erat volutpat Upt wisi enimbf adiminim veniamp nostrud exer tatjhion ullamc orperea commodo consequ euismo dolore magna.
+                                    </p>
+                                    <div class="client-bio">
+                                        <h3>Charlie Puth</h3>
+                                        <span>Martin, Parent</span>
+                                    </div>
+                                    <ul class="rating d-flex justify-content-center">
+                                        <li><i class="fa fa-star"></i></li>
+                                        <li><i class="fa fa-star"></i></li>
+                                        <li><i class="fa fa-star"></i></li>
+                                        <li><i class="fa fa-star"></i></li>
+                                        <li><i class="fa fa-star"></i></li>
+                                    </ul>
+                                </div>
+                                <div class="single-box">
+                                    <p>
+                                        Lorem ipsum dolor sit amet, consectit, sed diam nonummy nibh euismod tincidunt utrinyi dolore magna alpat Upt wisi enimbf adiminim veniamp nostrud exer tatjhion ullamc orperea commodo consequ euismod laoreetna.
+                                    </p>
+                                    <div class="client-bio">
+                                        <h3>Jessica Alba</h3>
+                                        <span>Martin, Parent</span>
+                                    </div>
+                                    <ul class="rating d-flex justify-content-center">
+                                        <li><i class="fa fa-star"></i></li>
+                                        <li><i class="fa fa-star"></i></li>
+                                        <li><i class="fa fa-star"></i></li>
+                                        <li><i class="fa fa-star"></i></li>
+                                        <li><i class="fa fa-star"></i></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div><!-- bottom testimonial message -->
+                    </div><!-- /.block-text -->
+                </div>
+            </div>
+        </div>
+    </section><!-- testimonial area end here -->
+
+    <footer class="footer-area" id="footer">
+        <div class="container">
+            <div class="row">
+                <!-- footer left -->
+                <div class="col-12 col-sm-6 col-md-6 col-lg-3">
+                    <div class="single-footer">
+                        <div class="footer-title">
+                            <h3><a href="~/Home/Index"><img src="~/Scripts/images/logo2.jpg" alt=""></a></h3>
+                        </div>
+                        <div class="footer-left">
+                            <div class="footer-logo">
+                                <p>旅行社介绍</p>
+                            </div>
+                            <ul class="footer-contact">
+                                <li><img class="map" src="~/Scripts/images/icon/map.png" alt="">青岛市城阳区春城路169-34</li>
+                                <li><img class="map" src="~/Scripts/images/icon/phone.png" alt="">0532-677607517</li>
+                                <li><img class="map" src="~/Scripts/images/icon/gmail.png" alt="">huakangtour@163.com</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div> <!-- footer left -->
+                <!-- footer destination -->
+                <div class="col-12 col-sm-6 col-md-6 col-lg-2">
+                    <div class="single-footer">
+                        <div class="footer-title">
+                            <h3>快速链接</h3>
+                        </div>
+                        <ul class="list-unstyled">
+                            <li><a href="~/Home/Index" title="">首页</a></li>
+                            <li><a href="~/Tour/Index" title="">国内旅游预约</a></li>
+                            <li><a href="~/Guide/Index" title="">导游预约</a></li>
+                            <li><a href="~/Vehicle/Index" title="">车辆预约</a></li>
+                            <li><a href="~/Hotel/Index" title="">酒店预约</a></li>
+                            <li><a href="~/Golf/Index" title="">高尔夫预约</a></li>
+                            <li><a href="~/CustomTour/Index" title="">定制游</a></li>
+                            <li><a href="" title="">联系我们</a></li>
+                        </ul>
+                    </div>
+                </div>	<!-- footer destination -->
+
+                <div class="col-12 col-sm-6 col-md-6 col-lg-4">
+                    <div class="single-footer">
+                        <div class="single-recent-post">
+                            <div class="footer-title">
+                                <h3>旅游景点</h3>
+                            </div>
+                            <ul class="recent-post">
+                                <ul class="recent-post">
+                                    <li>
+                                        <a href="~/Golf/Index">
+                                            <div class="post-thum">
+                                                <img src="~/Scripts/images/blog/f4.jpg" alt="" class="img-rounded">
+                                            </div>
+                                            <div class="post-content">
+                                                <p>
+                                                    华康旅行社： 新出高尔夫预约项目 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                </p>
+                                                <span>5月, 2020</span>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="~/CustomTour/Index">
+                                            <div class="post-thum">
+                                                <img src="~/Scripts/images/blog/f5.jpg" alt="" class="img-rounded">
+                                            </div>
+                                            <div class="post-content">
+                                                <p>
+                                                    华康旅行社： 新出定制游项目 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                </p>
+                                                <span>1月, 2020</span>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </ul>
+                        </div>
+                    </div>
+                </div>	<!-- footer latest news -->
+                <!-- footer contact -->
+                <div class="col-12 col-sm-6 col-md-6 col-lg-3 f-phone-responsive">
+                    <div class="single-footer">
+                        <div class="footer-title">
+                            <h3>微信 Wechat</h3>
+                        </div>
+                        <div class="footer-contact-form">
+                            <form action="#">
+                                <ul class="footer-form-element">
+                                    <li><img src="~/Scripts/images/Wechat.jpg" /></li>
+                                </ul>
+                            </form>
+                        </div>
+                    </div>
+                </div>	<!-- footer contact -->
+            </div>
+        </div>
+        <div class="footer_bottom_wrapper">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-md-12">
+                        <div class="copy_right_wrapper">
+                            <div class="copyright">
+                                <p>Copyright &copy; 2020.QingDaoHuaKang All rights reserved.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer> <!-- end footer -->
+
+    <div class="to-top pos-rtive">
+        <a href="#"><i class="fa fa-angle-up"></i></a>
+    </div><!-- Scroll to top-->
+    <!-- ============================
+            JavaScript Files
+    ============================= -->
+    <!-- jquery -->
+    <script src="~/Scripts/js/vendor/jquery-3.2.0.min.js"></script>
+    <!-- bootstrap js -->
+    <script src="~/Scripts/js/bootstrap.min.js"></script>
+    <script src="~/Scripts/js/popper.min.js"></script>
+    <!-- owl.carousel js -->
+    <script src="~/Scripts/js/owl.carousel.min.js"></script>
+    <!-- slick js -->
+    <script src="~/Scripts/js/slick.min.js"></script>
+    <!-- meanmenu js -->
+    <script src="~/Scripts/js/jquery.meanmenu.min.js"></script>
+    <!-- jquery-ui js -->
+    <script src="~/Scripts/js/jquery-ui.min.js"></script>
+    <!-- wow js -->
+    <script src="~/Scripts/js/wow.min.js"></script>
+    <!-- counter js -->
+    <script src="~/Scripts/js/jquery.counterup.min.js"></script>
+    <!-- Countdown js -->
+    <script src="~/Scripts/js/jquery.countdown.min.js"></script>
+    <!-- waypoints js -->
+    <script src="~/Scripts/js/jquery.waypoints.min.js"></script>
+    <!-- Isotope js -->
+    <script src="~/Scripts/js/isotope.pkgd.min.js"></script>
+    <!-- magnific js -->
+    <script src="~/Scripts/js/jquery.magnific-popup.min.js"></script>
+    <!-- Image loaded js -->
+    <script src="~/Scripts/js/imagesloaded.pkgd.min.js"></script>
+    <!-- chossen js -->
+    <script src="~/Scripts/js/chosen.jquery.min.js"></script>
+    <!-- Revolution JS -->
+    <script src="~/Scripts/js/assets/revolution/jquery.themepunch.revolution.min.js"></script>
+    <script src="~/Scripts/js/assets/revolution/jquery.themepunch.tools.min.js"></script>
+    <script src="~/Scripts/js/assets/revolution/extensions/revolution.extension.actions.min.js"></script>
+    <script src="~/Scripts/js/assets/revolution/extensions/revolution.extension.carousel.min.js"></script>
+    <script src="~/Scripts/js/assets/revolution/extensions/revolution.extension.kenburn.min.js"></script>
+    <script src="~/Scripts/js/assets/revolution/extensions/revolution.extension.layeranimation.min.js"></script>
+    <script src="~/Scripts/js/assets/revolution/extensions/revolution.extension.migration.min.js"></script>
+    <script src="~/Scripts/js/assets/revolution/extensions/revolution.extension.navigation.min.js"></script>
+    <script src="~/Scripts/js/assets/revolution/extensions/revolution.extension.parallax.min.js"></script>
+    <script src="~/Scripts/js/assets/revolution/extensions/revolution.extension.slideanims.min.js"></script>
+    <script src="~/Scripts/js/assets/revolution/extensions/revolution.extension.video.min.js"></script>
+    <script src="~/Scripts/js/assets/revolution/revolution.js"></script>
+    <!-- plugin js -->
+    <script src="~/Scripts/js/plugins.js"></script>
+    <!-- select2 js -->
+    <script src="~/Scripts/js/select2.min.js"></script>
+    <script src="~/Scripts/js/colors.js"></script>
+    <!-- customSelect Js -->
+    <script src="~/Scripts/js/jquery-customselect.js"></script>
+    <!-- custom js -->
+    <script src="~/Scripts/js/custom.js"></script>
+</body>
+</html>

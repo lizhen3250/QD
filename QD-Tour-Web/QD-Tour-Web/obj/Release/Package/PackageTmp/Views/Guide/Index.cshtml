@@ -1,0 +1,55 @@
+﻿@model IEnumerable<QD_Tour_Web.Models.Guide_Package>
+
+@{
+    ViewBag.Title = "华康旅游 - 导游预约";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="section-paddings incredible-places">
+    <div class="container">
+        <section class="popular-packages">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="section-title">
+                            <h2>导游预约</h2>
+                            <p>导游费用￥100/天，不包括住宿费，交通费</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    @foreach (var guidePakage in Model)
+                    {
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-4">
+                        <div class="single-package">
+                            <div class="package-image">
+                                <img src="http://localhost:59442/@guidePakage.Photo" alt="" style="width:100%; height:300px">
+                            </div>
+                            <div class="package-content">
+                                <h3><a href="" title="">@guidePakage.Destination</a></h3>
+                                <p>
+                                    @((guidePakage.EndDate - guidePakage.StartDate).Days)夜@((guidePakage.EndDate - guidePakage.StartDate).Days + 1)日 <span>￥@guidePakage.Price</span>
+                                </p>
+                            </div>
+                            <div class="package-calto-action">
+                                <ul class="ct-action">
+                                    <li><a href="/Guide/Details/@guidePakage.Id" class="travel-booking-btn hvr-shutter-out-horizontal">查看详情</a></li>
+                                    @*<li>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                    </li>*@
+                                </ul>
+                            </div>
+                        </div>
+                    </div> <!-- single package end -->      
+                    }
+                </div>
+            </div>
+        </section> <!--end  popular packajge -->
+
+    </div>
+</div>
+

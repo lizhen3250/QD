@@ -1,0 +1,70 @@
+﻿@{
+    ViewBag.Title = "华康旅游 - 会员登录";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<div class="section-paddings incredible-places">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12" style="background:#f15b5c">
+                <span style="color: #ffffff;font-size: 18px;text-transform: capitalize;font-weight: 500;">会员登录 LOGIN</span>
+            </div>
+        </div>
+        <br />
+        <br />
+        <span id="login-error"></span>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <form>
+                    <h3></h3>
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                        <input id="login-email" type="text" class="form-control input-lg" name="email" placeholder="邮箱">
+                    </div>
+                    <br />
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                        <input id="login-password" type="password" class="form-control input-lg" name="password" placeholder="密码">
+                    </div>
+                    <br />
+                    <div class="input-group">
+                        <input type="button" onclick="loginFunction();" id="login" class="form-control input-lg" style="background-color:#f15b5c; border-color:#f15b5c;width:130px;height:40px; color:white;" value="登录" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function loginFunction() {
+        var Email = $('#login-email').val();
+        var Password = $('#login-password').val();
+        var errMsg = $('#login-error');
+
+        var userDetails = {
+            email: Email,
+            password: Password
+        };
+
+        $.ajax({
+            url: '/Login/Login',
+            type: 'POST',
+            data: JSON.stringify(userDetails),
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                console.log(data);
+                if (data == "Login Success") {
+                    window.location.href = "/Home/Index";
+                } else {
+                    $('#login-error').html('');
+                    $('#login-error').css('color', 'red');
+                }
+            },
+            error: function () {
+                alert("error");
+            }
+        });
+    }
+</script>
