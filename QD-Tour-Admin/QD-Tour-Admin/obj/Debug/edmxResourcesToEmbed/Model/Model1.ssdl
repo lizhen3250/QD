@@ -36,6 +36,16 @@
     <Property Name="Photo" Type="nvarchar(max)" />
     <Property Name="Description" Type="nvarchar(max)" />
   </EntityType>
+  <EntityType Name="Golf_Package_Image">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="GolfPackage_Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Type" Type="nvarchar" MaxLength="50" />
+    <Property Name="ImageUrl" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ImageName" Type="nvarchar" MaxLength="50" />
+  </EntityType>
   <EntityType Name="Golf_Price">
     <Key>
       <PropertyRef Name="Id" />
@@ -339,6 +349,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Golf_Package_Image_Golf_Package">
+    <End Role="Golf_Package" Type="Self.Golf_Package" Multiplicity="1" />
+    <End Role="Golf_Package_Image" Type="Self.Golf_Package_Image" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Golf_Package">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Golf_Package_Image">
+        <PropertyRef Name="GolfPackage_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Golf_Reservation_Golf_Package">
     <End Role="Golf_Package" Type="Self.Golf_Package" Multiplicity="1" />
     <End Role="Golf_Reservation" Type="Self.Golf_Reservation" Multiplicity="*" />
@@ -620,6 +642,7 @@
     <EntitySet Name="CustomTour" EntityType="Self.CustomTour" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Golf" EntityType="Self.Golf" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Golf_Package" EntityType="Self.Golf_Package" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Golf_Package_Image" EntityType="Self.Golf_Package_Image" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Golf_Price" EntityType="Self.Golf_Price" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Golf_Reservation" EntityType="Self.Golf_Reservation" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Guide" EntityType="Self.Guide" Schema="dbo" store:Type="Tables" />
@@ -656,6 +679,10 @@
     <AssociationSet Name="FK_Golf_Package_Golf" Association="Self.FK_Golf_Package_Golf">
       <End Role="Golf" EntitySet="Golf" />
       <End Role="Golf_Package" EntitySet="Golf_Package" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Golf_Package_Image_Golf_Package" Association="Self.FK_Golf_Package_Image_Golf_Package">
+      <End Role="Golf_Package" EntitySet="Golf_Package" />
+      <End Role="Golf_Package_Image" EntitySet="Golf_Package_Image" />
     </AssociationSet>
     <AssociationSet Name="FK_Golf_Reservation_Golf_Package" Association="Self.FK_Golf_Reservation_Golf_Package">
       <End Role="Golf_Package" EntitySet="Golf_Package" />

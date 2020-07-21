@@ -41,6 +41,16 @@
           <Property Name="Photo" Type="nvarchar(max)" />
           <Property Name="Description" Type="nvarchar(max)" />
         </EntityType>
+        <EntityType Name="Golf_Package_Image">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="GolfPackage_Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Type" Type="nvarchar" MaxLength="50" />
+          <Property Name="ImageUrl" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ImageName" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="Golf_Price">
           <Key>
             <PropertyRef Name="Id" />
@@ -344,6 +354,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Golf_Package_Image_Golf_Package">
+          <End Role="Golf_Package" Type="Self.Golf_Package" Multiplicity="1" />
+          <End Role="Golf_Package_Image" Type="Self.Golf_Package_Image" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Golf_Package">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Golf_Package_Image">
+              <PropertyRef Name="GolfPackage_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Golf_Reservation_Golf_Package">
           <End Role="Golf_Package" Type="Self.Golf_Package" Multiplicity="1" />
           <End Role="Golf_Reservation" Type="Self.Golf_Reservation" Multiplicity="*" />
@@ -625,6 +647,7 @@
           <EntitySet Name="CustomTour" EntityType="Self.CustomTour" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Golf" EntityType="Self.Golf" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Golf_Package" EntityType="Self.Golf_Package" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Golf_Package_Image" EntityType="Self.Golf_Package_Image" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Golf_Price" EntityType="Self.Golf_Price" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Golf_Reservation" EntityType="Self.Golf_Reservation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Guide" EntityType="Self.Guide" Schema="dbo" store:Type="Tables" />
@@ -661,6 +684,10 @@
           <AssociationSet Name="FK_Golf_Package_Golf" Association="Self.FK_Golf_Package_Golf">
             <End Role="Golf" EntitySet="Golf" />
             <End Role="Golf_Package" EntitySet="Golf_Package" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Golf_Package_Image_Golf_Package" Association="Self.FK_Golf_Package_Image_Golf_Package">
+            <End Role="Golf_Package" EntitySet="Golf_Package" />
+            <End Role="Golf_Package_Image" EntitySet="Golf_Package_Image" />
           </AssociationSet>
           <AssociationSet Name="FK_Golf_Reservation_Golf_Package" Association="Self.FK_Golf_Reservation_Golf_Package">
             <End Role="Golf_Package" EntitySet="Golf_Package" />
@@ -916,6 +943,11 @@
           <AssociationSet Name="FK_CustomTour_Member" Association="Model.FK_CustomTour_Member">
             <End Role="Member" EntitySet="Members" />
             <End Role="CustomTour" EntitySet="CustomTours" />
+          </AssociationSet>
+          <EntitySet Name="Golf_Package_Image" EntityType="Model.Golf_Package_Image" />
+          <AssociationSet Name="FK_Golf_Package_Image_Golf_Package" Association="Model.FK_Golf_Package_Image_Golf_Package">
+            <End Role="Golf_Package" EntitySet="Golf_Package" />
+            <End Role="Golf_Package_Image" EntitySet="Golf_Package_Image" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Guide_Package">
@@ -1313,6 +1345,7 @@
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Golf" Relationship="Model.FK_Golf_Package_Golf" FromRole="Golf_Package" ToRole="Golf" />
           <NavigationProperty Name="Golf_Reservation" Relationship="Model.FK_Golf_Reservation_Golf_Package" FromRole="Golf_Package" ToRole="Golf_Reservation" />
+          <NavigationProperty Name="Golf_Package_Image" Relationship="Model.FK_Golf_Package_Image_Golf_Package" FromRole="Golf_Package" ToRole="Golf_Package_Image" />
         </EntityType>
         <EntityType Name="Golf_Reservation">
           <Key>
@@ -1401,6 +1434,29 @@
             </Principal>
             <Dependent Role="CustomTour">
               <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Golf_Package_Image">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="GolfPackage_Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ImageUrl" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ImageName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Golf_Package" Relationship="Model.FK_Golf_Package_Image_Golf_Package" FromRole="Golf_Package_Image" ToRole="Golf_Package" />
+        </EntityType>
+        <Association Name="FK_Golf_Package_Image_Golf_Package">
+          <End Type="Model.Golf_Package" Role="Golf_Package" Multiplicity="1" />
+          <End Type="Model.Golf_Package_Image" Role="Golf_Package_Image" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Golf_Package">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Golf_Package_Image">
+              <PropertyRef Name="GolfPackage_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1733,6 +1789,17 @@
                 <ScalarProperty Name="IsPaid" ColumnName="IsPaid" />
                 <ScalarProperty Name="MemberId" ColumnName="MemberId" />
                 <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Golf_Package_Image">
+            <EntityTypeMapping TypeName="Model.Golf_Package_Image">
+              <MappingFragment StoreEntitySet="Golf_Package_Image">
+                <ScalarProperty Name="ImageName" ColumnName="ImageName" />
+                <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="GolfPackage_Id" ColumnName="GolfPackage_Id" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

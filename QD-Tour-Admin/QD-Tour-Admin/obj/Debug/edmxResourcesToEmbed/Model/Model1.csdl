@@ -158,6 +158,11 @@
       <End Role="Member" EntitySet="Members" />
       <End Role="CustomTour" EntitySet="CustomTours" />
     </AssociationSet>
+    <EntitySet Name="Golf_Package_Image" EntityType="Model.Golf_Package_Image" />
+    <AssociationSet Name="FK_Golf_Package_Image_Golf_Package" Association="Model.FK_Golf_Package_Image_Golf_Package">
+      <End Role="Golf_Package" EntitySet="Golf_Package" />
+      <End Role="Golf_Package_Image" EntitySet="Golf_Package_Image" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Guide_Package">
     <Key>
@@ -554,6 +559,7 @@
     <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="Golf" Relationship="Model.FK_Golf_Package_Golf" FromRole="Golf_Package" ToRole="Golf" />
     <NavigationProperty Name="Golf_Reservation" Relationship="Model.FK_Golf_Reservation_Golf_Package" FromRole="Golf_Package" ToRole="Golf_Reservation" />
+    <NavigationProperty Name="Golf_Package_Image" Relationship="Model.FK_Golf_Package_Image_Golf_Package" FromRole="Golf_Package" ToRole="Golf_Package_Image" />
   </EntityType>
   <EntityType Name="Golf_Reservation">
     <Key>
@@ -642,6 +648,29 @@
       </Principal>
       <Dependent Role="CustomTour">
         <PropertyRef Name="MemberId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Golf_Package_Image">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="GolfPackage_Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ImageUrl" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ImageName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Golf_Package" Relationship="Model.FK_Golf_Package_Image_Golf_Package" FromRole="Golf_Package_Image" ToRole="Golf_Package" />
+  </EntityType>
+  <Association Name="FK_Golf_Package_Image_Golf_Package">
+    <End Type="Model.Golf_Package" Role="Golf_Package" Multiplicity="1" />
+    <End Type="Model.Golf_Package_Image" Role="Golf_Package_Image" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Golf_Package">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Golf_Package_Image">
+        <PropertyRef Name="GolfPackage_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

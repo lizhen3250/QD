@@ -215,6 +215,9 @@
     <Compile Include="Models\Golf_Package.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Golf_Package_Image.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Golf_Price.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

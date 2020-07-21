@@ -12,15 +12,14 @@ namespace QD_Tour_Admin.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class CustomTour
+    public partial class Golf_Package_Image
     {
         public string Id { get; set; }
-        public string Message { get; set; }
-        public string MemberId { get; set; }
-        public Nullable<int> IsPaid { get; set; }
-        public Nullable<System.DateTime> MessageSentTime { get; set; }
-        public Nullable<decimal> TotalPrice { get; set; }
+        public string GolfPackage_Id { get; set; }
+        public string Type { get; set; }
+        public string ImageUrl { get; set; }
+        public string ImageName { get; set; }
     
-        public virtual Member Member { get; set; }
+        public virtual Golf_Package Golf_Package { get; set; }
     }
 }

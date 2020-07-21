@@ -18,6 +18,7 @@ namespace QD_Tour_Web.Models
         public Golf_Package()
         {
             this.Golf_Reservation = new HashSet<Golf_Reservation>();
+            this.Golf_Package_Image = new HashSet<Golf_Package_Image>();
         }
     
         public string Id { get; set; }
@@ -28,5 +29,7 @@ namespace QD_Tour_Web.Models
         public virtual Golf Golf { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Golf_Reservation> Golf_Reservation { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Golf_Package_Image> Golf_Package_Image { get; set; }
     }
 }

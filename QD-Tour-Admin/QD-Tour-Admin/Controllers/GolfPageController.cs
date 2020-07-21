@@ -23,6 +23,124 @@ namespace QD_Tour_Admin.Controllers
         }
 
         [HttpPost]
+        public string AddGolfPackageImage(FormCollection formCollection)
+        {
+            string photoLabel = "", photoUrl = "", golfPackageId = "", photoName = "";
+
+            foreach (var key in formCollection.AllKeys)
+            {
+                photoLabel = formCollection["photoLabel"];
+                golfPackageId = formCollection["golfPackageId"];
+                photoName = formCollection["photoName"];
+            }
+
+            if (Request.Files.Count > 0)
+            {
+                try
+                {
+                    //  Get all files from Request object  
+                    HttpFileCollectionBase files = Request.Files;
+                    for (int i = 0; i < files.Count; i++)
+                    {
+                        //string path = AppDomain.CurrentDomain.BaseDirectory + "Uploads/";  
+                        //string filename = Path.GetFileName(Request.Files[i].FileName);  
+
+                        HttpPostedFileBase file = files[i];
+
+                        // Checking for Internet Explorer  
+                        if (Request.Browser.Browser.ToUpper() == "IE" || Request.Browser.Browser.ToUpper() == "INTERNETEXPLORER")
+                        {
+                            string[] testfiles = file.FileName.Split(new char[] { '\\' });
+                            photoUrl = testfiles[testfiles.Length - 1];
+                        }
+                        else
+                        {
+                            photoUrl = file.FileName;
+                        }
+
+                        if (!System.IO.Directory.Exists(Server.MapPath("~/Uploads/")))
+                        {
+
+                            System.IO.Directory.CreateDirectory(Server.MapPath("~/Uploads/"));
+
+                        }
+
+                        // Get the complete folder path and store the file inside it.  
+                        string fullPathUrl = Path.Combine(Server.MapPath("~/Uploads/"), photoUrl);
+                        file.SaveAs(fullPathUrl);
+                    }
+                    // Returns message that successfully uploaded  
+                    //return "File Uploaded Successfully!";
+                }
+                catch (DbEntityValidationException dbEx)
+                {
+                    StringBuilder sb = new StringBuilder();
+                    foreach (var validationErrors in dbEx.EntityValidationErrors)
+                    {
+                        foreach (var validationError in validationErrors.ValidationErrors)
+                        {
+                            sb.Append("Property:" + validationError.PropertyName + "  Error: " + validationError.ErrorMessage);
+                        }
+                    }
+
+                    return sb.ToString();
+                }
+            }
+            else
+            {
+                return "No files selected.";
+            }
+
+            Golf_Package_Image gpi = new Golf_Package_Image()
+            {
+                Id = Guid.NewGuid().ToString(),
+                GolfPackage_Id = golfPackageId,
+                ImageName = photoName,
+                ImageUrl = "/Uploads/" + photoUrl,
+                Type = photoLabel,
+                Golf_Package = db.Golf_Package.Where(p => p.Id == golfPackageId).FirstOrDefault()
+            };
+
+            db.Golf_Package_Image.Add(gpi);
+
+            if (db.SaveChanges() > 0)
+            {
+                return "添加成功";
+            }
+
+            return "添加失败";
+        }
+
+        [HttpGet]
+        public JsonResult getAllImages(string Id)
+        {
+            db.Configuration.ProxyCreationEnabled = false;
+
+            var golfImages = db.Golf_Package_Image.Where(t => t.GolfPackage_Id == Id).ToList();
+
+            return Json(golfImages, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public string DeleteImageById(string Id)
+        {
+            Golf_Package_Image golfPackageImage = db.Golf_Package_Image.FirstOrDefault(g => g.Id == Id);
+
+            if (golfPackageImage != null)
+            {
+                db.Golf_Package_Image.Remove(golfPackageImage);
+                if (db.SaveChanges() > 0)
+                {
+                    return "删除成功";
+                }
+
+            }
+
+            return "删除失败";
+        }
+
+
+        [HttpPost]
         public string Add(FormCollection formCollection)
         {
             string photoUrl = "", name = "", address = "", golfId = "", country = "", description = "", photoLabel = "";

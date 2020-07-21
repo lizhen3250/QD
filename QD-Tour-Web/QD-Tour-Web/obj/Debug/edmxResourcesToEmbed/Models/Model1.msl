@@ -328,5 +328,16 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Golf_Package_Image">
+      <EntityTypeMapping TypeName="Model.Golf_Package_Image">
+        <MappingFragment StoreEntitySet="Golf_Package_Image">
+          <ScalarProperty Name="ImageName" ColumnName="ImageName" />
+          <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="GolfPackage_Id" ColumnName="GolfPackage_Id" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>
